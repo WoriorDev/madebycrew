@@ -4,13 +4,13 @@ type BrandImageProps = {
 };
 
 /**
- * Brand assets in /public/brand:
- * JPG: logo.jpg, banner.jpg
- * PNG: logo-vector.png, banner-vector.png, logo-transparent.png, banner-transparent.png
- * SVG: logo-vector.svg, banner-vector.svg
+ * Brand assets in /public/brand (all kept):
+ * logo.jpg, logo-vector.png, logo-transparent.png,
+ * banner.jpg, banner-vector.png, banner-transparent.png,
+ * logo-vector.svg, banner-vector.svg
  */
 
-/** Horizontal mark + MadeByCrew.pl — SVG */
+/** Horizontal — Twój baner wektorowy */
 export function BrandBanner({
   className = "h-8 w-auto",
   priority = false,
@@ -18,18 +18,18 @@ export function BrandBanner({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/brand/banner-vector.svg"
+      src="/brand/banner-vector.png"
       alt="MadeByCrew.pl"
-      width={720}
-      height={180}
+      width={1024}
+      height={341}
       decoding="async"
       {...(priority ? { fetchPriority: "high" as const } : {})}
-      className={`h-auto w-auto object-contain ${className}`}
+      className={`h-auto w-auto object-contain mix-blend-screen ${className}`}
     />
   );
 }
 
-/** Stacked logo + MadeByCrew.pl — SVG */
+/** Stacked — Twoje logo wektorowe */
 export function BrandLogo({
   className = "h-28 w-auto",
   priority = false,
@@ -37,18 +37,18 @@ export function BrandLogo({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/brand/logo-vector.svg"
+      src="/brand/logo-vector.png"
       alt="MadeByCrew.pl"
-      width={520}
-      height={420}
+      width={1024}
+      height={1024}
       decoding="async"
       {...(priority ? { fetchPriority: "high" as const } : {})}
-      className={`h-auto w-auto object-contain ${className}`}
+      className={`h-auto w-auto object-contain mix-blend-screen ${className}`}
     />
   );
 }
 
-/** Compact horizontal for chatbot — SVG */
+/** Compact — Twój baner wektorowy */
 export function BrandMark({
   className = "h-7 w-auto",
   priority = false,
@@ -56,13 +56,13 @@ export function BrandMark({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/brand/banner-vector.svg"
+      src="/brand/banner-vector.png"
       alt="MadeByCrew.pl"
-      width={720}
-      height={180}
+      width={1024}
+      height={341}
       decoding="async"
       {...(priority ? { fetchPriority: "high" as const } : {})}
-      className={`h-auto w-auto object-contain ${className}`}
+      className={`h-auto w-auto object-contain mix-blend-screen ${className}`}
     />
   );
 }
