@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" role="img" aria-label="MadeByCrew.pl">
+  <title>MadeByCrew.pl</title>
+  <!-- mark -->
+  <g fill="none" stroke-linecap="round" stroke-width="22">
+    <path stroke="#D7FF32" d="M78 48c-28 0-50 22-50 50s22 50 50 50c14 0 26-5 35-14"/>
+    <path stroke="#F7F8FA" d="M142 148c28 0 50-22 50-50s-22-50-50-50c-14 0-26 5-35 14"/>
+  </g>
+  <!-- wordmark -->
+  <text
+    x="220"
+    y="112"
+    fill="#F7F8FA"
+    font-family="Syne, Montserrat, Arial Black, sans-serif"
+    font-size="54"
+    font-weight="800"
+    letter-spacing="-1.2"
+  >MadeByCrew<tspan fill="#D7FF32">.pl</tspan></text>
+</svg>
