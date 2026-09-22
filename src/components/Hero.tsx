@@ -1,10 +1,10 @@
-import { BrandLogo } from "./Brand";
+import { BrandBanner } from "./Brand";
 
 export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] items-end overflow-hidden bg-graphite pb-16 pt-28 md:items-center md:pb-24 md:pt-32"
+      className="relative flex min-h-[100svh] items-end overflow-hidden bg-graphite pb-16 pt-32 md:items-center md:pb-24 md:pt-36"
     >
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(215,255,50,0.08),transparent_45%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(32,37,42,0.55)_0%,transparent_65%)]" />
@@ -14,10 +14,10 @@ export function Hero() {
       <div className="streak streak-soft left-[4%] bottom-[30%] w-[36%] md:w-[22%]" />
 
       <div className="section-pad relative z-10 mx-auto w-full max-w-6xl">
-        <div className="animate-rise flex flex-col items-start gap-7 md:max-w-3xl">
+        <div className="animate-rise flex flex-col items-start gap-6 md:max-w-3xl md:gap-7">
           <div className="animate-mark">
-            <BrandLogo
-              className="h-[clamp(7.5rem,22vw,13rem)] w-auto max-w-[min(100%,22rem)]"
+            <BrandBanner
+              className="h-[clamp(4.75rem,12vw,7.5rem)] w-auto max-w-[min(100%,44rem)]"
               priority
             />
           </div>

@@ -3,14 +3,7 @@ type BrandImageProps = {
   priority?: boolean;
 };
 
-/**
- * Brand assets in /public/brand (all kept):
- * logo.jpg, logo-vector.png, logo-transparent.png,
- * banner.jpg, banner-vector.png, banner-transparent.png,
- * logo-vector.svg, banner-vector.svg
- */
-
-/** Horizontal — Twój baner wektorowy */
+/** Horizontal — banner-vector.svg */
 export function BrandBanner({
   className = "h-8 w-auto",
   priority = false,
@@ -18,18 +11,18 @@ export function BrandBanner({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/brand/banner-vector.png"
+      src="/brand/banner-vector.svg"
       alt="MadeByCrew.pl"
-      width={1024}
-      height={341}
+      width={2172}
+      height={724}
       decoding="async"
       {...(priority ? { fetchPriority: "high" as const } : {})}
-      className={`h-auto w-auto object-contain mix-blend-screen ${className}`}
+      className={`object-contain ${className}`}
     />
   );
 }
 
-/** Stacked — Twoje logo wektorowe */
+/** Stacked — logo-vector.svg */
 export function BrandLogo({
   className = "h-28 w-auto",
   priority = false,
@@ -37,18 +30,18 @@ export function BrandLogo({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/brand/logo-vector.png"
+      src="/brand/logo-vector.svg"
       alt="MadeByCrew.pl"
-      width={1024}
-      height={1024}
+      width={1254}
+      height={1254}
       decoding="async"
       {...(priority ? { fetchPriority: "high" as const } : {})}
-      className={`h-auto w-auto object-contain mix-blend-screen ${className}`}
+      className={`object-contain ${className}`}
     />
   );
 }
 
-/** Compact — Twój baner wektorowy */
+/** Compact — banner-vector.svg */
 export function BrandMark({
   className = "h-7 w-auto",
   priority = false,
@@ -56,13 +49,13 @@ export function BrandMark({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/brand/banner-vector.png"
+      src="/brand/banner-vector.svg"
       alt="MadeByCrew.pl"
-      width={1024}
-      height={341}
+      width={2172}
+      height={724}
       decoding="async"
       {...(priority ? { fetchPriority: "high" as const } : {})}
-      className={`h-auto w-auto object-contain mix-blend-screen ${className}`}
-    />
+      className={`object-contain ${className}`}
+svg    />
   );
 }

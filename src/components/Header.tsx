@@ -29,9 +29,9 @@ export function Header() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="section-pad mx-auto flex h-16 max-w-6xl items-center justify-between md:h-[4.5rem]">
-        <a href="#top" className="inline-flex items-center" aria-label="MadeByCrew.pl">
-          <BrandBanner className="h-7 md:h-9" priority />
+      <div className="section-pad mx-auto flex h-20 max-w-6xl items-center justify-between md:h-24">
+        <a href="#top" className="inline-flex shrink-0 items-center" aria-label="MadeByCrew.pl">
+          <BrandBanner className="h-14 w-auto md:h-16" priority />
         </a>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Główne">
