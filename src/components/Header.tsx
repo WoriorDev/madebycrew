@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BrandWordmark, LogoMark } from "./Brand";
+import { BrandBanner } from "./Brand";
 
 const links = [
   { href: "#uslugi", label: "Usługi" },
@@ -30,9 +30,8 @@ export function Header() {
       }`}
     >
       <div className="section-pad mx-auto flex h-16 max-w-6xl items-center justify-between md:h-[4.5rem]">
-        <a href="#top" className="flex items-center gap-3" aria-label="MadeByCrew.pl">
-          <LogoMark className="h-8 w-auto md:h-9" />
-          <BrandWordmark className="text-base md:text-lg" />
+        <a href="#top" className="inline-flex items-center" aria-label="MadeByCrew.pl">
+          <BrandBanner className="h-7 md:h-9" priority />
         </a>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Główne">

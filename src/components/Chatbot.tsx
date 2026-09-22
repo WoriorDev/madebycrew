@@ -3,7 +3,7 @@
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { LogoMark } from "./Brand";
+import { BrandMark } from "./Brand";
 
 const SUGGESTIONS = [
   "Co oferujecie?",
@@ -50,13 +50,15 @@ export function Chatbot() {
           aria-label="Czat MadeByCrew"
         >
           <header className="flex items-center justify-between border-b border-white/8 bg-graphite-light px-4 py-3">
-            <div className="flex items-center gap-3">
-              <LogoMark className="h-7 w-auto" />
-              <div>
+            <div className="flex min-w-0 items-center gap-3">
+              <BrandMark className="h-6 max-w-[9.5rem]" />
+              <div className="min-w-0">
                 <p className="font-[family-name:var(--font-display)] text-sm font-bold text-off-white">
                   CrewBot
                 </p>
-                <p className="text-xs text-off-white/50">Pytaj o ofertę i współpracę</p>
+                <p className="truncate text-xs text-off-white/50">
+                  Pytaj o ofertę i współpracę
+                </p>
               </div>
             </div>
             <button

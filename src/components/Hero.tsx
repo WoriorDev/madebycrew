@@ -1,4 +1,4 @@
-import { BrandWordmark, LogoMark } from "./Brand";
+import { BrandLogo } from "./Brand";
 
 export function Hero() {
   return (
@@ -15,12 +15,14 @@ export function Hero() {
 
       <div className="section-pad relative z-10 mx-auto w-full max-w-6xl">
         <div className="animate-rise flex flex-col items-start gap-7 md:max-w-3xl">
-          <div className="animate-mark flex items-center gap-4">
-            <LogoMark className="h-12 w-auto md:h-14" />
-            <BrandWordmark className="text-2xl md:text-4xl" />
+          <div className="animate-mark">
+            <BrandLogo
+              className="h-[clamp(7.5rem,22vw,13rem)] w-auto max-w-[min(100%,22rem)]"
+              priority
+            />
           </div>
 
-          <h1 className="animate-rise animate-rise-delay-1 font-[family-name:var(--font-display)] text-[clamp(2.4rem,7vw,4.6rem)] font-extrabold leading-[0.98] tracking-tight text-off-white">
+          <h1 className="animate-rise animate-rise-delay-1 font-[family-name:var(--font-display)] text-[clamp(2.1rem,6vw,3.8rem)] font-extrabold leading-[1.02] tracking-tight text-off-white">
             Strony, które
             <span className="block text-lime">pracują na biznes.</span>
           </h1>
