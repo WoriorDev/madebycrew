@@ -5,14 +5,20 @@ type BrandImageProps = {
   priority?: boolean;
 };
 
-/** Horizontal mark + MadeByCrew.pl (transparent / vector banner) */
+/**
+ * Brand assets in /public/brand (all 6 kept):
+ * logo.jpg, logo-vector.png, logo-transparent.png,
+ * banner.jpg, banner-vector.png, banner-transparent.png
+ */
+
+/** Horizontal mark + MadeByCrew.pl — vector banner */
 export function BrandBanner({
   className = "h-8 w-auto",
   priority = false,
 }: BrandImageProps) {
   return (
     <Image
-      src="/brand/banner-transparent.png"
+      src="/brand/banner-vector.png"
       alt="MadeByCrew.pl"
       width={640}
       height={160}
@@ -22,14 +28,14 @@ export function BrandBanner({
   );
 }
 
-/** Stacked logo + MadeByCrew.pl */
+/** Stacked logo + MadeByCrew.pl — vector */
 export function BrandLogo({
   className = "h-28 w-auto",
   priority = false,
 }: BrandImageProps) {
   return (
     <Image
-      src="/brand/logo-transparent.png"
+      src="/brand/logo-vector.png"
       alt="MadeByCrew.pl"
       width={512}
       height={512}
@@ -39,14 +45,14 @@ export function BrandLogo({
   );
 }
 
-/** Compact horizontal for nav / chatbot */
+/** Compact horizontal for chatbot */
 export function BrandMark({
   className = "h-7 w-auto",
   priority = false,
 }: BrandImageProps) {
   return (
     <Image
-      src="/brand/banner-vector.png"
+      src="/brand/banner-transparent.png"
       alt="MadeByCrew.pl"
       width={640}
       height={160}
