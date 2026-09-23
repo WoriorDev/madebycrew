@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
 import { BrandBanner } from "./Brand";
@@ -16,10 +16,27 @@ const links = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const solid = scrolled || open;
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
-      <div className="section-pad mx-auto flex max-w-7xl items-center justify-between py-5 md:py-6">
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-[background,border-color,backdrop-filter,box-shadow] duration-300",
+        solid
+          ? "border-b border-white/10 bg-black/55 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-2xl"
+          : "border-b border-transparent bg-transparent",
+      )}
+    >
+      <div className="section-pad mx-auto flex max-w-7xl items-center justify-between py-4 md:py-5">
         <a href="#top" className="inline-flex items-center gap-3" aria-label="MadeByCrew.pl">
           <Image
             src="/brand/mark.png"
@@ -40,7 +57,7 @@ export function Header() {
             <a
               key={link.href}
               href={link.href}
-              className="rounded-full px-3.5 py-2 text-[13px] font-medium text-white/55 transition hover:text-lime"
+              className="rounded-full px-3.5 py-2 text-[13px] font-medium text-white/70 transition hover:bg-white/5 hover:text-lime"
             >
               {link.label}
             </a>
@@ -50,13 +67,13 @@ export function Header() {
         <div className="flex items-center gap-2">
           <a
             href="#kontakt"
-            className="hidden h-10 items-center rounded-full border border-white/15 bg-white/[0.04] px-5 text-[13px] font-semibold text-off-white backdrop-blur-md transition hover:border-lime/45 hover:text-lime sm:inline-flex"
+            className="hidden h-10 items-center rounded-full border border-white/15 bg-white/[0.06] px-5 text-[13px] font-semibold text-off-white backdrop-blur-md transition hover:border-lime/45 hover:text-lime sm:inline-flex"
           >
             Start projektu
           </a>
           <button
             type="button"
-            className="inline-flex size-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.03] backdrop-blur-md lg:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.06] backdrop-blur-md lg:hidden"
             aria-expanded={open}
             aria-label={open ? "Zamknij menu" : "Otwórz menu"}
             onClick={() => setOpen((v) => !v)}
@@ -85,7 +102,7 @@ export function Header() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="section-pad mx-auto max-w-7xl lg:hidden"
+            className="section-pad mx-auto max-w-7xl pb-4 lg:hidden"
           >
             <ul className="glass-card flex flex-col gap-1 p-3">
               {links.map((link) => (
