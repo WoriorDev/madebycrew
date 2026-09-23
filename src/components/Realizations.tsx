@@ -6,23 +6,23 @@ import { Reveal } from "./fx/Reveal";
 const projects = [
   {
     id: "01",
-    title: "Dark studio frame",
-    type: "Direction",
+    title: "Landing studia",
+    type: "Strona www",
     year: "2026",
     stack: ["Next.js", "Motion", "GSAP"],
     src: "/brand/case-01-desktop.png",
     blurb:
-      "Kierunek wizualny MadeByCrew — glass UI, lime accent, kosmiczne tło. Tak wygląda nasz standard.",
+      "Szybka, czytelna strona pod studio kreatywne — ciemny klimat, mocny brand i animacje, które nie spowalniają.",
   },
   {
     id: "02",
-    title: "Cinematic wire",
-    type: "Concept",
+    title: "Strona immersive",
+    type: "Web experience",
     year: "2026",
-    stack: ["3D", "Atmosphere", "UI"],
+    stack: ["Next.js", "3D", "UI"],
     src: "/brand/case-02-desktop.png",
     blurb:
-      "Cinematic scene z wireframe’ami — depth, światło, motion. Preview stylu pod landingi i brand sites.",
+      "Bardziej filmowy layout z głębią i ruchem — pod marki, które mają wyróżnić się już na pierwszym ekranie.",
   },
 ];
 
@@ -33,14 +33,14 @@ export function Realizations() {
         <Reveal className="mb-14 max-w-3xl md:mb-20">
           <p className="eyebrow mb-4">Projekty</p>
           <h2 className="display text-[clamp(2.2rem,5.5vw,4.5rem)] text-off-white">
-            <span className="block whitespace-nowrap">Wybrane kadry.</span>
+            <span className="block whitespace-nowrap">Nasze projekty.</span>
             <span className="mt-1 block whitespace-nowrap text-lime">
-              Nasz standard.
+              Tak pracujemy.
             </span>
           </h2>
           <p className="mt-5 max-w-lg text-[clamp(0.95rem,1.6vw,1.1rem)] leading-relaxed text-white/45">
-            Direction z naszego procesu — wrzucasz brief, dostajesz ten poziom
-            już od pierwszego kierunku.
+            Przykłady stylu i poziomu, na jakim budujemy strony — od briefu do
+            wersji gotowej do startu.
           </p>
         </Reveal>
 
@@ -58,8 +58,8 @@ export function Realizations() {
                       className="object-cover object-center transition duration-700 group-hover:scale-[1.025]"
                       priority={i === 0}
                     />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-transparent" />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
 
                     <p className="display absolute top-5 left-5 text-4xl text-lime/90 md:top-8 md:left-8 md:text-6xl">
                       {item.id}
@@ -100,8 +100,8 @@ export function Realizations() {
 
         <Reveal className="mt-14 flex flex-col items-start gap-4 border-t border-white/10 pt-10 md:mt-20 md:flex-row md:items-center md:justify-between">
           <p className="max-w-md text-sm text-white/40">
-            Masz brief? Pokażemy direction dopasowany do Ciebie — bez fake
-            klientów i bez zgadywania.
+            Masz pomysł na stronę? Napisz — dopasujemy kierunek do Twojej marki
+            i powiemy wprost, co da się zrobić.
           </p>
           <a
             href="#kontakt"
