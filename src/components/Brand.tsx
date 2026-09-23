@@ -3,7 +3,7 @@ type BrandImageProps = {
   priority?: boolean;
 };
 
-/** Horizontal — banner-vector.svg */
+/** Horizontal wordmark — banner-text.png (MadeByCrew.pl) */
 export function BrandBanner({
   className = "h-8 w-auto",
   priority = false,
@@ -11,13 +11,13 @@ export function BrandBanner({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/brand/banner-vector.svg"
+      src="/brand/banner-text.png"
       alt="MadeByCrew.pl"
-      width={2172}
-      height={724}
+      width={1024}
+      height={148}
       decoding="async"
       {...(priority ? { fetchPriority: "high" as const } : {})}
-      className={`object-contain ${className}`}
+      className={`object-contain object-left ${className}`}
     />
   );
 }
@@ -41,7 +41,7 @@ export function BrandLogo({
   );
 }
 
-/** Compact — banner-vector.svg */
+/** Compact wordmark — same PNG as banner */
 export function BrandMark({
   className = "h-7 w-auto",
   priority = false,
@@ -49,13 +49,13 @@ export function BrandMark({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/brand/banner-vector.svg"
+      src="/brand/banner-text.png"
       alt="MadeByCrew.pl"
-      width={2172}
-      height={724}
+      width={1024}
+      height={148}
       decoding="async"
       {...(priority ? { fetchPriority: "high" as const } : {})}
-      className={`object-contain ${className}`}
+      className={`object-contain object-left ${className}`}
     />
   );
 }

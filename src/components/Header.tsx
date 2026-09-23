@@ -46,7 +46,7 @@ export function Header() {
             className="size-9 object-contain mix-blend-screen"
             priority
           />
-          <BrandBanner className="hidden h-8 w-auto sm:block md:h-9" priority />
+          <BrandBanner className="hidden h-7 w-auto sm:block md:h-8" priority />
         </a>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Główne">
