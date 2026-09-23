@@ -11,9 +11,9 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative z-10 flex min-h-[100svh] flex-col justify-center overflow-hidden"
+      className="relative z-10 flex min-h-[100svh] flex-col justify-center overflow-hidden pt-10 md:pt-14"
     >
-      <div className="section-pad relative mx-auto flex w-full max-w-5xl flex-col items-center px-4 pt-28 pb-16 text-center md:pt-32 md:pb-20">
+      <div className="section-pad relative mx-auto flex w-full max-w-5xl flex-col items-center px-4 pt-36 pb-16 text-center md:pt-44 md:pb-20">
         <h1 className="display max-w-4xl text-[clamp(2.4rem,8.5vw,5.75rem)] text-off-white">
           <motion.span
             className="block"
@@ -86,13 +86,30 @@ export function Hero() {
 
         <motion.a
           href="#uslugi"
-          initial={reduce ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={reduce ? false : { opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="mt-14 flex flex-col items-center gap-2 text-[10px] tracking-[0.22em] text-white/35 uppercase"
+          className="group mt-24 mb-2 flex flex-col items-center gap-3 md:mt-28"
+          aria-label="Przewiń dalej"
         >
-          Scroll
-          <span className="h-8 w-px bg-gradient-to-b from-lime to-transparent" />
+          <span className="text-[10px] font-medium tracking-[0.28em] text-white/30 uppercase transition group-hover:text-white/55">
+            Scroll
+          </span>
+          <span className="relative flex h-11 w-6 items-start justify-center rounded-full border border-white/18 bg-white/[0.03] pt-1.5 backdrop-blur-sm transition group-hover:border-lime/40">
+            <motion.span
+              className="size-1 rounded-full bg-lime"
+              animate={
+                reduce
+                  ? undefined
+                  : { y: [0, 14, 0], opacity: [1, 0.35, 1] }
+              }
+              transition={{
+                duration: 1.6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          </span>
         </motion.a>
       </div>
     </section>
