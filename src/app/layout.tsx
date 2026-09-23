@@ -32,9 +32,23 @@ export const metadata: Metadata = {
     title: "MadeByCrew.pl",
     description:
       "Tworzymy strony internetowe, które wyglądają dobrze i działają jeszcze lepiej.",
-    images: ["/brand/banner-transparent.png"],
+    images: [
+      {
+        url: "/brand/og-cover.png",
+        width: 1200,
+        height: 630,
+        alt: "MadeByCrew.pl",
+      },
+    ],
     locale: "pl_PL",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MadeByCrew.pl",
+    description:
+      "Tworzymy strony internetowe, które wyglądają dobrze i działają jeszcze lepiej.",
+    images: ["/brand/og-cover.png"],
   },
 };
 

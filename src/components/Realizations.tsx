@@ -1,6 +1,24 @@
 "use client";
 
+import Image from "next/image";
 import { Reveal } from "./fx/Reveal";
+
+const cases = [
+  {
+    id: "01",
+    title: "Concept frame",
+    tag: "Direction A",
+    src: "/brand/case-01-desktop.png",
+    note: "Kierunek wizualny — dark + lime, glass UI, kosmos",
+  },
+  {
+    id: "02",
+    title: "Concept frame",
+    tag: "Direction B",
+    src: "/brand/case-02-desktop.png",
+    note: "Kierunek wizualny — cinematic scene, wireframe cuby",
+  },
+];
 
 export function Realizations() {
   return (
@@ -10,34 +28,39 @@ export function Realizations() {
           <p className="eyebrow">Realizacje</p>
           <h2 className="display mx-auto max-w-3xl text-[clamp(2.5rem,7vw,4.8rem)] text-off-white">
             Duże kadry.
-            <span className="block text-white/30">Wasze projekty tu.</span>
+            <span className="block text-white/30">Direction frames.</span>
           </h2>
           <p className="mx-auto max-w-md text-sm text-white/45">
-            Bez fake case’ów. Screeny + nazwy → pełne podglądy w tych ramach.
+            Style preview — nie case klientów. Jak wrzucisz realne projekty,
+            podmienimy 1:1.
           </p>
         </Reveal>
 
         <div className="grid gap-4 lg:grid-cols-2">
-          {["01", "02"].map((id, i) => (
-            <Reveal key={id} delay={i * 0.08}>
+          {cases.map((item, i) => (
+            <Reveal key={item.id} delay={i * 0.08}>
               <article className="wire-card group overflow-hidden">
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(215,255,50,0.12),transparent_50%)]" />
-                  <div className="absolute inset-6 rounded-xl border border-dashed border-white/12 md:inset-8" />
-                  <div className="absolute inset-x-12 top-16 space-y-2 opacity-30 md:inset-x-16">
-                    <div className="h-1.5 w-2/3 rounded-full bg-white/50" />
-                    <div className="h-1.5 w-1/2 rounded-full bg-lime/60" />
-                  </div>
-                  <span className="absolute right-5 bottom-5 rounded-full border border-white/12 bg-black/30 px-3 py-1 text-[10px] tracking-[0.16em] text-white/45 uppercase backdrop-blur-md">
-                    Waiting assets
+                <div className="relative aspect-[16/10] overflow-hidden bg-black">
+                  <Image
+                    src={item.src}
+                    alt={`${item.title} ${item.id}`}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover object-center transition duration-700 group-hover:scale-[1.03]"
+                    priority={i === 0}
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+                  <span className="absolute top-4 left-4 rounded-full border border-white/15 bg-black/45 px-3 py-1 text-[10px] tracking-[0.16em] text-white/70 uppercase backdrop-blur-md">
+                    {item.tag}
                   </span>
                 </div>
                 <div className="flex items-end justify-between gap-4 p-6">
                   <div>
-                    <p className="display text-sm text-lime">{id}</p>
+                    <p className="display text-sm text-lime">{item.id}</p>
                     <h3 className="display mt-1 text-2xl text-off-white">
-                      Slot projektu
+                      {item.title}
                     </h3>
+                    <p className="mt-2 text-sm text-white/45">{item.note}</p>
                   </div>
                 </div>
               </article>

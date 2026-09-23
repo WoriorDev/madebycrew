@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "motion/react";
 import { Reveal } from "./fx/Reveal";
 import { cn } from "@/lib/utils";
@@ -13,6 +14,7 @@ const packages = [
     priceNote: "zakres pod projekt",
     cta: "Zapytaj o Launch",
     popular: false,
+    icon: "/brand/icon-launch.png",
     features: [
       "Landing / wizytówka",
       "Mocny first viewport",
@@ -29,6 +31,7 @@ const packages = [
     priceNote: "najczęściej wybierane",
     cta: "Zapytaj o Growth",
     popular: true,
+    icon: "/brand/icon-growth.png",
     features: [
       "Wielosekcyjna strona / redesign",
       "Motion + glass UI",
@@ -45,6 +48,7 @@ const packages = [
     priceNote: "pod scope",
     cta: "Napisz o Custom",
     popular: false,
+    icon: "/brand/icon-custom.png",
     features: [
       "Aplikacja / sklep / panel",
       "Flow UX i komponenty",
@@ -78,7 +82,8 @@ export function Services() {
                 transition={{ type: "spring", stiffness: 320, damping: 24 }}
                 className={cn(
                   "wire-card relative flex h-full flex-col overflow-hidden p-6 md:p-7",
-                  pkg.popular && "border-lime/40 shadow-[0_0_50px_rgba(215,255,50,0.1)]",
+                  pkg.popular &&
+                    "border-lime/40 shadow-[0_0_50px_rgba(215,255,50,0.1)]",
                 )}
               >
                 {pkg.popular && (
@@ -86,6 +91,16 @@ export function Services() {
                     Popular
                   </span>
                 )}
+
+                <div className="relative mb-5 size-16 overflow-hidden rounded-2xl border border-white/10 bg-black/50">
+                  <Image
+                    src={pkg.icon}
+                    alt=""
+                    fill
+                    sizes="64px"
+                    className="object-cover object-center"
+                  />
+                </div>
 
                 <h3 className="display text-2xl text-off-white md:text-3xl">
                   {pkg.name}
