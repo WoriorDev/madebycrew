@@ -35,110 +35,80 @@ const steps = [
 
 export function Process() {
   const sectionRef = useRef<HTMLElement>(null);
-  const pinRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
-    const pin = pinRef.current;
-    if (!section || !pin) return;
+    if (!section) return;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const intro = section.querySelector<HTMLElement>("[data-proc-intro]");
-    const stage = section.querySelector<HTMLElement>("[data-proc-stage]");
-    const progress = section.querySelector<HTMLElement>("[data-proc-progress]");
-    const fill = section.querySelector<HTMLElement>("[data-proc-fill]");
-    const panels = gsap.utils.toArray<HTMLElement>("[data-proc-panel]");
-    const dots = gsap.utils.toArray<HTMLElement>("[data-proc-dot]");
-    const glow = section.querySelector<HTMLElement>("[data-proc-glow]");
-    const motionRoot = section.querySelector<HTMLElement>("[data-proc-motion]");
-    const staticList = section.querySelector<HTMLElement>("[data-proc-static]");
-
-    if (reduce) {
-      if (motionRoot) motionRoot.style.display = "none";
-      if (staticList) staticList.style.display = "block";
-      return;
-    }
-
-    if (staticList) staticList.style.display = "none";
+    if (reduce) return;
 
     const ctx = gsap.context(() => {
-      gsap.set(intro, { opacity: 1, y: 0 });
-      gsap.set(stage, { opacity: 0 });
-      gsap.set(progress, { opacity: 0 });
-      gsap.set(fill, { scaleY: 0, transformOrigin: "top center" });
-      gsap.set(panels, { opacity: 0, y: 28 });
-      gsap.set(dots, { opacity: 0.25, scale: 0.85 });
-      if (glow) gsap.set(glow, { opacity: 0.12 });
-
-      // Krótszy dystans: mniej pustego scrolla między etapami
-      const introPx = () => window.innerHeight * 0.45;
-      const stepPx = () => window.innerHeight * 0.85;
-      const outroPx = () => window.innerHeight * 0.25;
-      const totalPx = () => introPx() + steps.length * stepPx() + outroPx();
-
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: () => `+=${totalPx()}`,
-          pin,
-          pinType: "transform",
-          pinSpacing: true,
-          scrub: 1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
+      const head = section.querySelectorAll("[data-proc-head]");
+      gsap.fromTo(
+        head,
+        { opacity: 0, y: 28 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.08,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section.querySelector("[data-proc-header]"),
+            start: "top 75%",
+            end: "top 40%",
+            scrub: 0.9,
+          },
         },
-      });
+      );
 
-      const total = totalPx();
-      const iDur = introPx() / total;
-      const sDur = stepPx() / total;
-      const oDur = outroPx() / total;
-
-      tl.to(intro, { opacity: 0, y: -24, duration: iDur * 0.55 }, 0);
-      tl.to(stage, { opacity: 1, duration: iDur * 0.5 }, iDur * 0.25);
-      tl.to(progress, { opacity: 1, duration: iDur * 0.35 }, iDur * 0.3);
-      if (glow) {
-        tl.to(glow, { opacity: 0.45, duration: iDur * 0.45 }, iDur * 0.25);
+      const fill = section.querySelector<HTMLElement>("[data-proc-fill]");
+      const track = section.querySelector<HTMLElement>("[data-proc-track]");
+      if (fill && track) {
+        gsap.fromTo(
+          fill,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: "none",
+            transformOrigin: "top center",
+            scrollTrigger: {
+              trigger: track,
+              start: "top 60%",
+              end: "bottom 40%",
+              scrub: 0.85,
+            },
+          },
+        );
       }
 
-      let t = iDur;
+      section.querySelectorAll<HTMLElement>("[data-proc-step]").forEach((step, i) => {
+        const num = step.querySelector("[data-proc-num]");
+        const body = step.querySelectorAll("[data-proc-body]");
+        const dot = section.querySelectorAll("[data-proc-dot]")[i];
 
-      panels.forEach((panel, idx) => {
-        const enter = sDur * 0.2;
-        const hold = sDur * 0.6;
-        const leave = sDur * 0.2;
+        gsap.set([num, body], { opacity: 0, y: 24 });
+        if (dot) gsap.set(dot, { scale: 0.75, opacity: 0.35 });
 
-        tl.to(panel, { opacity: 1, y: 0, duration: enter }, t);
-        tl.to(dots[idx], { opacity: 1, scale: 1, duration: enter }, t);
-        tl.to(fill, { scaleY: (idx + 1) / steps.length, duration: sDur }, t);
-        if (glow) {
-          tl.to(
-            glow,
-            {
-              opacity: 0.3 + (idx / Math.max(1, steps.length - 1)) * 0.35,
-              duration: sDur,
-            },
-            t,
-          );
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: step,
+            start: "top 72%",
+            end: "top 28%",
+            scrub: 0.95,
+          },
+        });
+
+        tl.to(num, { opacity: 1, y: 0, duration: 0.45, ease: "none" }, 0);
+        tl.to(
+          body,
+          { opacity: 1, y: 0, stagger: 0.06, duration: 0.5, ease: "none" },
+          0.12,
+        );
+        if (dot) {
+          tl.to(dot, { scale: 1, opacity: 1, duration: 0.35, ease: "none" }, 0);
         }
-
-        tl.to({}, { duration: hold }, t + enter);
-
-        if (idx < panels.length - 1) {
-          tl.to(panel, { opacity: 0, y: -20, duration: leave }, t + enter + hold);
-          tl.to(
-            dots[idx],
-            { opacity: 0.3, scale: 0.9, duration: leave },
-            t + enter + hold,
-          );
-        }
-
-        t += sDur;
       });
-
-      tl.to({}, { duration: oDur }, t);
     }, section);
 
     requestAnimationFrame(() => ScrollTrigger.refresh());
@@ -146,116 +116,99 @@ export function Process() {
   }, []);
 
   return (
-    <section id="proces" ref={sectionRef} className="relative z-10">
-      {/* Pin: dokładnie 1 viewport, zero stackowania w flow */}
-      <div
-        ref={pinRef}
-        data-proc-motion
-        className="relative h-[100svh] overflow-hidden"
-      >
-        <div
-          data-proc-glow
-          className="pointer-events-none absolute top-1/2 left-[42%] h-[58vmax] w-[58vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(215,255,50,0.15),transparent_64%)] blur-3xl"
-        />
-
-        <div
-          data-proc-intro
-          className="section-pad absolute inset-0 z-20 flex flex-col items-center justify-center text-center will-change-transform"
-        >
-          <p className="eyebrow mb-4">Proces</p>
-          <h2 className="display text-[clamp(2.6rem,8vw,5.5rem)] leading-[0.95] text-off-white">
-            Od briefu
-            <span className="mt-1 block text-lime">do live.</span>
+    <section
+      id="proces"
+      ref={sectionRef}
+      className="relative z-10 py-20 md:py-28"
+    >
+      <div className="section-pad mx-auto max-w-7xl">
+        <div data-proc-header className="mb-14 max-w-3xl md:mb-20">
+          <p data-proc-head className="eyebrow mb-4">
+            Proces
+          </p>
+          <h2 className="display text-[clamp(2.6rem,7vw,5rem)] text-off-white">
+            <span data-proc-head className="block">
+              Od briefu
+            </span>
+            <span data-proc-head className="mt-1 block text-lime">
+              do live.
+            </span>
           </h2>
-          <p className="mx-auto mt-6 max-w-md text-sm leading-relaxed text-white/45 md:text-base">
-            Cztery etapy. Zero zgadywania. Scrolluj, a przejdziesz całą drogę.
+          <p
+            data-proc-head
+            className="mt-5 max-w-md text-sm leading-relaxed text-white/45 md:text-base"
+          >
+            Cztery etapy. Zero zgadywania. Od rozmowy do startu, z pełnym
+            ownershipem po drodze.
           </p>
         </div>
 
         <div
-          data-proc-stage
-          className="section-pad absolute inset-0 z-10 flex items-center opacity-0 will-change-transform"
+          data-proc-track
+          className="relative grid gap-0 lg:grid-cols-[5rem_1fr]"
         >
-          <div className="mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[auto_1fr] lg:gap-20">
-            <div
-              data-proc-progress
-              className="relative mx-auto flex h-[min(52vh,22rem)] w-10 shrink-0 items-stretch justify-center opacity-0 lg:mx-0"
-            >
-              <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-white/10" />
-              <div
-                data-proc-fill
-                className="absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-lime will-change-transform"
-              />
-              <div className="relative z-10 flex flex-col justify-between py-0.5">
-                {steps.map((step) => (
-                  <span
-                    key={step.n}
-                    data-proc-dot
-                    className="relative flex size-3 items-center justify-center"
-                    aria-hidden
-                  >
-                    <span className="absolute size-3 rounded-full border border-lime/45 bg-graphite" />
-                    <span className="relative size-1.5 rounded-full bg-lime" />
-                  </span>
-                ))}
+          {/* Rail */}
+          <div className="relative hidden lg:block" aria-hidden>
+            <div className="sticky top-[30vh] flex h-[min(50vh,22rem)] justify-center">
+              <div className="relative flex h-full w-10 items-stretch justify-center">
+                <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-white/10" />
+                <div
+                  data-proc-fill
+                  className="absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-lime will-change-transform"
+                />
+                <div className="relative z-10 flex h-full flex-col justify-between py-0.5">
+                  {steps.map((step) => (
+                    <span
+                      key={step.n}
+                      data-proc-dot
+                      className="relative flex size-3 items-center justify-center"
+                    >
+                      <span className="absolute size-3 rounded-full border border-lime/45 bg-graphite" />
+                      <span className="relative size-1.5 rounded-full bg-lime" />
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
+          </div>
 
-            <div className="relative min-h-[19rem] w-full md:min-h-[22rem]">
-              {steps.map((step) => (
-                <article
-                  key={step.n}
-                  data-proc-panel
-                  className="absolute inset-0 flex flex-col justify-center opacity-0 will-change-transform"
+          {/* Steps */}
+          <div className="flex flex-col">
+            {steps.map((step, i) => (
+              <article
+                key={step.n}
+                data-proc-step
+                className={`relative flex min-h-[70vh] flex-col justify-center border-white/8 py-14 md:min-h-[75vh] md:py-16 ${
+                  i < steps.length - 1 ? "border-b" : ""
+                }`}
+              >
+                <p
+                  data-proc-num
+                  className="display text-[clamp(4rem,12vw,8rem)] leading-none tracking-[-0.04em] text-lime/90"
                 >
-                  <p className="display text-[clamp(4.5rem,14vw,9rem)] leading-none tracking-[-0.04em] text-lime/90">
-                    {step.n}
+                  {step.n}
+                </p>
+                <div
+                  data-proc-body
+                  className="mt-4 flex flex-wrap items-end gap-x-5 gap-y-2 md:mt-5"
+                >
+                  <h3 className="display text-[clamp(2rem,4.5vw,3.5rem)] leading-[0.95] text-off-white">
+                    {step.title}
+                  </h3>
+                  <p className="pb-1 text-[11px] tracking-[0.18em] text-lime/70 uppercase">
+                    {step.hint}
                   </p>
-                  <div className="mt-4 flex flex-wrap items-end gap-x-5 gap-y-2 md:mt-6">
-                    <h3 className="display text-[clamp(2.2rem,5vw,4rem)] leading-[0.95] text-off-white">
-                      {step.title}
-                    </h3>
-                    <p className="pb-1 text-[11px] tracking-[0.18em] text-lime/70 uppercase">
-                      {step.hint}
-                    </p>
-                  </div>
-                  <p className="mt-5 max-w-xl text-[clamp(1rem,2vw,1.2rem)] leading-relaxed text-white/55 md:mt-6">
-                    {step.text}
-                  </p>
-                </article>
-              ))}
-            </div>
+                </div>
+                <p
+                  data-proc-body
+                  className="mt-5 max-w-xl text-[clamp(1rem,1.8vw,1.2rem)] leading-relaxed text-white/55"
+                >
+                  {step.text}
+                </p>
+              </article>
+            ))}
           </div>
         </div>
-      </div>
-
-      {/* Poza pinem: nie wpływa na wysokość scrollytellingu */}
-      <div
-        data-proc-static
-        className="section-pad mx-auto hidden w-full max-w-7xl py-24 md:py-32"
-      >
-        <p className="eyebrow mb-4">Proces</p>
-        <h2 className="display mb-12 text-[clamp(2.4rem,7vw,4.8rem)] leading-[0.95] text-off-white md:mb-16">
-          Od briefu
-          <span className="mt-1 block text-lime">do live.</span>
-        </h2>
-        <ol className="flex flex-col gap-10 border-l border-lime/30 pl-6 md:gap-14 md:pl-8">
-          {steps.map((step) => (
-            <li key={step.n} className="relative">
-              <span className="absolute top-2 -left-[1.7rem] size-2.5 rounded-full bg-lime md:-left-[2.15rem]" />
-              <p className="display text-sm text-lime">{step.n}</p>
-              <h3 className="display mt-2 text-3xl text-off-white md:text-4xl">
-                {step.title}
-              </h3>
-              <p className="mt-1 text-[11px] tracking-[0.16em] text-lime/65 uppercase">
-                {step.hint}
-              </p>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/50 md:text-base">
-                {step.text}
-              </p>
-            </li>
-          ))}
-        </ol>
       </div>
     </section>
   );
