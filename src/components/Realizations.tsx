@@ -32,13 +32,15 @@ export function Realizations() {
       <div className="section-pad mx-auto max-w-7xl">
         <Reveal className="mb-14 max-w-3xl md:mb-20">
           <p className="eyebrow mb-4">Projekty</p>
-          <h2 className="display text-[clamp(2.5rem,7vw,4.8rem)] text-off-white">
-            Wybrane kadry.
-            <span className="mt-1 block text-lime">Nasz standard.</span>
+          <h2 className="display text-[clamp(2.2rem,5.5vw,4.5rem)] text-off-white">
+            <span className="block whitespace-nowrap">Wybrane kadry.</span>
+            <span className="mt-1 block whitespace-nowrap text-lime">
+              Nasz standard.
+            </span>
           </h2>
           <p className="mt-5 max-w-lg text-[clamp(0.95rem,1.6vw,1.1rem)] leading-relaxed text-white/45">
-            Direction frames z naszego procesu — jak wrzucisz brief, dostajesz
-            taki poziom od pierwszego kierunku.
+            Direction z naszego procesu — wrzucasz brief, dostajesz ten poziom
+            już od pierwszego kierunku.
           </p>
         </Reveal>
 
