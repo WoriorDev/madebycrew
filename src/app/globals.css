@@ -127,6 +127,25 @@ body {
   animation: mark-glow 4.5s ease-in-out infinite;
 }
 
+.beam-path {
+  stroke-dasharray: 40 800;
+  animation: beam-flow 8s linear infinite;
+}
+
+@keyframes beam-flow {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.75;
+  }
+  100% {
+    stroke-dashoffset: -840;
+    opacity: 0.15;
+  }
+}
+
 @keyframes mark-glow {
   0%,
   100% {

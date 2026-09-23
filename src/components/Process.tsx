@@ -10,100 +10,102 @@ gsap.registerPlugin(ScrollTrigger);
 const steps = [
   {
     title: "Brief",
-    text: "Cel, odbiorca, konkurencja, deadline. Szybko ustalamy zakres i priorytety.",
+    text: "Cel, odbiorca, deadline, budżet. Ustawiamy priorytety zanim ruszy design.",
   },
   {
-    title: "Projekt",
-    text: "Kierunek wizualny, struktura i copy. Widzisz kierunek zanim zacznie się kod.",
+    title: "Kierunek",
+    text: "Mood, struktura, copy. Widzisz kierunek zanim zacznie się kod.",
   },
   {
-    title: "Kod",
-    text: "Czysta implementacja, mobile-first, wydajność. Bez zbędnych warstw.",
+    title: "Build",
+    text: "Motion, Lenis, czysty front. Mobile-first i szybkie ładowanie.",
   },
   {
-    title: "Start",
-    text: "Wdrożenie, poprawki, szkolenie z edycji. Potem możesz iść dalej z nami lub sam.",
+    title: "Launch",
+    text: "Wdrożenie, poprawki, handover. Potem rozwój albo samodzielnie.",
   },
 ];
 
 export function Process() {
+  const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const section = sectionRef.current;
     const track = trackRef.current;
-    if (!track) return;
+    if (!section || !track) return;
 
-    const line = track.querySelector<HTMLElement>("[data-process-line]");
-    if (!line) return;
+    const mm = gsap.matchMedia();
 
-    const tween = gsap.fromTo(
-      line,
-      { scaleX: 0 },
-      {
-        scaleX: 1,
+    mm.add("(min-width: 1024px)", () => {
+      const total = track.scrollWidth - window.innerWidth;
+
+      const tween = gsap.to(track, {
+        x: () => -Math.max(total, 0),
         ease: "none",
         scrollTrigger: {
-          trigger: track,
-          start: "top 70%",
-          end: "bottom 45%",
-          scrub: true,
+          trigger: section,
+          start: "top top",
+          end: () => `+=${Math.max(total, window.innerHeight)}`,
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
         },
-      },
-    );
+      });
 
-    return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
-    };
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+      };
+    });
+
+    return () => mm.revert();
   }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="proces"
       className="relative overflow-hidden border-t border-white/6 bg-graphite-light"
     >
       <div className="noise opacity-[0.03]" />
-      <div className="section-pad relative mx-auto max-w-6xl py-20 md:py-28">
-        <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-xl">
-            <p className="mb-3 text-sm font-semibold tracking-[0.18em] text-lime uppercase">
-              Proces
-            </p>
-            <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-off-white md:text-5xl">
-              Od rozmowy do live
-            </h2>
-          </div>
-          <p className="max-w-sm text-sm leading-relaxed text-off-white/60 md:text-base">
-            Prosty flow, jasne etapy, zero zgadywania po drodze.
+      <div className="section-pad relative mx-auto max-w-6xl py-16 md:py-20">
+        <Reveal className="mb-10 max-w-2xl lg:mb-0">
+          <p className="mb-3 text-sm font-semibold tracking-[0.18em] text-lime uppercase">
+            Proces
+          </p>
+          <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-off-white md:text-5xl">
+            Scroll story od briefu do live
+          </h2>
+          <p className="mt-4 text-sm text-off-white/55 md:text-base lg:hidden">
+            Przesuń w dół — kolejne etapy wjeżdżają w bok.
           </p>
         </Reveal>
+      </div>
 
-        <div ref={trackRef} className="relative mt-14">
-          <div className="absolute top-0 right-0 left-0 hidden h-px bg-white/10 lg:block" />
-          <div
-            data-process-line
-            className="absolute top-0 left-0 hidden h-px w-full origin-left scale-x-0 bg-lime lg:block"
-          />
-
-          <ol className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {steps.map((step, index) => (
-              <Reveal key={step.title} delay={index * 0.1}>
-                <li className="relative pt-2">
-                  <div className="mb-5 h-px w-12 bg-lime lg:hidden" />
-                  <div className="absolute -top-[5px] left-0 hidden size-2.5 rounded-full bg-lime shadow-[0_0_12px_rgba(215,255,50,0.7)] lg:block" />
-                  <p className="text-xs font-semibold tracking-[0.2em] text-off-white/40 uppercase">
-                    Krok {index + 1}
-                  </p>
-                  <h3 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-bold text-off-white">
-                    {step.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-off-white/65">
-                    {step.text}
-                  </p>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
+      <div className="lg:h-screen lg:overflow-hidden">
+        <div
+          ref={trackRef}
+          className="flex w-full flex-col gap-5 px-[clamp(1.25rem,4vw,3.5rem)] pb-20 lg:w-max lg:flex-row lg:items-center lg:gap-8 lg:px-[12vw] lg:pb-0"
+        >
+          {steps.map((step, index) => (
+            <article
+              key={step.title}
+              className="relative min-h-[16rem] w-full shrink-0 rounded-3xl border border-white/10 bg-graphite/70 p-8 backdrop-blur-md lg:h-[22rem] lg:w-[28rem]"
+            >
+              <p className="text-xs font-semibold tracking-[0.2em] text-lime uppercase">
+                0{index + 1}
+              </p>
+              <h3 className="mt-6 font-[family-name:var(--font-display)] text-4xl font-bold text-off-white">
+                {step.title}
+              </h3>
+              <p className="mt-4 max-w-sm text-base leading-relaxed text-off-white/65">
+                {step.text}
+              </p>
+              <div className="absolute right-8 bottom-8 h-px w-16 bg-lime" />
+            </article>
+          ))}
         </div>
       </div>
     </section>
