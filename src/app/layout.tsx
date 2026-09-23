@@ -23,7 +23,9 @@ export const metadata: Metadata = {
     "Dwuosobowy crew od stron, landingów i aplikacji webowych. Nowoczesny design, czysty kod, realne wyniki dla Twojego biznesu.",
   metadataBase: new URL("https://madebycrew.pl"),
   icons: {
-    icon: "/brand/logo-transparent.png",
+    icon: [{ url: "/brand/mark.png", type: "image/png" }],
+    apple: "/brand/mark.png",
+    shortcut: "/brand/mark.png",
   },
   openGraph: {
     title: "MadeByCrew.pl",

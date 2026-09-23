@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Process } from "@/components/Process";
+import { Realizations } from "@/components/Realizations";
 import { Services } from "@/components/Services";
 import { InfiniteMarquee } from "@/components/fx/InfiniteMarquee";
 
@@ -25,18 +26,8 @@ export default function Home() {
           ]}
         />
         <Services />
+        <Realizations />
         <Process />
-        <InfiniteMarquee
-          reverse
-          items={[
-            "LENIS",
-            "GSAP",
-            "MOTION",
-            "SPLINE",
-            "SHADCN",
-            "ACETERNITY",
-          ]}
-        />
         <Crew />
         <Contact />
       </main>
