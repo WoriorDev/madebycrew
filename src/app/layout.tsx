@@ -17,7 +17,7 @@ const body = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "MadeByCrew.pl — tworzymy strony internetowe",
+  title: "MadeByCrew.pl",
   description:
     "Dwuosobowy crew od stron, landingów i aplikacji webowych. Nowoczesny design, czysty kod, realne wyniki dla Twojego biznesu.",
   metadataBase: new URL("https://madebycrew.pl"),
