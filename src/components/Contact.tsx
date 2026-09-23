@@ -24,10 +24,10 @@ export function Contact() {
   }
 
   return (
-    <section id="kontakt" className="relative z-10 px-3 pb-16 md:px-6 md:pb-24">
-      <div className="glass-stage relative mx-auto max-w-7xl overflow-hidden rounded-[2rem] p-6 md:rounded-[2.5rem] md:p-12">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,rgba(215,255,50,0.12),transparent_50%)]" />
-        <Reveal className="relative mb-10 max-w-3xl md:mb-14">
+    <section id="kontakt" className="relative z-10 px-3 pb-20 md:px-6 md:pb-28">
+      <div className="wire-card relative mx-auto max-w-7xl overflow-hidden p-6 md:p-12 lg:p-14">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_0%,rgba(215,255,50,0.1),transparent_50%)]" />
+        <Reveal className="relative mb-10 max-w-3xl text-center md:mx-auto md:mb-14">
           <p className="eyebrow mb-4">Kontakt</p>
           <h2 className="display text-[clamp(2.5rem,8vw,5rem)] text-off-white">
             Masz pomysł?
@@ -38,7 +38,7 @@ export function Contact() {
         <div className="relative grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
           <Reveal>
             <div className="glass-card h-full p-7 md:p-8">
-              <p className="text-base leading-relaxed text-white/55 md:text-lg">
+              <p className="text-base leading-relaxed text-white/50 md:text-lg">
                 Cel, deadline, budżet orientacyjny. Odpisujemy zwykle tego samego
                 dnia roboczego.
               </p>
@@ -69,7 +69,7 @@ export function Contact() {
                       type={type}
                       required
                       placeholder={placeholder}
-                      className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-off-white outline-none transition placeholder:text-white/25 focus:border-lime"
+                      className="w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3.5 text-off-white outline-none transition placeholder:text-white/25 focus:border-lime"
                     />
                   </label>
                 ))}
@@ -82,7 +82,7 @@ export function Contact() {
                     required
                     rows={4}
                     placeholder="Co budujemy?"
-                    className="w-full resize-y rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-off-white outline-none transition placeholder:text-white/25 focus:border-lime"
+                    className="w-full resize-y rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3.5 text-off-white outline-none transition placeholder:text-white/25 focus:border-lime"
                   />
                 </label>
                 <div className="flex flex-wrap items-center gap-4 pt-1">

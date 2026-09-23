@@ -27,18 +27,17 @@ export function Process() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         cards,
-        { y: 80, opacity: 0.3, scale: 0.96 },
+        { y: 60, opacity: 0.25 },
         {
           y: 0,
           opacity: 1,
-          scale: 1,
-          stagger: 0.12,
-          ease: "power2.out",
+          stagger: 0.1,
+          ease: "none",
           scrollTrigger: {
             trigger: stack,
             start: "top 75%",
-            end: "bottom 60%",
-            scrub: 0.8,
+            end: "bottom 55%",
+            scrub: 0.7,
           },
         },
       );
@@ -48,11 +47,11 @@ export function Process() {
   }, []);
 
   return (
-    <section id="proces" className="relative z-10 py-20 md:py-28">
+    <section id="proces" className="relative z-10 py-24 md:py-32">
       <div className="section-pad mx-auto max-w-7xl">
-        <Reveal className="mb-12 max-w-3xl md:mb-16">
+        <Reveal className="mx-auto mb-14 max-w-3xl text-center md:mb-20">
           <p className="eyebrow mb-4">Proces</p>
-          <h2 className="display text-[clamp(2.4rem,7vw,4.8rem)] text-off-white">
+          <h2 className="display text-[clamp(2.5rem,7vw,4.8rem)] text-off-white">
             Od briefu
             <span className="block text-lime">do live.</span>
           </h2>
@@ -63,21 +62,12 @@ export function Process() {
             <article
               key={step.n}
               data-step
-              className="glass-card relative min-h-[15rem] overflow-hidden p-6 md:min-h-[18rem] md:p-7"
+              className="wire-card relative min-h-[14rem] p-6 md:min-h-[16rem]"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(215,255,50,0.12),transparent_50%)]" />
-              <div className="relative flex h-full flex-col">
-                <p className="display text-sm text-lime">{step.n}</p>
-                <h3 className="display mt-8 text-3xl text-off-white md:text-4xl">
-                  {step.title}
-                </h3>
-                <p className="mt-4 text-sm leading-relaxed text-white/55">
-                  {step.text}
-                </p>
-                <div className="mt-auto pt-8">
-                  <div className="h-1 w-14 rounded-full bg-lime" />
-                </div>
-              </div>
+              <p className="display text-sm text-lime">{step.n}</p>
+              <h3 className="display mt-8 text-3xl text-off-white">{step.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-white/50">{step.text}</p>
+              <div className="absolute right-6 bottom-6 h-px w-10 bg-lime/70" />
             </article>
           ))}
         </div>

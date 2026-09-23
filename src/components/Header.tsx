@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
 import { BrandBanner } from "./Brand";
@@ -8,78 +8,76 @@ import { cn } from "@/lib/utils";
 
 const links = [
   { href: "#uslugi", label: "Oferta" },
-  { href: "#proces", label: "Jak działamy" },
+  { href: "#proces", label: "Proces" },
   { href: "#realizacje", label: "Prace" },
   { href: "#crew", label: "Crew" },
   { href: "#kontakt", label: "Kontakt" },
 ];
 
 export function Header() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-5">
-      <motion.div
-        initial={{ y: -24, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className={cn(
-          "mx-auto flex max-w-7xl items-center justify-between rounded-full border px-3 py-2.5 transition-all duration-300 md:px-4",
-          scrolled || open
-            ? "border-white/12 bg-black/70 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-2xl"
-            : "border-white/8 bg-black/35 backdrop-blur-xl",
-        )}
-      >
-        <a href="#top" className="inline-flex items-center gap-3 pl-1" aria-label="MadeByCrew.pl">
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div className="section-pad mx-auto flex max-w-7xl items-center justify-between py-5 md:py-6">
+        <a href="#top" className="inline-flex items-center gap-3" aria-label="MadeByCrew.pl">
           <Image
             src="/brand/mark.png"
             alt=""
-            width={36}
-            height={36}
-            className="size-9 object-contain mix-blend-screen"
+            width={32}
+            height={32}
+            className="size-8 object-contain mix-blend-screen"
             priority
           />
-          <BrandBanner className="hidden h-7 w-auto sm:block md:h-8" priority />
+          <BrandBanner className="hidden h-6 w-auto sm:block md:h-7" priority />
         </a>
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Główne">
+        <nav
+          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex"
+          aria-label="Główne"
+        >
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="rounded-full px-3.5 py-2 text-sm font-medium text-white/60 transition hover:bg-white/5 hover:text-lime"
+              className="rounded-full px-3.5 py-2 text-[13px] font-medium text-white/55 transition hover:text-lime"
             >
               {link.label}
             </a>
           ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
           <a
             href="#kontakt"
-            className="ml-2 inline-flex h-11 items-center rounded-full bg-lime px-5 text-sm font-bold text-graphite transition hover:brightness-110"
+            className="hidden h-10 items-center rounded-full border border-white/15 bg-white/[0.04] px-5 text-[13px] font-semibold text-off-white backdrop-blur-md transition hover:border-lime/45 hover:text-lime sm:inline-flex"
           >
             Start projektu
           </a>
-        </nav>
-
-        <button
-          type="button"
-          className="inline-flex size-11 items-center justify-center rounded-full border border-white/12 lg:hidden"
-          aria-expanded={open}
-          aria-label={open ? "Zamknij menu" : "Otwórz menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <div className="flex w-4 flex-col gap-1.5">
-            <span className={cn("h-px w-full bg-white transition", open && "translate-y-[3.5px] rotate-45")} />
-            <span className={cn("h-px w-full bg-white transition", open && "-translate-y-[3.5px] -rotate-45")} />
-          </div>
-        </button>
-      </motion.div>
+          <button
+            type="button"
+            className="inline-flex size-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.03] backdrop-blur-md lg:hidden"
+            aria-expanded={open}
+            aria-label={open ? "Zamknij menu" : "Otwórz menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <div className="flex w-4 flex-col gap-1.5">
+              <span
+                className={cn(
+                  "h-px w-full bg-white transition",
+                  open && "translate-y-[3.5px] rotate-45",
+                )}
+              />
+              <span
+                className={cn(
+                  "h-px w-full bg-white transition",
+                  open && "-translate-y-[3.5px] -rotate-45",
+                )}
+              />
+            </div>
+          </button>
+        </div>
+      </div>
 
       <AnimatePresence>
         {open && (
@@ -87,14 +85,14 @@ export function Header() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="mx-auto mt-2 max-w-7xl rounded-3xl border border-white/10 bg-black/90 p-4 backdrop-blur-2xl lg:hidden"
+            className="section-pad mx-auto max-w-7xl lg:hidden"
           >
-            <ul className="flex flex-col gap-1">
+            <ul className="glass-card flex flex-col gap-1 p-3">
               {links.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="block rounded-2xl px-4 py-3 text-base font-medium text-white/85"
+                    className="block rounded-xl px-4 py-3 text-base font-medium text-white/85"
                     onClick={() => setOpen(false)}
                   >
                     {link.label}
@@ -104,7 +102,7 @@ export function Header() {
               <li>
                 <a
                   href="#kontakt"
-                  className="mt-2 inline-flex rounded-full bg-lime px-5 py-3 text-sm font-bold text-graphite"
+                  className="mt-1 inline-flex rounded-full bg-lime px-5 py-3 text-sm font-bold text-graphite"
                   onClick={() => setOpen(false)}
                 >
                   Start projektu

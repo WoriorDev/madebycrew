@@ -1,199 +1,109 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import Image from "next/image";
 import { MagneticButton } from "./fx/MagneticButton";
+
+const chips = [
+  { t: "Design", d: "Kierunek i UX" },
+  { t: "Build", d: "Kod + motion" },
+  { t: "Launch", d: "Live i opieka" },
+];
 
 export function Hero() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="top" className="relative z-10 min-h-[100svh] overflow-hidden">
-      <div className="section-pad relative mx-auto grid min-h-[100svh] max-w-7xl items-center gap-10 pt-28 pb-16 md:grid-cols-[1.05fr_0.95fr] md:gap-8 md:pt-32 md:pb-20">
-        <div className="relative z-10 max-w-xl">
-          <h1 className="display text-[clamp(2.8rem,8vw,5.5rem)] text-off-white">
-            <motion.span
-              className="block"
-              initial={reduce ? false : { opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            >
-              Strony,
-            </motion.span>
-            <motion.span
-              className="block text-lime"
-              initial={reduce ? false : { opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.08, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            >
-              które czuć.
-            </motion.span>
-          </h1>
+    <section
+      id="top"
+      className="relative z-10 flex min-h-[100svh] flex-col justify-center overflow-hidden"
+    >
+      <div className="section-pad relative mx-auto flex w-full max-w-5xl flex-col items-center px-4 pt-28 pb-16 text-center md:pt-32 md:pb-20">
+        <motion.p
+          initial={reduce ? false : { opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="eyebrow mb-6"
+        >
+          Creative web studio · PL
+        </motion.p>
 
-          <motion.p
-            initial={reduce ? false : { opacity: 0, y: 14 }}
+        <h1 className="display max-w-4xl text-[clamp(3rem,10vw,6.5rem)] text-off-white">
+          <motion.span
+            className="block"
+            initial={reduce ? false : { opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.18 }}
-            className="mt-6 max-w-md text-base leading-relaxed text-white/60 md:text-lg"
+            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           >
-            Landingi, sklepy i aplikacje z mocnym first viewportem, glass UI i
-            ruchem — budujemy dla biznesu, nie dla behansu.
-          </motion.p>
-
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 14 }}
+            Strony,
+          </motion.span>
+          <motion.span
+            className="block text-lime"
+            initial={reduce ? false : { opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.28 }}
-            className="mt-8 flex flex-wrap gap-3"
+            transition={{ delay: 0.1, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           >
-            <MagneticButton
-              href="#kontakt"
-              className="rounded-full bg-lime px-7 py-3.5 text-sm font-bold text-graphite shadow-[0_0_40px_rgba(215,255,50,0.35)]"
+            które czuć.
+          </motion.span>
+        </h1>
+
+        <motion.p
+          initial={reduce ? false : { opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.22 }}
+          className="mt-7 max-w-lg text-base leading-relaxed text-white/55 md:text-lg"
+        >
+          Landingi, sklepy i aplikacje z mocnym first viewportem i ruchem —
+          budowane przez dwuosobowy crew.
+        </motion.p>
+
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.32 }}
+          className="mt-9 flex flex-wrap items-center justify-center gap-3"
+        >
+          <MagneticButton
+            href="#kontakt"
+            className="rounded-full bg-lime px-7 py-3.5 text-sm font-bold text-graphite shadow-[0_0_40px_rgba(215,255,50,0.3)]"
+          >
+            Start projektu
+          </MagneticButton>
+          <MagneticButton
+            href="#uslugi"
+            strength={14}
+            className="rounded-full border border-white/15 bg-white/[0.03] px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md hover:border-lime/50 hover:text-lime"
+          >
+            Zobacz ofertę
+          </MagneticButton>
+        </motion.div>
+
+        {/* wireframe chips — bottom of hero like TDA cards */}
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45 }}
+          className="mt-16 grid w-full max-w-3xl gap-3 sm:grid-cols-3"
+        >
+          {chips.map((chip) => (
+            <div
+              key={chip.t}
+              className="wire-card px-4 py-4 text-left"
             >
-              Start projektu
-            </MagneticButton>
-            <MagneticButton
-              href="#uslugi"
-              strength={14}
-              className="rounded-full border border-white/15 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md hover:border-lime/50 hover:text-lime"
-            >
-              Zobacz ofertę
-            </MagneticButton>
-          </motion.div>
-        </div>
-
-        <div className="relative mx-auto flex h-[min(62vh,520px)] w-full max-w-md items-center justify-center md:max-w-none">
-          <motion.div
-            initial={reduce ? false : { opacity: 0, x: -30, y: 20 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.7 }}
-            className="glass-card absolute top-[12%] left-0 z-20 hidden w-44 p-3 sm:block md:left-[-4%] lg:left-[2%]"
-          >
-            <p className="text-[10px] tracking-[0.16em] text-white/40 uppercase">
-              Live metric
-            </p>
-            <p className="display mt-2 text-3xl text-lime">+48%</p>
-            <p className="mt-1 text-xs text-white/50">konwersja po redesignie*</p>
-            <div className="mt-3 h-1 overflow-hidden rounded-full bg-white/10">
-              <motion.div
-                className="h-full rounded-full bg-lime"
-                initial={{ width: "0%" }}
-                animate={{ width: "78%" }}
-                transition={{ delay: 0.8, duration: 1.1 }}
-              />
+              <p className="display text-lg text-off-white">{chip.t}</p>
+              <p className="mt-1 text-xs text-white/45">{chip.d}</p>
             </div>
-          </motion.div>
+          ))}
+        </motion.div>
 
-          <motion.div
-            initial={reduce ? false : { opacity: 0, x: 30, y: -10 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ delay: 0.45, duration: 0.7 }}
-            className="glass-card absolute top-[6%] right-0 z-20 hidden w-40 p-3 sm:block md:right-[-2%] lg:right-[4%]"
-          >
-            <div className="flex items-center gap-2">
-              <Image
-                src="/brand/mark.png"
-                alt=""
-                width={22}
-                height={22}
-                className="size-5 object-contain mix-blend-screen"
-              />
-              <span className="text-xs font-semibold text-white/80">Crew ping</span>
-            </div>
-            <p className="mt-2 text-xs leading-snug text-white/55">
-              Brief przyjęty. Kierunek jutro.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 40, scale: 0.92 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-10 h-[min(56vh,460px)] w-[min(58%,240px)] overflow-hidden rounded-[2rem] border border-white/20 bg-[#0c0e12]/90 shadow-[0_40px_100px_rgba(0,0,0,0.55)] backdrop-blur-xl"
-          >
-            <div className="mx-auto mt-2.5 h-1.5 w-16 rounded-full bg-white/25" />
-            <div className="space-y-3 p-4 pt-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-[10px] tracking-[0.14em] text-white/40 uppercase">
-                    Dashboard
-                  </p>
-                  <p className="display text-lg text-off-white">Project pulse</p>
-                </div>
-                <span className="flex size-8 items-center justify-center rounded-full bg-lime/20 text-xs font-bold text-lime">
-                  89%
-                </span>
-              </div>
-
-              <div className="relative mx-auto size-28">
-                <svg viewBox="0 0 100 100" className="size-full -rotate-90">
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="40"
-                    fill="none"
-                    stroke="rgba(255,255,255,0.08)"
-                    strokeWidth="8"
-                  />
-                  <motion.circle
-                    cx="50"
-                    cy="50"
-                    r="40"
-                    fill="none"
-                    stroke="#D7FF32"
-                    strokeWidth="8"
-                    strokeLinecap="round"
-                    strokeDasharray={251}
-                    initial={{ strokeDashoffset: 251 }}
-                    animate={{ strokeDashoffset: 251 * 0.11 }}
-                    transition={{ delay: 0.6, duration: 1.2, ease: "easeOut" }}
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="display text-2xl text-off-white">89</span>
-                  <span className="text-[9px] text-white/40">ready</span>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                {[
-                  { l: "Landing", v: "92%" },
-                  { l: "Motion", v: "86%" },
-                  { l: "Mobile", v: "95%" },
-                ].map((row) => (
-                  <div
-                    key={row.l}
-                    className="flex items-center justify-between rounded-xl bg-white/[0.04] px-3 py-2"
-                  >
-                    <span className="text-xs text-white/55">{row.l}</span>
-                    <span className="text-xs font-bold text-lime">{row.v}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55, duration: 0.7 }}
-            className="glass-card absolute bottom-[4%] left-1/2 z-20 w-[min(90%,280px)] -translate-x-1/2 p-3 sm:left-auto sm:right-0 sm:translate-x-0 md:right-[-4%] lg:right-[0%]"
-          >
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="text-[10px] tracking-[0.16em] text-white/40 uppercase">
-                  Stack
-                </p>
-                <p className="mt-1 text-sm font-semibold text-off-white">
-                  Design → Code → Live
-                </p>
-              </div>
-              <span className="rounded-full bg-lime px-3 py-1 text-[10px] font-bold text-graphite">
-                ON
-              </span>
-            </div>
-          </motion.div>
-        </div>
+        <motion.a
+          href="#uslugi"
+          initial={reduce ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+          className="mt-14 flex flex-col items-center gap-2 text-[10px] tracking-[0.22em] text-white/35 uppercase"
+        >
+          Scroll
+          <span className="h-8 w-px bg-gradient-to-b from-lime to-transparent" />
+        </motion.a>
       </div>
     </section>
   );
