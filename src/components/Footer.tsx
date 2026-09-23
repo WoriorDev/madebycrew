@@ -45,15 +45,15 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative z-10 overflow-hidden border-t border-white/8">
+    <footer className="relative z-10 overflow-hidden border-t border-white/8 bg-black/25 backdrop-blur-[6px]">
       {/* ADV-style atmospheric glow — lime instead of red */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_15%_0%,rgba(215,255,50,0.12),transparent_45%),radial-gradient(ellipse_at_85%_100%,rgba(215,255,50,0.08),transparent_50%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_15%_0%,rgba(215,255,50,0.1),transparent_45%),radial-gradient(ellipse_at_85%_100%,rgba(215,255,50,0.06),transparent_50%)]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-24 left-1/2 h-48 w-[70%] -translate-x-1/2 rounded-full bg-lime/10 blur-3xl"
+        className="pointer-events-none absolute -bottom-24 left-1/2 h-48 w-[70%] -translate-x-1/2 rounded-full bg-lime/8 blur-3xl"
       />
 
       <div className="section-pad relative mx-auto max-w-7xl pt-16 pb-8 md:pt-20 md:pb-10">
