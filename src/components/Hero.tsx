@@ -2,7 +2,6 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
-import { BrandBanner } from "./Brand";
 import { MagneticButton } from "./fx/MagneticButton";
 
 export function Hero() {
@@ -35,35 +34,29 @@ export function Hero() {
 
       <div className="section-pad relative mx-auto grid min-h-[100svh] max-w-7xl items-center gap-10 pt-28 pb-16 md:grid-cols-[1.05fr_0.95fr] md:gap-8 md:pt-32 md:pb-20">
         <div className="relative z-10 max-w-xl">
-          <motion.p
-            initial={reduce ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="eyebrow mb-5"
-          >
-            Creative web studio · PL
-          </motion.p>
-
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05 }}
-            className="mb-6"
-          >
-            <BrandBanner
-              className="h-[clamp(2.5rem,6vw,3.75rem)] w-auto max-w-[min(100%,28rem)]"
-              priority
-            />
-          </motion.div>
-
           <h1 className="display text-[clamp(2.8rem,8vw,5.5rem)] text-off-white">
-            Strony,
-            <span className="block text-lime">które czuć.</span>
+            <motion.span
+              className="block"
+              initial={reduce ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              Strony,
+            </motion.span>
+            <motion.span
+              className="block text-lime"
+              initial={reduce ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.08, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              które czuć.
+            </motion.span>
           </h1>
 
           <motion.p
             initial={reduce ? false : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
+            transition={{ delay: 0.18 }}
             className="mt-6 max-w-md text-base leading-relaxed text-white/60 md:text-lg"
           >
             Landingi, sklepy i aplikacje z mocnym first viewportem, glass UI i
@@ -73,7 +66,7 @@ export function Hero() {
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
+            transition={{ delay: 0.28 }}
             className="mt-8 flex flex-wrap gap-3"
           >
             <MagneticButton
