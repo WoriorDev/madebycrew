@@ -94,7 +94,7 @@ export function Contact() {
                   </Button>
                   {sent && (
                     <p className="text-sm text-white/50">
-                      Otwieramy skrzynkę — dokończ wysyłkę.
+                      Otwieramy skrzynkę. Dokończ wysyłkę.
                     </p>
                   )}
                 </div>

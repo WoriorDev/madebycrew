@@ -29,7 +29,7 @@ const columns = [
       { label: "Lokalny biznes", href: "#kontakt" },
       { label: "SaaS / produkty", href: "#kontakt" },
       { label: "Agencje & partnerzy", href: "#kontakt" },
-      { label: "Inne — napisz", href: "#kontakt" },
+      { label: "Inne, napisz", href: "#kontakt" },
     ],
   },
 ];

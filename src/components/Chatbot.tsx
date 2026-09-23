@@ -225,7 +225,7 @@ export function Chatbot() {
           <motion.section
             ref={panelRef}
             role="dialog"
-            aria-label="CrewBot — czat MadeByCrew"
+            aria-label="CrewBot, czat MadeByCrew"
             aria-modal="false"
             initial={{ opacity: 0, y: 18, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}

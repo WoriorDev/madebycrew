@@ -17,7 +17,7 @@ export default function LoginPage() {
     setError(null);
     window.setTimeout(() => {
       setBusy(false);
-      setError("Panel jeszcze niepodłączony — to ekran testowy.");
+      setError("Panel jeszcze niepodłączony. To ekran testowy.");
     }, 700);
   }
 

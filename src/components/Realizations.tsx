@@ -16,7 +16,7 @@ const projects = [
     stack: ["Next.js", "Motion", "GSAP"],
     src: "/brand/case-01-desktop.png",
     blurb:
-      "Szybka, czytelna strona pod studio kreatywne — ciemny klimat, mocny brand i animacje, które nie spowalniają.",
+      "Szybka, czytelna strona pod studio kreatywne: ciemny klimat, mocny brand i animacje, które nie spowalniają.",
   },
   {
     id: "02",
@@ -26,7 +26,7 @@ const projects = [
     stack: ["Next.js", "3D", "UI"],
     src: "/brand/case-02-desktop.png",
     blurb:
-      "Bardziej filmowy layout z głębią i ruchem — pod marki, które mają wyróżnić się już na pierwszym ekranie.",
+      "Bardziej filmowy layout z głębią i ruchem, pod marki, które mają wyróżnić się już na pierwszym ekranie.",
   },
 ];
 
@@ -188,7 +188,7 @@ export function Realizations() {
   ];
 
   const intro =
-    "Przykłady stylu i poziomu, na jakim budujemy strony — od briefu do wersji gotowej do startu.";
+    "Przykłady stylu i poziomu, na jakim budujemy strony, od briefu do wersji gotowej do startu.";
 
   return (
     <section
@@ -325,7 +325,7 @@ export function Realizations() {
           className="mt-14 flex flex-col items-start gap-4 border-t border-white/10 pt-10 md:mt-20 md:flex-row md:items-center md:justify-between"
         >
           <p className="max-w-md text-sm text-white/40">
-            Masz pomysł na stronę? Napisz — dopasujemy kierunek do Twojej marki
+            Masz pomysł na stronę? Napisz, a dopasujemy kierunek do Twojej marki
             i powiemy wprost, co da się zrobić.
           </p>
           <a

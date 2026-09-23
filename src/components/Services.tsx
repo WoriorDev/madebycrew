@@ -66,7 +66,7 @@ const packages = [
     id: "custom",
     name: "Custom",
     blurb:
-      "Aplikacje, panele i integracje poza standardem — budujemy dokładnie pod Twój scope.",
+      "Aplikacje, panele i integracje poza standardem. Budujemy dokładnie pod Twój scope.",
     cta: "Zapytaj o Custom",
     popular: false,
     icon: "/brand/icon-custom.png",
@@ -98,7 +98,7 @@ const packages = [
     id: "aplikacja",
     name: "Aplikacja webowa",
     blurb:
-      "Produkt cyfrowy z logiką, kontami i panelami — nie tylko strona wizytówka.",
+      "Produkt cyfrowy z logiką, kontami i panelami, nie tylko strona wizytówka.",
     cta: "Zapytaj o aplikację",
     popular: false,
     icon: "/brand/icon-launch.png",
@@ -309,8 +309,8 @@ export function Services() {
             </span>
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/45 md:text-base">
-            Od pierwszej strony po rozbudowany sklep. Wybierz, czego potrzebujesz
-            — my zadbamy o projekt i wykonanie.
+            Od pierwszej strony po rozbudowany sklep. Wybierz, czego potrzebujesz,
+            a my zadbamy o projekt i wykonanie.
           </p>
         </div>
 

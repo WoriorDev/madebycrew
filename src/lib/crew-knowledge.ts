@@ -1,4 +1,4 @@
-export const CREW_SYSTEM_PROMPT = `Jesteś CrewBotem — asystentem MadeByCrew.pl.
+export const CREW_SYSTEM_PROMPT = `Jesteś CrewBotem, asystentem MadeByCrew.pl.
 
 ## Kim jesteś
 Przyjazny, konkretny, lekko „crewowy” (bez korpo-bełkotu). Mówisz jak człowiek z teamu, nie jak call-center.
@@ -6,28 +6,28 @@ Odpowiadasz ZAWSZE po polsku.
 
 ## Firma
 - Nazwa: MadeByCrew.pl
-- Team: dwóch ziomków — design & produkt + kod & wdrożenie (nie duża agencja)
+- Team: dwóch ziomków (design & produkt + kod & wdrożenie), nie duża agencja
 - Styl: nowoczesny dark + limonkowy akcent (#D7FF32), mocny first viewport, motion, mobile-first
 - Kontakt: kontakt@madebycrew.pl · formularz na stronie w #kontakt
 - Odpowiedź: zwykle tego samego dnia roboczego
 
 ## Oferta
-1. Landingi i wizytówki — first viewport, sekcje, copy, motion, CTA
-2. Aplikacje i sklepy — flow, panele, katalogi, utrzymanie
-3. Redesign — stara strona → szybka, czytelna, mobile-first (+ SEO w pakiecie)
-4. Opieka po live — poprawki, nowe sekcje, rozwój
+1. Landingi i wizytówki: first viewport, sekcje, copy, motion, CTA
+2. Aplikacje i sklepy: flow, panele, katalogi, utrzymanie
+3. Redesign: stara strona → szybka, czytelna, mobile-first (+ SEO w pakiecie)
+4. Opieka po live: poprawki, nowe sekcje, rozwój
 
 ## Proces
 Brief → Kierunek (mood/struktura/copy) → Build (kod/motion/perf) → Launch (live + handover)
 
 ## Zasady odpowiedzi (twarde)
-- Krótko i konkretnie: 2–6 zdań albo krótkie bullet points. Nie wall of text.
+- Krótko i konkretnie: 2 do 6 zdań albo krótkie bullet points. Nie wall of text.
 - Nie wymyślaj: cen, dokładnych terminów, stacku „na sztywno”, fake klientów, case’ów których nie ma.
 - Przy wycenie / terminie: wyjaśnij, że zależy od briefu (cel, zakres, deadline, budżet orientacyjny) i zaproś do kontaktu.
-- Jeśli pytanie poza WWW / biznesem MadeByCrew — grzecznie sprowadź do oferty lub kontaktu.
+- Jeśli pytanie poza WWW / biznesem MadeByCrew, grzecznie sprowadź do oferty lub kontaktu.
 - Kończ CTA gdy to ma sens: „Napisz na kontakt@madebycrew.pl” albo „Wrzucaj brief w #kontakt”.
 - Możesz używać lekkiego markdown: **pogrubienie**, listy z "- ", linki mailto.
-- Nie udawaj, że jesteś człowiekiem z crewu — jesteś CrewBotem, ale mówisz w ich tonie.`;
+- Nie udawaj, że jesteś człowiekiem z crewu. Jesteś CrewBotem, ale mówisz w ich tonie.`;
 
 export type FaqEntry = {
   id: string;
@@ -77,7 +77,7 @@ export const FAQ: FaqEntry[] = [
       "quote",
     ],
     answer:
-      "Nie mamy sztywnego cennika „z półki” — wycena leci pod **konkretny brief** (zakres, podstrony, funkcje, motion, deadline).\n\nRzuć cel + budżet orientacyjny na **kontakt@madebycrew.pl** albo przez formularz w #kontakt — wrócimy z propozycją, bez owijania.",
+      "Nie mamy sztywnego cennika „z półki”. Wycena leci pod **konkretny brief** (zakres, podstrony, funkcje, motion, deadline).\n\nRzuć cel + budżet orientacyjny na **kontakt@madebycrew.pl** albo przez formularz w #kontakt. Wrócimy z propozycją, bez owijania.",
     followUps: [
       "Jak wygląda współpraca?",
       "Ile trwa landing?",
@@ -106,7 +106,7 @@ export const FAQ: FaqEntry[] = [
       "web",
     ],
     answer:
-      "Robimy:\n- **Landingi / wizytówki** — first viewport, który sprzedaje\n- **Aplikacje i sklepy** — flow, panele, katalogi\n- **Redesign** — stara strona → szybka i mobile-first\n- **Opiekę po live** — poprawki i rozwój\n\nOd briefu do wdrożenia, bez zbędnych warstw.",
+      "Robimy:\n- **Landingi / wizytówki**: first viewport, który sprzedaje\n- **Aplikacje i sklepy**: flow, panele, katalogi\n- **Redesign**: stara strona → szybka i mobile-first\n- **Opiekę po live**: poprawki i rozwój\n\nOd briefu do wdrożenia, bez zbędnych warstw.",
     followUps: ["Jak wygląda współpraca?", "Ile kosztuje strona?", "Robicie redesign?"],
     weight: 1.2,
   },
@@ -114,7 +114,7 @@ export const FAQ: FaqEntry[] = [
     id: "redesign",
     keys: ["redesign", "odśwież", "odswiez", "moderniz", "stara strona", "przebudow"],
     answer:
-      "**Redesign** to nasz chleb powszedni: bierzemy starą stronę i robimy szybką, czytelną, mobile-first wersję — z SEO w pakiecie.\n\nJak masz URL starej strony, wrzuć go w mailu — od razu łatwiej ocenić zakres.",
+      "**Redesign** to nasz chleb powszedni: bierzemy starą stronę i robimy szybką, czytelną, mobile-first wersję, z SEO w pakiecie.\n\nJak masz URL starej strony, wrzuć go w mailu. Od razu łatwiej ocenić zakres.",
     followUps: ["Ile kosztuje strona?", "Jak wygląda współpraca?", "Jak się skontaktować?"],
     weight: 1.25,
   },
@@ -134,7 +134,7 @@ export const FAQ: FaqEntry[] = [
       "brief",
     ],
     answer:
-      "Proces jest prosty:\n1. **Brief** — cel, odbiorca, deadline, budżet\n2. **Kierunek** — mood, struktura, copy (widzisz przed kodem)\n3. **Build** — motion, performance, mobile-first\n4. **Launch** — live, poprawki, handover\n\nMały team = szybkie decyzje, bez korpo-Slacka.",
+      "Proces jest prosty:\n1. **Brief**: cel, odbiorca, deadline, budżet\n2. **Kierunek**: mood, struktura, copy (widzisz przed kodem)\n3. **Build**: motion, performance, mobile-first\n4. **Launch**: live, poprawki, handover\n\nMały team = szybkie decyzje, bez korpo-Slacka.",
     followUps: ["Co napisać w briefie?", "Ile trwa landing?", "Jak się skontaktować?"],
     weight: 1.25,
   },
@@ -161,7 +161,7 @@ export const FAQ: FaqEntry[] = [
       "freelancer",
     ],
     answer:
-      "Jesteśmy **dwuosobowym crewem**: design & produkt + kod & wdrożenie.\n\nMały team, pełny ownership od A do Z — bez korpo-warstw i bez „prześlemy to do grafika za 2 tygodnie”.",
+      "Jesteśmy **dwuosobowym crewem**: design & produkt + kod & wdrożenie.\n\nMały team, pełny ownership od A do Z, bez korpo-warstw i bez „prześlemy to do grafika za 2 tygodnie”.",
     followUps: ["Co oferujecie?", "Jak wygląda współpraca?", "Jak się skontaktować?"],
     weight: 1.15,
   },
@@ -200,7 +200,7 @@ export const FAQ: FaqEntry[] = [
       "kiedy",
     ],
     answer:
-      "Timing zależy od zakresu. **Prosty landing** zwykle idzie wyraźnie szybciej niż sklep czy aplikacja.\n\nPo briefie podajemy **realny timeline** — bez zgadywania z kapelusza. Masz twardy deadline? Napisz od razu.",
+      "Timing zależy od zakresu. **Prosty landing** zwykle idzie wyraźnie szybciej niż sklep czy aplikacja.\n\nPo briefie podajemy **realny timeline**, bez zgadywania z kapelusza. Masz twardy deadline? Napisz od razu.",
     followUps: ["Ile kosztuje strona?", "Co napisać w briefie?", "Jak wygląda współpraca?"],
     weight: 1.25,
   },
@@ -223,7 +223,7 @@ export const FAQ: FaqEntry[] = [
       "wydajn",
     ],
     answer:
-      "Budujemy nowoczesne, szybkie strony **mobile-first** — nacisk na czytelność, motion i utrzymanie.\n\nStack dobieramy do projektu (nie wciskamy jednego młotka do wszystkiego). Napisz, co budujemy — dopasujemy podejście.",
+      "Budujemy nowoczesne, szybkie strony **mobile-first**, z naciskiem na czytelność, motion i utrzymanie.\n\nStack dobieramy do projektu (nie wciskamy jednego młotka do wszystkiego). Napisz, co budujemy, a dopasujemy podejście.",
     followUps: ["Robicie redesign?", "Ile kosztuje strona?", "Jak wygląda współpraca?"],
     weight: 1.15,
   },
@@ -240,7 +240,7 @@ export const FAQ: FaqEntry[] = [
       "referenc",
     ],
     answer:
-      "Na stronie masz sekcję **#projekty** — aktualnie direction frames ze standardem MadeByCrew.\n\nNie doklejamy fake klientów. Jak chcesz zobaczyć direction / podobne stylówki, napisz na **kontakt@madebycrew.pl** — pokażemy, co pasuje do Twojego briefu.",
+      "Na stronie masz sekcję **#projekty**: aktualnie direction frames ze standardem MadeByCrew.\n\nNie doklejamy fake klientów. Jak chcesz zobaczyć direction / podobne stylówki, napisz na **kontakt@madebycrew.pl**. Pokażemy, co pasuje do Twojego briefu.",
     followUps: ["Co oferujecie?", "Jak wygląda współpraca?", "Jak się skontaktować?"],
     weight: 1.2,
   },
@@ -248,7 +248,7 @@ export const FAQ: FaqEntry[] = [
     id: "care",
     keys: ["opieka", "utrzymani", "wsparcie", "support", "po starcie", "po live", "aktualiz"],
     answer:
-      "Po starcie nie znikamy. **Opieka** = poprawki, nowe sekcje, rozwój produktu.\n\nMożemy zostać na dłużej albo zrobić czysty handover — jak wolisz.",
+      "Po starcie nie znikamy. **Opieka** = poprawki, nowe sekcje, rozwój produktu.\n\nMożemy zostać na dłużej albo zrobić czysty handover, jak wolisz.",
     followUps: ["Jak wygląda współpraca?", "Ile kosztuje strona?", "Jak się skontaktować?"],
     weight: 1.15,
   },
@@ -299,7 +299,7 @@ export function localBotReply(userText: string): LocalBotReply {
     return {
       matchedId: null,
       answer:
-        "Dzięki za pytanie — najpewniej ogarniemy to najlepiej na briefie.\n\nNapisz krótko: **cel**, **deadline**, **budżet orientacyjny** na **kontakt@madebycrew.pl** albo przez formularz w #kontakt. Crew odpisze.",
+        "Dzięki za pytanie. Najpewniej ogarniemy to najlepiej na briefie.\n\nNapisz krótko: **cel**, **deadline**, **budżet orientacyjny** na **kontakt@madebycrew.pl** albo przez formularz w #kontakt. Crew odpisze.",
       followUps: [
         "Co oferujecie?",
         "Jak wygląda współpraca?",
@@ -328,7 +328,7 @@ export function localBotReply(userText: string): LocalBotReply {
   return { answer, followUps, matchedId: top.id };
 }
 
-/** @deprecated use localBotReply — kept for route compatibility */
+/** @deprecated use localBotReply; kept for route compatibility */
 export function fallbackAnswer(userText: string): string {
   return localBotReply(userText).answer;
 }

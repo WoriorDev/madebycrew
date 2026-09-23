@@ -74,7 +74,7 @@ export async function POST(req: Request) {
 
   if (!userText) {
     return streamLocalReply(
-      "Napisz pytanie o ofertę, proces albo kontakt — ogarnę temat.",
+      "Napisz pytanie o ofertę, proces albo kontakt. Ogarnę temat.",
     );
   }
 
