@@ -9,29 +9,6 @@ export function Hero() {
 
   return (
     <section id="top" className="relative z-10 min-h-[100svh] overflow-hidden">
-      {/* free-floating orb — no frame */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute top-[12%] right-[8%] size-[min(60vw,480px)] rounded-full md:top-[18%] md:right-[12%] md:left-auto"
-        style={{
-          background:
-            "radial-gradient(circle at 35% 35%, rgba(215,255,50,0.75), rgba(215,255,50,0.12) 45%, transparent 70%)",
-          filter: "blur(2px)",
-        }}
-        animate={
-          reduce
-            ? undefined
-            : { y: [0, -18, 0], scale: [1, 1.04, 1], rotate: [0, 8, 0] }
-        }
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute top-[30%] right-[22%] size-[min(28vw,200px)] rounded-full bg-white/10 blur-2xl"
-        animate={reduce ? undefined : { x: [0, 30, 0], y: [0, 20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-
       <div className="section-pad relative mx-auto grid min-h-[100svh] max-w-7xl items-center gap-10 pt-28 pb-16 md:grid-cols-[1.05fr_0.95fr] md:gap-8 md:pt-32 md:pb-20">
         <div className="relative z-10 max-w-xl">
           <h1 className="display text-[clamp(2.8rem,8vw,5.5rem)] text-off-white">
