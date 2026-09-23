@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 import { BrandBanner } from "./Brand";
+import { cn } from "@/lib/utils";
 
 const links = [
   { href: "#uslugi", label: "Usługi" },
@@ -22,12 +24,16 @@ export function Header() {
   }, []);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background,border-color,backdrop-filter] duration-300 ${
+    <motion.header
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-[background,border-color,backdrop-filter] duration-300",
         scrolled || open
-          ? "border-b border-white/8 bg-graphite/85 backdrop-blur-md"
-          : "border-b border-transparent bg-transparent"
-      }`}
+          ? "border-b border-white/8 bg-graphite/80 backdrop-blur-xl"
+          : "border-b border-transparent bg-transparent",
+      )}
     >
       <div className="section-pad mx-auto flex h-20 max-w-6xl items-center justify-between md:h-24">
         <a href="#top" className="inline-flex shrink-0 items-center" aria-label="MadeByCrew.pl">
@@ -46,7 +52,7 @@ export function Header() {
           ))}
           <a
             href="#kontakt"
-            className="rounded-full bg-lime px-4 py-2 text-sm font-semibold text-graphite transition hover:brightness-110"
+            className="inline-flex h-10 items-center rounded-full bg-lime px-4 text-sm font-semibold text-graphite transition hover:brightness-110"
           >
             Napisz do nas
           </a>
@@ -100,6 +106,6 @@ export function Header() {
           </ul>
         </nav>
       )}
-    </header>
+    </motion.header>
   );
 }

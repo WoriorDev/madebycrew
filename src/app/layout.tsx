@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Manrope, Syne } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import { SmoothScroll } from "@/components/fx/SmoothScroll";
+import { ScrollProgress } from "@/components/fx/ScrollProgress";
 
 const display = Syne({
   variable: "--font-display",
@@ -36,10 +39,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pl"
-      className={`${display.variable} ${body.variable} h-full antialiased`}
+      className={cn("dark h-full antialiased", display.variable, body.variable)}
     >
-      <body className="min-h-full flex flex-col bg-graphite text-off-white">
-        {children}
+      <body className="flex min-h-full flex-col bg-graphite text-off-white">
+        <SmoothScroll>
+          <ScrollProgress />
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

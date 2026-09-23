@@ -56,6 +56,6 @@ export function BrandMark({
       decoding="async"
       {...(priority ? { fetchPriority: "high" as const } : {})}
       className={`object-contain ${className}`}
-svg    />
+    />
   );
 }
