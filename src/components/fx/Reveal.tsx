@@ -24,10 +24,30 @@ export function Reveal({
   return (
     <motion.div
       className={cn(className)}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10% 0px" }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      initial="hidden"
+      whileInView="visible"
+      // stay visible longer: leave only when mostly off-screen
+      viewport={{ once: false, amount: 0.08, margin: "12% 0px -6% 0px" }}
+      variants={{
+        hidden: {
+          opacity: 0,
+          y,
+          transition: {
+            duration: 0.55,
+            delay: 0,
+            ease: [0.4, 0, 1, 1],
+          },
+        },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.75,
+            delay,
+            ease: [0.22, 1, 0.36, 1],
+          },
+        },
+      }}
     >
       {children}
     </motion.div>

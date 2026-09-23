@@ -20,12 +20,20 @@ export default function Home() {
       <main className="relative z-10">
         <Hero />
         <InfiniteMarquee
-          items={["LANDINGI", "SKLEPY", "APLIKACJE", "MOTION", "REDESIGN", "LAUNCH"]}
+          items={[
+            "Landing page",
+            "Wizytówki",
+            "Strona firmowa",
+            "Sklepy",
+            "Aplikacje",
+            "Custom",
+            "Redesign",
+          ]}
         />
-        <Services />
-        <Realizations />
-        <Process />
         <Crew />
+        <Realizations />
+        <Services />
+        <Process />
         <Contact />
       </main>
       <Footer />

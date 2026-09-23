@@ -5,20 +5,20 @@ const columns = [
   {
     title: "Firma",
     links: [
-      { label: "O crew", href: "#crew" },
+      { label: "O nas", href: "#crew" },
       { label: "Proces", href: "#proces" },
       { label: "Kontakt", href: "#kontakt" },
       { label: "CrewBot", href: "#top" },
     ],
   },
   {
-    title: "Oferta",
+    title: "Oferty",
     links: [
-      { label: "Launch — landingi", href: "#uslugi" },
-      { label: "Growth — strony & redesign", href: "#uslugi" },
-      { label: "Custom — aplikacje", href: "#uslugi" },
-      { label: "Opieka po live", href: "#uslugi" },
-      { label: "Motion & UI", href: "#uslugi" },
+      { label: "Landing page", href: "#uslugi" },
+      { label: "Strona firmowa", href: "#uslugi" },
+      { label: "Sklep internetowy", href: "#uslugi" },
+      { label: "Custom", href: "#uslugi" },
+      { label: "Redesign", href: "#uslugi" },
     ],
   },
   {
@@ -56,7 +56,7 @@ export function Footer() {
         className="pointer-events-none absolute -bottom-24 left-1/2 h-48 w-[70%] -translate-x-1/2 rounded-full bg-lime/8 blur-3xl"
       />
 
-      <div className="section-pad relative mx-auto max-w-7xl pt-16 pb-8 md:pt-20 md:pb-10">
+      <div className="section-pad relative mx-auto max-w-[96rem] pt-16 pb-8 md:pt-20 md:pb-10">
         {/* top grid */}
         <div className="grid gap-12 lg:grid-cols-[1.15fr_1.85fr] lg:gap-16">
           <div>
@@ -78,9 +78,25 @@ export function Footer() {
               Gdzie design i kod
               <span className="block text-white/45">dostają charakter.</span>
             </p>
-            <p className="mt-4 text-xs tracking-[0.18em] text-lime/70 uppercase">
-              Test copy · placeholder
-            </p>
+            <ul className="mt-6 flex items-center gap-3">
+              {socials.map((s) => (
+                <li key={s.label}>
+                  <a
+                    href={s.href}
+                    aria-label={s.label}
+                    className="inline-flex size-10 items-center justify-center rounded-full border border-white/15 text-white/60 transition hover:border-lime/45 hover:text-lime"
+                  >
+                    <SocialIcon name={s.icon} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a
+              href="mailto:kontakt@madebycrew.pl"
+              className="display mt-5 inline-block text-xl text-off-white transition hover:text-lime md:text-2xl"
+            >
+              kontakt@madebycrew.pl
+            </a>
           </div>
 
           <div className="grid gap-10 sm:grid-cols-3">
@@ -106,43 +122,8 @@ export function Footer() {
           </div>
         </div>
 
-        {/* contact + socials */}
-        <div className="mt-14 flex flex-col gap-8 border-t border-white/8 pt-10 md:mt-16 md:flex-row md:items-end md:justify-between">
-          <div className="space-y-2 text-sm text-white/50">
-            <p>ul. Przykładowa 12 / 00-000 Warszawa</p>
-            <p>
-              <a
-                href="tel:+48123456789"
-                className="transition hover:text-lime"
-              >
-                +48 123 456 789
-              </a>
-            </p>
-            <a
-              href="mailto:kontakt@madebycrew.pl"
-              className="display mt-3 inline-block text-xl text-off-white transition hover:text-lime md:text-2xl"
-            >
-              kontakt@madebycrew.pl
-            </a>
-          </div>
-
-          <ul className="flex items-center gap-3">
-            {socials.map((s) => (
-              <li key={s.label}>
-                <a
-                  href={s.href}
-                  aria-label={s.label}
-                  className="inline-flex size-10 items-center justify-center rounded-full border border-white/15 text-white/60 transition hover:border-lime/45 hover:text-lime"
-                >
-                  <SocialIcon name={s.icon} />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
         {/* bottom strip */}
-        <div className="mt-10 flex flex-col gap-2 border-t border-white/8 pt-6 text-xs text-white/35 md:flex-row md:items-center md:justify-between">
+        <div className="mt-14 flex flex-col gap-2 border-t border-white/8 pt-6 text-xs text-white/35 md:mt-16 md:flex-row md:items-center md:justify-between">
           <p>© {year} MadeByCrew.pl. All rights reserved.</p>
           <a
             href="/login"

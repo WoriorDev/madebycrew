@@ -11,9 +11,9 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative z-10 flex min-h-[100svh] flex-col justify-center overflow-hidden pt-10 md:pt-14"
+      className="relative z-10 flex min-h-[100svh] flex-col justify-start overflow-hidden"
     >
-      <div className="section-pad relative mx-auto flex w-full max-w-5xl flex-col items-center px-4 pt-36 pb-16 text-center md:pt-44 md:pb-20">
+      <div className="section-pad relative mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-4 pt-[18vh] pb-16 text-center md:pt-[20vh] md:pb-20">
         <h1 className="display max-w-4xl text-[clamp(2.4rem,8.5vw,5.75rem)] text-off-white">
           <motion.span
             className="block"
@@ -56,7 +56,7 @@ export function Hero() {
             Zróbmy Twoją stronę
           </MagneticButton>
           <MagneticButton
-            href="#realizacje"
+            href="#projekty"
             strength={14}
             className="rounded-full border border-white/15 bg-white/[0.03] px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md hover:border-lime/50 hover:text-lime"
           >

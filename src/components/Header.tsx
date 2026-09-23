@@ -7,22 +7,47 @@ import { BrandBanner } from "./Brand";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "#uslugi", label: "Oferta" },
+  { href: "#crew", label: "O nas" },
+  { href: "#projekty", label: "Projekty" },
+  { href: "#uslugi", label: "Oferty" },
   { href: "#proces", label: "Proces" },
-  { href: "#realizacje", label: "Prace" },
-  { href: "#crew", label: "Crew" },
   { href: "#kontakt", label: "Kontakt" },
 ];
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 16);
+
+      const marker = window.innerHeight * 0.32;
+      let current = "";
+
+      for (const link of links) {
+        const id = link.href.slice(1);
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= marker) {
+          current = link.href;
+        }
+      }
+
+      // hero / sam top — nic nie podświetlamy
+      if (window.scrollY < 80) current = "";
+
+      setActive(current);
+    };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   const solid = scrolled || open;
@@ -32,11 +57,11 @@ export function Header() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-[background,border-color,backdrop-filter,box-shadow] duration-300",
         solid
-          ? "border-b border-white/10 bg-black/55 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-2xl"
+          ? "border-b border-white/8 bg-white/[0.05] backdrop-blur-[6px]"
           : "border-b border-transparent bg-transparent",
       )}
     >
-      <div className="section-pad mx-auto flex max-w-7xl items-center justify-between py-4 md:py-5">
+      <div className="section-pad mx-auto flex max-w-[96rem] items-center justify-between py-4 md:py-5">
         <a href="#top" className="inline-flex items-center gap-3" aria-label="MadeByCrew.pl">
           <Image
             src="/brand/mark.png"
@@ -53,15 +78,30 @@ export function Header() {
           className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex"
           aria-label="Główne"
         >
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="rounded-full px-3.5 py-2 text-[13px] font-medium text-white/70 transition hover:bg-white/5 hover:text-lime"
-            >
-              {link.label}
-            </a>
-          ))}
+          {links.map((link) => {
+            const isActive = active === link.href;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                aria-current={isActive ? "true" : undefined}
+                className={cn(
+                  "relative rounded-full px-3.5 py-2 text-[13px] font-medium transition",
+                  isActive
+                    ? "text-lime"
+                    : "text-white/70 hover:bg-white/5 hover:text-lime",
+                )}
+              >
+                {link.label}
+                {isActive && (
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-3.5 -bottom-0.5 mx-auto h-px bg-lime/80"
+                  />
+                )}
+              </a>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -102,20 +142,29 @@ export function Header() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="section-pad mx-auto max-w-7xl pb-4 lg:hidden"
+            className="section-pad mx-auto max-w-[96rem] pb-4 lg:hidden"
           >
             <ul className="glass-card flex flex-col gap-1 p-3">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="block rounded-xl px-4 py-3 text-base font-medium text-white/85"
-                    onClick={() => setOpen(false)}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
+              {links.map((link) => {
+                const isActive = active === link.href;
+                return (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      aria-current={isActive ? "true" : undefined}
+                      className={cn(
+                        "block rounded-xl px-4 py-3 text-base font-medium transition",
+                        isActive
+                          ? "text-lime underline decoration-lime/80 underline-offset-4"
+                          : "text-white/85 hover:bg-white/5",
+                      )}
+                      onClick={() => setOpen(false)}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                );
+              })}
               <li>
                 <a
                   href="#kontakt"

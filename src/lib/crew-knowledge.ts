@@ -240,7 +240,7 @@ export const FAQ: FaqEntry[] = [
       "referenc",
     ],
     answer:
-      "Na stronie masz sekcję **#realizacje** — aktualnie zbieramy pełne case’y ze screenami.\n\nNie doklejamy fake klientów. Jak chcesz zobaczyć direction / podobne stylówki, napisz na **kontakt@madebycrew.pl** — pokażemy, co pasuje do Twojego briefu.",
+      "Na stronie masz sekcję **#projekty** — aktualnie direction frames ze standardem MadeByCrew.\n\nNie doklejamy fake klientów. Jak chcesz zobaczyć direction / podobne stylówki, napisz na **kontakt@madebycrew.pl** — pokażemy, co pasuje do Twojego briefu.",
     followUps: ["Co oferujecie?", "Jak wygląda współpraca?", "Jak się skontaktować?"],
     weight: 1.2,
   },
