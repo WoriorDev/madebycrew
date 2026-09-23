@@ -460,6 +460,20 @@ export function Services() {
         <p className="section-pad mx-auto mt-10 max-w-lg text-center text-sm leading-relaxed text-white/45 md:mt-12 md:text-base">
           Każdy projekt wyceniamy indywidualnie, po poznaniu Twoich potrzeb.
         </p>
+
+        <div
+          aria-hidden
+          className="section-pad relative z-20 mx-auto mt-14 flex max-w-7xl items-center justify-center md:mt-20"
+        >
+          <div className="flex w-full max-w-xl items-center gap-4 md:max-w-2xl md:gap-5">
+            <span className="h-px flex-1 bg-gradient-to-r from-transparent via-white/25 to-lime/40" />
+            <span className="relative flex size-3 items-center justify-center">
+              <span className="absolute size-3 rotate-45 border border-lime/50 bg-lime/15 shadow-[0_0_18px_rgba(215,255,50,0.45)]" />
+              <span className="relative size-1.5 rotate-45 bg-lime" />
+            </span>
+            <span className="h-px flex-1 bg-gradient-to-l from-transparent via-white/25 to-lime/40" />
+          </div>
+        </div>
       </div>
     </section>
   );
