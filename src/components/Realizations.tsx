@@ -201,11 +201,11 @@ export function Realizations() {
           <p data-proj-eyebrow className="eyebrow mb-4">
             Projekty
           </p>
-          <h2 className="display text-[clamp(2.2rem,5.5vw,4.5rem)] text-off-white">
+          <h2 className="display text-[clamp(2rem,5vw,4.5rem)] text-off-white">
             {headLines.map((line) => (
               <span
                 key={line.text}
-                className={`mt-1 block first:mt-0 ${line.lime ? "text-lime" : ""}`}
+                className={`mt-1 block whitespace-nowrap first:mt-0 ${line.lime ? "text-lime" : ""}`}
               >
                 {splitWords(line.text).map((word, i) => (
                   <span key={`${line.text}-${i}`}>
