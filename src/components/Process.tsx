@@ -249,10 +249,6 @@ export function Process() {
             ))}
           </ol>
         </div>
-
-        <p className="pointer-events-none absolute right-6 bottom-6 hidden text-[10px] tracking-[0.2em] text-white/25 uppercase md:right-10 md:bottom-8 md:block">
-          Scroll · proces
-        </p>
       </div>
     </section>
   );
