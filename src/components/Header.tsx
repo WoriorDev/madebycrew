@@ -7,9 +7,9 @@ import { BrandBanner } from "./Brand";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "#uslugi", label: "Usługi" },
-  { href: "#realizacje", label: "Realizacje" },
-  { href: "#proces", label: "Proces" },
+  { href: "#uslugi", label: "Oferta" },
+  { href: "#proces", label: "Jak działamy" },
+  { href: "#realizacje", label: "Prace" },
   { href: "#crew", label: "Crew" },
   { href: "#kontakt", label: "Kontakt" },
 ];

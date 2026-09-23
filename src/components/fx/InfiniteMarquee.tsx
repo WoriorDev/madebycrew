@@ -17,7 +17,7 @@ export function InfiniteMarquee({
   return (
     <div
       className={cn(
-        "relative z-10 overflow-hidden border-y border-white/10 bg-black/40 py-4 backdrop-blur-md md:py-5",
+        "relative z-10 overflow-hidden border-y border-white/10 bg-black/25 py-4 backdrop-blur-md md:py-5",
         className,
       )}
     >

@@ -15,88 +15,67 @@ const steps = [
 ];
 
 export function Process() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
+  const stackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    const track = trackRef.current;
-    const progress = progressRef.current;
-    if (!section || !track) return;
+    const stack = stackRef.current;
+    if (!stack) return;
+    const cards = stack.querySelectorAll<HTMLElement>("[data-step]");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
 
-    const mm = gsap.matchMedia();
-    mm.add("(min-width: 1024px)", () => {
-      const distance = () => Math.max(track.scrollWidth - window.innerWidth, 0);
-      const tween = gsap.to(track, {
-        x: () => -distance(),
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: () => `+=${distance() + window.innerHeight * 0.35}`,
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            if (progress) gsap.set(progress, { scaleX: self.progress });
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        cards,
+        { y: 80, opacity: 0.3, scale: 0.96 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          stagger: 0.12,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: stack,
+            start: "top 75%",
+            end: "bottom 60%",
+            scrub: 0.8,
           },
         },
-      });
-      return () => {
-        tween.scrollTrigger?.kill();
-        tween.kill();
-      };
-    });
+      );
+    }, stack);
 
-    return () => mm.revert();
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} id="proces" className="relative z-10 overflow-hidden">
-      <div className="section-pad mx-auto max-w-7xl py-16 md:py-24">
-        <Reveal className="max-w-3xl">
-          <p className="eyebrow mb-5">Proces</p>
-          <h2 className="display text-[clamp(2.8rem,9vw,6.5rem)] text-off-white">
+    <section id="proces" className="relative z-10 py-20 md:py-28">
+      <div className="section-pad mx-auto max-w-7xl">
+        <Reveal className="mb-12 max-w-3xl md:mb-16">
+          <p className="eyebrow mb-4">Proces</p>
+          <h2 className="display text-[clamp(2.4rem,7vw,4.8rem)] text-off-white">
             Od briefu
             <span className="block text-lime">do live.</span>
           </h2>
         </Reveal>
-        <div className="mt-8 hidden h-1 overflow-hidden rounded-full bg-white/10 lg:block">
-          <div
-            ref={progressRef}
-            className="h-full origin-left scale-x-0 rounded-full bg-lime"
-          />
-        </div>
-      </div>
 
-      <div className="lg:h-screen lg:overflow-hidden">
-        <div
-          ref={trackRef}
-          className="flex w-full flex-col gap-4 px-[clamp(1.25rem,5vw,4rem)] pb-20 lg:w-max lg:flex-row lg:items-center lg:gap-6 lg:px-[10vw] lg:pb-0"
-        >
-          {steps.map((step, i) => (
+        <div ref={stackRef} className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {steps.map((step) => (
             <article
               key={step.n}
-              className="panel relative min-h-[16rem] w-full shrink-0 overflow-hidden rounded-[2rem] p-8 lg:h-[26rem] lg:w-[32rem]"
+              data-step
+              className="glass-card relative min-h-[15rem] overflow-hidden p-6 md:min-h-[18rem] md:p-7"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_10%,rgba(215,255,50,0.12),transparent_45%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(215,255,50,0.12),transparent_50%)]" />
               <div className="relative flex h-full flex-col">
-                <p className="display text-lime">{step.n}</p>
-                <h3 className="display mt-10 text-4xl text-off-white md:text-6xl">
+                <p className="display text-sm text-lime">{step.n}</p>
+                <h3 className="display mt-8 text-3xl text-off-white md:text-4xl">
                   {step.title}
                 </h3>
-                <p className="mt-5 max-w-sm text-base leading-relaxed text-white/55">
+                <p className="mt-4 text-sm leading-relaxed text-white/55">
                   {step.text}
                 </p>
-                <div className="mt-auto pt-10">
-                  <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
-                    <div
-                      className="h-full rounded-full bg-lime"
-                      style={{ width: `${((i + 1) / steps.length) * 100}%` }}
-                    />
-                  </div>
+                <div className="mt-auto pt-8">
+                  <div className="h-1 w-14 rounded-full bg-lime" />
                 </div>
               </div>
             </article>

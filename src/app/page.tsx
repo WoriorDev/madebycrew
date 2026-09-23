@@ -7,14 +7,14 @@ import { Hero } from "@/components/Hero";
 import { Process } from "@/components/Process";
 import { Realizations } from "@/components/Realizations";
 import { Services } from "@/components/Services";
+import { Atmosphere } from "@/components/fx/Atmosphere";
 import { InfiniteMarquee } from "@/components/fx/InfiniteMarquee";
-import { ScrollFilm } from "@/components/fx/ScrollFilm";
 import { ScrollProgress } from "@/components/fx/ScrollProgress";
 
 export default function Home() {
   return (
     <>
-      <ScrollFilm />
+      <Atmosphere />
       <ScrollProgress />
       <Header />
       <main className="relative z-10">

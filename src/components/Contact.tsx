@@ -24,35 +24,36 @@ export function Contact() {
   }
 
   return (
-    <section id="kontakt" className="relative z-10 py-24 md:py-40">
-      <div className="section-pad mx-auto max-w-7xl">
-        <Reveal className="mb-14 max-w-4xl md:mb-20">
-          <p className="eyebrow mb-5">Kontakt</p>
-          <h2 className="display text-[clamp(2.8rem,9vw,7rem)] text-off-white">
+    <section id="kontakt" className="relative z-10 px-3 pb-16 md:px-6 md:pb-24">
+      <div className="glass-stage relative mx-auto max-w-7xl overflow-hidden rounded-[2rem] p-6 md:rounded-[2.5rem] md:p-12">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,rgba(215,255,50,0.12),transparent_50%)]" />
+        <Reveal className="relative mb-10 max-w-3xl md:mb-14">
+          <p className="eyebrow mb-4">Kontakt</p>
+          <h2 className="display text-[clamp(2.5rem,8vw,5rem)] text-off-white">
             Masz pomysł?
             <span className="block text-lime">Rzuć go.</span>
           </h2>
         </Reveal>
 
-        <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="relative grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
           <Reveal>
-            <div className="panel h-full rounded-[2rem] p-8 md:p-10">
-              <p className="text-base leading-relaxed text-white/60 md:text-lg">
+            <div className="glass-card h-full p-7 md:p-8">
+              <p className="text-base leading-relaxed text-white/55 md:text-lg">
                 Cel, deadline, budżet orientacyjny. Odpisujemy zwykle tego samego
                 dnia roboczego.
               </p>
               <MagneticButton
                 href="mailto:kontakt@madebycrew.pl"
-                className="display mt-10 inline-block text-2xl text-lime md:text-3xl"
+                className="display mt-8 inline-block text-xl text-lime md:text-2xl"
               >
                 kontakt@madebycrew.pl
               </MagneticButton>
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
-            <form onSubmit={onSubmit} className="panel rounded-[2rem] p-6 md:p-10">
-              <div className="flex flex-col gap-5">
+          <Reveal delay={0.08}>
+            <form onSubmit={onSubmit} className="glass-card p-5 md:p-8">
+              <div className="flex flex-col gap-4">
                 {(
                   [
                     ["name", "Imię", "text", "Jak się do Ciebie zwracać?"],
@@ -84,7 +85,7 @@ export function Contact() {
                     className="w-full resize-y rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-off-white outline-none transition placeholder:text-white/25 focus:border-lime"
                   />
                 </label>
-                <div className="flex flex-wrap items-center gap-4 pt-2">
+                <div className="flex flex-wrap items-center gap-4 pt-1">
                   <Button
                     type="submit"
                     className="h-12 rounded-full bg-lime px-7 text-sm font-bold text-graphite hover:bg-lime/90"

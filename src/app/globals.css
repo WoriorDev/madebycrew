@@ -7,41 +7,41 @@
 :root {
   --lime: #d7ff32;
   --off-white: #f7f8fa;
-  --graphite: #0a0b0d;
-  --graphite-light: #14181e;
-  --graphite-mid: #10141a;
-  --background: #0a0b0d;
+  --graphite: #050607;
+  --graphite-light: #12151a;
+  --graphite-mid: #0c0f14;
+  --background: #050607;
   --foreground: #f7f8fa;
-  --card: #14181e;
+  --card: #12151a;
   --card-foreground: #f7f8fa;
-  --popover: #14181e;
+  --popover: #12151a;
   --popover-foreground: #f7f8fa;
   --primary: #d7ff32;
-  --primary-foreground: #0a0b0d;
-  --secondary: #14181e;
+  --primary-foreground: #050607;
+  --secondary: #12151a;
   --secondary-foreground: #f7f8fa;
-  --muted: #14181e;
+  --muted: #12151a;
   --muted-foreground: rgba(247, 248, 250, 0.58);
-  --accent: #14181e;
+  --accent: #12151a;
   --accent-foreground: #d7ff32;
   --destructive: oklch(0.65 0.2 25);
-  --border: rgba(247, 248, 250, 0.1);
+  --border: rgba(247, 248, 250, 0.12);
   --input: rgba(247, 248, 250, 0.14);
   --ring: #d7ff32;
-  --radius: 1rem;
-  --sidebar: #10141a;
+  --radius: 1.25rem;
+  --sidebar: #0c0f14;
   --sidebar-foreground: #f7f8fa;
   --sidebar-primary: #d7ff32;
-  --sidebar-primary-foreground: #0a0b0d;
-  --sidebar-accent: #14181e;
+  --sidebar-primary-foreground: #050607;
+  --sidebar-accent: #12151a;
   --sidebar-accent-foreground: #f7f8fa;
   --sidebar-border: rgba(247, 248, 250, 0.1);
   --sidebar-ring: #d7ff32;
   --chart-1: #d7ff32;
   --chart-2: #f7f8fa;
-  --chart-3: #14181e;
-  --chart-4: #10141a;
-  --chart-5: #0a0b0d;
+  --chart-3: #12151a;
+  --chart-4: #0c0f14;
+  --chart-5: #050607;
 }
 
 @theme inline {
@@ -104,20 +104,40 @@ body {
 
 .panel {
   border: 1px solid rgba(247, 248, 250, 0.12);
-  background: rgba(8, 10, 12, 0.58);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+  background: rgba(12, 14, 18, 0.55);
+  backdrop-filter: blur(22px);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.glass-card {
+  border: 1px solid rgba(247, 248, 250, 0.14);
+  background: rgba(10, 12, 16, 0.55);
+  backdrop-filter: blur(24px);
+  border-radius: 1.25rem;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glass-stage {
+  background: rgba(8, 10, 14, 0.45);
+  backdrop-filter: blur(28px);
+  box-shadow:
+    0 50px 120px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .display {
   font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
+  letter-spacing: -0.045em;
+  line-height: 0.94;
 }
 
 .eyebrow {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
