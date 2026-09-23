@@ -3,8 +3,12 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { BrandBanner } from "./Brand";
 import { cn } from "@/lib/utils";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const links = [
   { href: "#crew", label: "O nas" },
@@ -14,39 +18,66 @@ const links = [
   { href: "#kontakt", label: "Kontakt" },
 ];
 
+function getActiveHref() {
+  if (window.scrollY < 80) return "";
+
+  let bestHref = "";
+  let bestVisible = 0;
+
+  for (const link of links) {
+    const el = document.getElementById(link.href.slice(1));
+    if (!el) continue;
+
+    const rect = el.getBoundingClientRect();
+    const visibleTop = Math.max(rect.top, 0);
+    const visibleBottom = Math.min(rect.bottom, window.innerHeight);
+    const visible = Math.max(0, visibleBottom - visibleTop);
+
+    // Która sekcja realnie zajmuje najwięcej viewportu
+    // (długi pin O nas nie blokuje wtedy Projektów)
+    if (visible > bestVisible) {
+      bestVisible = visible;
+      bestHref = link.href;
+    }
+  }
+
+  if (bestVisible < window.innerHeight * 0.18) return "";
+  return bestHref;
+}
+
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
 
   useEffect(() => {
-    const onScroll = () => {
+    const sync = () => {
       setScrolled(window.scrollY > 16);
-
-      const marker = window.innerHeight * 0.32;
-      let current = "";
-
-      for (const link of links) {
-        const id = link.href.slice(1);
-        const el = document.getElementById(id);
-        if (!el) continue;
-        if (el.getBoundingClientRect().top <= marker) {
-          current = link.href;
-        }
-      }
-
-      // hero / sam top — nic nie podświetlamy
-      if (window.scrollY < 80) current = "";
-
-      setActive(current);
+      setActive(getActiveHref());
     };
 
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    sync();
+
+    const st = ScrollTrigger.create({
+      start: 0,
+      end: "max",
+      onUpdate: sync,
+      onRefresh: sync,
+    });
+
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+
+    const refreshTimer = window.setTimeout(() => {
+      ScrollTrigger.refresh();
+      sync();
+    }, 400);
+
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.clearTimeout(refreshTimer);
+      window.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
+      st.kill();
     };
   }, []);
 
