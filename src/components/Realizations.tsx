@@ -56,9 +56,9 @@ export function Realizations() {
       const headTl = gsap.timeline({
         scrollTrigger: {
           trigger: section.querySelector("[data-proj-header]"),
-          start: "top 78%",
-          end: "top 28%",
-          scrub: 0.7,
+          start: "top 72%",
+          end: "top 32%",
+          scrub: 1,
         },
       });
 
@@ -103,12 +103,14 @@ export function Realizations() {
         gsap.set(stack, { opacity: 0, y: 10 });
         gsap.set(blurbWords, { opacity: 0, y: 12 });
 
+        // Animacja startuje dopiero gdy media jest dobrze w kadrze,
+        // a tekst dopina się po otwarciu zdjęcia (dłuższy scrub = spokojniej).
         const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: item,
-            start: "top 82%",
-            end: "top 18%",
-            scrub: 0.85,
+            trigger: media ?? item,
+            start: "top 62%",
+            end: "top 8%",
+            scrub: 1.25,
           },
         });
 
@@ -117,17 +119,17 @@ export function Realizations() {
           {
             clipPath: "inset(0% 0% 0% 0% round 1rem)",
             opacity: 1,
-            duration: 0.7,
+            duration: 1,
             ease: "none",
           },
           0,
         );
-        tl.to(img, { scale: 1, duration: 0.85, ease: "none" }, 0);
-        tl.to(num, { opacity: 1, y: 0, duration: 0.4, ease: "none" }, 0.15);
+        tl.to(img, { scale: 1, duration: 1.15, ease: "none" }, 0);
+        tl.to(num, { opacity: 1, y: 0, duration: 0.45, ease: "none" }, 0.35);
         tl.to(
           meta,
-          { opacity: 1, y: 0, stagger: 0.06, duration: 0.35, ease: "none" },
-          0.25,
+          { opacity: 1, y: 0, stagger: 0.06, duration: 0.4, ease: "none" },
+          0.48,
         );
         tl.to(
           titleWords,
@@ -135,15 +137,15 @@ export function Realizations() {
             opacity: 1,
             y: 0,
             stagger: 0.07,
-            duration: 0.45,
+            duration: 0.5,
             ease: "none",
           },
-          0.3,
+          0.55,
         );
         tl.to(
           stack,
-          { opacity: 1, y: 0, stagger: 0.05, duration: 0.35, ease: "none" },
-          0.4,
+          { opacity: 1, y: 0, stagger: 0.05, duration: 0.4, ease: "none" },
+          0.68,
         );
         tl.to(
           blurbWords,
@@ -151,10 +153,10 @@ export function Realizations() {
             opacity: 1,
             y: 0,
             stagger: 0.035,
-            duration: 0.55,
+            duration: 0.6,
             ease: "none",
           },
-          0.45,
+          0.78,
         );
       });
 
