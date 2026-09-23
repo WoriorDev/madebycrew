@@ -18,14 +18,6 @@ export function Hero() {
       className="relative z-10 flex min-h-[100svh] flex-col justify-center overflow-hidden"
     >
       <div className="section-pad relative mx-auto flex w-full max-w-5xl flex-col items-center px-4 pt-28 pb-16 text-center md:pt-32 md:pb-20">
-        <motion.p
-          initial={reduce ? false : { opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="eyebrow mb-6"
-        >
-          Creative web studio · PL
-        </motion.p>
-
         <h1 className="display max-w-4xl text-[clamp(3rem,10vw,6.5rem)] text-off-white">
           <motion.span
             className="block"
