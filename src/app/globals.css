@@ -71,6 +71,7 @@
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
   --font-heading: var(--font-display);
+  --font-contact: var(--font-contact);
   --radius-sm: calc(var(--radius) * 0.5);
   --radius-md: calc(var(--radius) * 0.75);
   --radius-lg: var(--radius);
@@ -153,6 +154,13 @@ body {
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 0.94;
+}
+
+.contact-display {
+  font-family: var(--font-contact), var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
 }
 
 .eyebrow {

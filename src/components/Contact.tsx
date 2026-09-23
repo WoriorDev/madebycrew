@@ -110,7 +110,7 @@ export function Contact() {
             <p data-contact-head className="eyebrow mb-4">
               Kontakt
             </p>
-            <h2 className="display text-[clamp(2.8rem,9vw,6rem)] text-off-white">
+            <h2 className="contact-display text-[clamp(2.8rem,9vw,6rem)] text-off-white">
               <span data-contact-head className="block">
                 Masz pomysł?
               </span>

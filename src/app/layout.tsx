@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope, Syne } from "next/font/google";
+import { Manrope, Syne, Unbounded } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SmoothScroll } from "@/components/fx/SmoothScroll";
@@ -14,6 +14,12 @@ const body = Manrope({
   variable: "--font-body",
   subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700", "800"],
+});
+
+const contactDisplay = Unbounded({
+  variable: "--font-contact",
+  subsets: ["latin", "latin-ext"],
+  weight: ["600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -56,7 +62,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pl"
-      className={cn("dark h-full antialiased", display.variable, body.variable)}
+      className={cn(
+        "dark h-full antialiased",
+        display.variable,
+        body.variable,
+        contactDisplay.variable,
+      )}
     >
       <body className="flex min-h-full flex-col bg-graphite text-off-white">
         <SmoothScroll>{children}</SmoothScroll>
