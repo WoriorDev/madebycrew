@@ -299,8 +299,8 @@ export function Services() {
 
   return (
     <section id="uslugi" ref={sectionRef} className="relative z-10">
-      <div className="flex min-h-[100svh] flex-col justify-center py-20 md:py-24">
-        <div className="section-pad mx-auto mb-10 w-full max-w-7xl text-center md:mb-14">
+      <div className="flex h-[100svh] flex-col justify-center overflow-hidden py-16 md:py-20">
+        <div className="section-pad mx-auto mb-8 w-full max-w-7xl text-center md:mb-12">
           <p className="eyebrow mb-4">Oferty</p>
           <h2 className="display flex flex-col items-center text-[clamp(2rem,5.5vw,4.5rem)] leading-[0.95]">
             <span className="text-off-white">Twój biznes.</span>
@@ -457,13 +457,13 @@ export function Services() {
           </div>
         </div>
 
-        <p className="section-pad mx-auto mt-10 max-w-lg text-center text-sm leading-relaxed text-white/45 md:mt-12 md:text-base">
+        <p className="section-pad mx-auto mt-6 max-w-lg text-center text-sm leading-relaxed text-white/45 md:mt-8 md:text-base">
           Każdy projekt wyceniamy indywidualnie, po poznaniu Twoich potrzeb.
         </p>
 
         <div
           aria-hidden
-          className="section-pad relative z-20 mx-auto mt-14 flex max-w-7xl items-center justify-center md:mt-20"
+          className="section-pad relative z-20 mx-auto mt-8 flex max-w-7xl items-center justify-center md:mt-10"
         >
           <div className="flex w-full max-w-xl items-center gap-4 md:max-w-2xl md:gap-5">
             <span className="h-px flex-1 bg-gradient-to-r from-transparent via-white/25 to-lime/40" />
