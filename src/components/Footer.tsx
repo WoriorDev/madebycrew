@@ -145,7 +145,7 @@ export function Footer() {
         <div className="mt-10 flex flex-col gap-2 border-t border-white/8 pt-6 text-xs text-white/35 md:flex-row md:items-center md:justify-between">
           <p>© {year} MadeByCrew.pl. All rights reserved.</p>
           <a
-            href="/panel/login"
+            href="/login"
             className="tracking-[0.14em] text-white/40 uppercase transition hover:text-lime"
           >
             Restricted area
