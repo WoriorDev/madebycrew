@@ -3,11 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { MagneticButton } from "./fx/MagneticButton";
 
-const chips = [
-  { t: "Design", d: "Kierunek i UX" },
-  { t: "Build", d: "Kod + motion" },
-  { t: "Launch", d: "Live i opieka" },
-];
+const steps = ["Pomysł", "Projekt", "Gotowa strona"];
 
 export function Hero() {
   const reduce = useReducedMotion();
@@ -18,22 +14,22 @@ export function Hero() {
       className="relative z-10 flex min-h-[100svh] flex-col justify-center overflow-hidden"
     >
       <div className="section-pad relative mx-auto flex w-full max-w-5xl flex-col items-center px-4 pt-28 pb-16 text-center md:pt-32 md:pb-20">
-        <h1 className="display max-w-4xl text-[clamp(3rem,10vw,6.5rem)] text-off-white">
+        <h1 className="display max-w-4xl text-[clamp(2.4rem,8.5vw,5.75rem)] text-off-white">
           <motion.span
             className="block"
             initial={reduce ? false : { opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           >
-            Strony,
+            Nie znikaj
           </motion.span>
           <motion.span
-            className="block text-lime"
+            className="block whitespace-nowrap text-lime"
             initial={reduce ? false : { opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           >
-            które czuć.
+            wśród innych.
           </motion.span>
         </h1>
 
@@ -41,10 +37,10 @@ export function Hero() {
           initial={reduce ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.22 }}
-          className="mt-7 max-w-lg text-base leading-relaxed text-white/55 md:text-lg"
+          className="mt-7 max-w-xl text-base leading-relaxed text-white/55 md:text-lg"
         >
-          Landingi, sklepy i aplikacje z mocnym first viewportem i ruchem —
-          budowane przez dwuosobowy crew.
+          Tworzymy strony i sklepy internetowe dla firm, które mają coś do
+          pokazania. Od pierwszego pomysłu po ostatni detal.
         </motion.p>
 
         <motion.div
@@ -55,34 +51,36 @@ export function Hero() {
         >
           <MagneticButton
             href="#kontakt"
-            className="rounded-full bg-lime px-7 py-3.5 text-sm font-bold text-graphite shadow-[0_0_40px_rgba(215,255,50,0.3)]"
+            className="rounded-full bg-lime px-7 py-3.5 text-sm font-bold text-graphite shadow-[0_0_28px_rgba(215,255,50,0.2)]"
           >
-            Start projektu
+            Zróbmy Twoją stronę
           </MagneticButton>
           <MagneticButton
-            href="#uslugi"
+            href="#realizacje"
             strength={14}
             className="rounded-full border border-white/15 bg-white/[0.03] px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md hover:border-lime/50 hover:text-lime"
           >
-            Zobacz ofertę
+            Zobacz nasze projekty
           </MagneticButton>
         </motion.div>
 
-        {/* wireframe chips — bottom of hero like TDA cards */}
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45 }}
-          className="mt-16 grid w-full max-w-3xl gap-3 sm:grid-cols-3"
+          className="mt-16 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm tracking-[0.04em] text-white/45"
         >
-          {chips.map((chip) => (
-            <div
-              key={chip.t}
-              className="wire-card px-4 py-4 text-left"
-            >
-              <p className="display text-lg text-off-white">{chip.t}</p>
-              <p className="mt-1 text-xs text-white/45">{chip.d}</p>
-            </div>
+          {steps.map((step, i) => (
+            <span key={step} className="inline-flex items-center gap-3">
+              {i > 0 && (
+                <span className="text-lime/50" aria-hidden>
+                  →
+                </span>
+              )}
+              <span className={i === steps.length - 1 ? "text-off-white" : ""}>
+                {step}
+              </span>
+            </span>
           ))}
         </motion.div>
 

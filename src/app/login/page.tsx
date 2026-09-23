@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { BrandBanner } from "@/components/Brand";
+import { Atmosphere } from "@/components/fx/Atmosphere";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
@@ -21,28 +22,28 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#050607] px-6">
-      {/* soft planet / void glow — Spacefox style */}
+    <div className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-6">
+      <Atmosphere />
+
+      {/* soft blurred square behind the form */}
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/2 left-1/2 size-[min(90vw,640px)] -translate-x-1/2 -translate-y-[48%] rounded-full bg-[radial-gradient(circle,rgba(80,90,70,0.35)_0%,rgba(215,255,50,0.06)_35%,transparent_68%)]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_120%,rgba(215,255,50,0.05),transparent_45%)]"
+        className="pointer-events-none absolute top-1/2 left-1/2 z-[1] h-[min(80svh,36rem)] w-[min(88vw,26rem)] -translate-x-1/2 -translate-y-1/2 rounded-[1.75rem] border border-white/[0.06] bg-white/[0.04] shadow-[0_0_60px_rgba(0,0,0,0.3)] backdrop-blur-[3px]"
       />
 
-      <div className="relative z-10 w-full max-w-[22rem]">
+      <div className="relative z-10 w-full max-w-[22rem] px-2 py-10">
         <div className="mb-14 flex flex-col items-center text-center">
-          <Image
-            src="/brand/mark.png"
-            alt=""
-            width={40}
-            height={40}
-            className="mb-5 size-10 object-contain mix-blend-screen"
-            priority
-          />
-          <BrandBanner className="h-7" priority />
+          <div className="flex items-center gap-3">
+            <Image
+              src="/brand/mark.png"
+              alt=""
+              width={36}
+              height={36}
+              className="size-9 shrink-0 object-contain mix-blend-screen"
+              priority
+            />
+            <BrandBanner className="h-6 w-auto" priority />
+          </div>
           <p className="mt-4 text-[10px] font-semibold tracking-[0.28em] text-white/35 uppercase">
             Restricted area
           </p>
@@ -63,27 +64,63 @@ export default function LoginPage() {
             />
           </label>
 
-          <label className="block">
-            <div className="mb-3 flex items-center justify-between">
-              <span className="text-[11px] tracking-[0.08em] text-white/45">
-                Password
-              </span>
+          <label className="relative block">
+            <span className="mb-3 block text-[11px] tracking-[0.08em] text-white/45">
+              Password
+            </span>
+            <div className="relative">
+              <input
+                name="password"
+                type={showPass ? "text" : "password"}
+                required
+                autoComplete="current-password"
+                placeholder="••••••••••••"
+                className="w-full border-0 border-b border-white/20 bg-transparent pb-3 pr-9 text-[15px] text-off-white outline-none transition placeholder:text-white/25 focus:border-lime"
+              />
               <button
                 type="button"
                 onClick={() => setShowPass((v) => !v)}
-                className="text-[10px] tracking-[0.12em] text-white/30 uppercase transition hover:text-lime"
+                className="absolute right-0 bottom-3 size-[18px] text-white/35 transition hover:text-lime"
+                aria-label={showPass ? "Ukryj hasło" : "Pokaż hasło"}
               >
-                {showPass ? "Hide" : "Show"}
+                <svg
+                  viewBox="0 0 24 24"
+                  className={`absolute inset-0 size-[18px] transition-all duration-300 ease-out ${
+                    showPass
+                      ? "scale-90 opacity-0"
+                      : "scale-100 opacity-100"
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="M1 12.5C2.7 8.1 7 5 12 5s9.3 3.1 11 7.5c-1.7 4.4-6 7.5-11 7.5S2.7 16.9 1 12.5z" />
+                  <circle cx="12" cy="12.5" r="3" />
+                </svg>
+                <svg
+                  viewBox="0 0 24 24"
+                  className={`absolute inset-0 size-[18px] transition-all duration-300 ease-out ${
+                    showPass
+                      ? "scale-100 opacity-100"
+                      : "scale-90 opacity-0"
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="M3 3l18 18" />
+                  <path d="M10.6 10.6a2 2 0 002.8 2.8" />
+                  <path d="M9.9 5.1A10.5 10.5 0 0112 5c5 0 9.3 3.1 11 7.5a11.8 11.8 0 01-4.2 5.1" />
+                  <path d="M6.7 6.7A11.8 11.8 0 001 12.5C2.7 16.9 7 20 12 20a10.5 10.5 0 005.1-1.3" />
+                </svg>
               </button>
             </div>
-            <input
-              name="password"
-              type={showPass ? "text" : "password"}
-              required
-              autoComplete="current-password"
-              placeholder="••••••••••••"
-              className="w-full border-0 border-b border-white/20 bg-transparent pb-3 text-[15px] text-off-white outline-none transition placeholder:text-white/25 focus:border-lime"
-            />
           </label>
 
           {error && (
@@ -93,38 +130,20 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={busy}
-            className="mt-2 h-12 w-full rounded-lg bg-[#1a1c18] text-[11px] font-semibold tracking-[0.22em] text-off-white uppercase transition hover:bg-[#22251f] disabled:opacity-50"
+            className="mt-2 h-12 w-full rounded-full border border-white/12 bg-white/[0.06] text-[11px] font-semibold tracking-[0.2em] text-off-white uppercase transition hover:border-white/20 hover:bg-white/[0.1] disabled:opacity-50"
           >
             {busy ? "…" : "Sign in"}
           </button>
         </form>
 
-        <p className="mt-8 text-center text-xs text-white/35">
-          Powrót na stronę?{" "}
-          <Link href="/" className="text-white/80 transition hover:text-lime">
-            MadeByCrew.pl
+        <p className="mt-8 text-center">
+          <Link
+            href="/"
+            className="text-xs text-white/35 transition hover:text-lime"
+          >
+            Powrót na stronę?
           </Link>
         </p>
-
-        <div className="mt-16 flex justify-center">
-          <div
-            className="flex size-9 items-center justify-center rounded-md border border-white/10 bg-white/[0.03]"
-            style={{
-              boxShadow: "0 0 20px rgba(215,255,50,0.15)",
-            }}
-            aria-hidden
-          >
-            <svg viewBox="0 0 16 16" className="size-3.5 text-lime" fill="none">
-              <path
-                d="M3.5 8.2l3 3 6-6.5"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-        </div>
       </div>
     </div>
   );
