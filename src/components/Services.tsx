@@ -92,13 +92,13 @@ export function Services() {
                   </span>
                 )}
 
-                <div className="relative mb-5 size-16 overflow-hidden rounded-2xl border border-white/10 bg-black/50">
+                <div className="relative mb-5 h-16 w-16">
                   <Image
                     src={pkg.icon}
                     alt=""
                     fill
                     sizes="64px"
-                    className="object-cover object-center"
+                    className="object-contain object-left"
                   />
                 </div>
 
