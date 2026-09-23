@@ -14,7 +14,7 @@ const columns = [
   {
     title: "Oferty",
     links: [
-      { label: "Landing page", href: "#uslugi" },
+      { label: "Wizytówka", href: "#uslugi" },
       { label: "Strona firmowa", href: "#uslugi" },
       { label: "Sklep internetowy", href: "#uslugi" },
       { label: "Custom", href: "#uslugi" },

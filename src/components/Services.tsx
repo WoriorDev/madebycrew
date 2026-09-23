@@ -16,10 +16,10 @@ const MQ = "(min-width: 768px)";
 const packages = [
   {
     id: "landing",
-    name: "Landing page",
+    name: "Wizytówka",
     blurb:
       "Jedna strona, która skupia uwagę na Twojej ofercie i zachęca do kontaktu.",
-    cta: "Zapytaj o landing page",
+    cta: "Zapytaj o wizytówkę",
     popular: false,
     icon: "/brand/icon-launch.png",
     features: [

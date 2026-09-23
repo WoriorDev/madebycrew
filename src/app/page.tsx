@@ -21,7 +21,6 @@ export default function Home() {
         <Hero />
         <InfiniteMarquee
           items={[
-            "Landing page",
             "Wizytówki",
             "Strona firmowa",
             "Sklepy",
