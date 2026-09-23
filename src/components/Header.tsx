@@ -138,9 +138,27 @@ export function Header() {
         <div className="flex items-center gap-2">
           <a
             href="#kontakt"
-            className="hidden h-10 items-center rounded-full border border-white/15 bg-white/[0.06] px-5 text-[13px] font-semibold text-off-white backdrop-blur-md transition hover:border-lime/45 hover:text-lime sm:inline-flex"
+            className="group relative hidden h-10 items-center gap-2 overflow-hidden rounded-full bg-lime px-5 text-[13px] font-bold text-graphite shadow-[0_0_24px_rgba(215,255,50,0.22)] transition hover:brightness-110 sm:inline-flex"
           >
-            Start projektu
+            <span className="relative z-10">Porozmawiajmy</span>
+            <span
+              aria-hidden
+              className="relative z-10 inline-flex size-5 items-center justify-center rounded-full bg-graphite/15 transition group-hover:translate-x-0.5"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path
+                  d="M2.5 6h7M6.5 3l3 3-3 3"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,transparent_30%,rgba(255,255,255,0.35)_50%,transparent_70%)] opacity-0 transition duration-500 group-hover:translate-x-full group-hover:opacity-100"
+            />
           </a>
           <button
             type="button"
@@ -199,10 +217,19 @@ export function Header() {
               <li>
                 <a
                   href="#kontakt"
-                  className="mt-1 inline-flex rounded-full bg-lime px-5 py-3 text-sm font-bold text-graphite"
+                  className="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-full bg-lime px-5 py-3.5 text-sm font-bold text-graphite shadow-[0_0_24px_rgba(215,255,50,0.2)]"
                   onClick={() => setOpen(false)}
                 >
-                  Start projektu
+                  Porozmawiajmy
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                    <path
+                      d="M2.5 6h7M6.5 3l3 3-3 3"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </a>
               </li>
             </ul>
