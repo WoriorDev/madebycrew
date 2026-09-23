@@ -17,24 +17,27 @@ export function InfiniteMarquee({
   return (
     <div
       className={cn(
-        "relative overflow-hidden border-y border-white/8 bg-graphite-mid/80 py-5",
+        "relative z-10 overflow-hidden border-y border-white/10 bg-black/40 py-4 backdrop-blur-md md:py-5",
         className,
       )}
     >
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-graphite to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-graphite to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#070809] to-transparent md:w-28" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#070809] to-transparent md:w-28" />
       <motion.div
-        className="flex w-max gap-10 whitespace-nowrap"
+        className="flex w-max items-center gap-8 whitespace-nowrap md:gap-12"
         animate={{ x: reverse ? ["-33.333%", "0%"] : ["0%", "-33.333%"] }}
-        transition={{ duration: 28, ease: "linear", repeat: Infinity }}
+        transition={{ duration: 26, ease: "linear", repeat: Infinity }}
       >
         {row.map((item, index) => (
           <span
             key={`${item}-${index}`}
-            className="font-[family-name:var(--font-display)] text-2xl font-bold tracking-tight text-off-white/35 md:text-4xl"
+            className={cn(
+              "display text-2xl tracking-tight md:text-4xl",
+              index % 2 === 0 ? "text-off-white/55" : "text-lime",
+            )}
           >
             {item}
-            <span className="ml-10 text-lime">✦</span>
+            <span className="ml-8 text-lime/80 md:ml-12">◆</span>
           </span>
         ))}
       </motion.div>

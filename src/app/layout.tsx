@@ -3,7 +3,6 @@ import { Manrope, Syne } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SmoothScroll } from "@/components/fx/SmoothScroll";
-import { ScrollProgress } from "@/components/fx/ScrollProgress";
 
 const display = Syne({
   variable: "--font-display",
@@ -14,7 +13,7 @@ const display = Syne({
 const body = Manrope({
   variable: "--font-body",
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -44,10 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={cn("dark h-full antialiased", display.variable, body.variable)}
     >
       <body className="flex min-h-full flex-col bg-graphite text-off-white">
-        <SmoothScroll>
-          <ScrollProgress />
-          {children}
-        </SmoothScroll>
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );

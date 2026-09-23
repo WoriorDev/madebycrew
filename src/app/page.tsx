@@ -8,26 +8,34 @@ import { Process } from "@/components/Process";
 import { Realizations } from "@/components/Realizations";
 import { Services } from "@/components/Services";
 import { InfiniteMarquee } from "@/components/fx/InfiniteMarquee";
+import { ScrollFilm } from "@/components/fx/ScrollFilm";
+import { ScrollProgress } from "@/components/fx/ScrollProgress";
 
 export default function Home() {
   return (
     <>
+      <ScrollFilm />
+      <ScrollProgress />
       <Header />
-      <main className="flex-1">
+      <main className="relative z-10">
         <Hero />
         <InfiniteMarquee
           items={[
             "LANDINGI",
+            "SKLEPY",
             "APLIKACJE",
             "MOTION",
             "REDESIGN",
-            "SKLEPY",
             "LAUNCH",
           ]}
         />
         <Services />
         <Realizations />
         <Process />
+        <InfiniteMarquee
+          reverse
+          items={["DESIGN", "CODE", "SHIP", "REPEAT", "CREW", "PL"]}
+        />
         <Crew />
         <Contact />
       </main>

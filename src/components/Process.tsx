@@ -8,52 +8,42 @@ import { Reveal } from "./fx/Reveal";
 gsap.registerPlugin(ScrollTrigger);
 
 const steps = [
-  {
-    title: "Brief",
-    text: "Cel, odbiorca, deadline, budżet. Ustawiamy priorytety zanim ruszy design.",
-  },
-  {
-    title: "Kierunek",
-    text: "Mood, struktura, copy. Widzisz kierunek zanim zacznie się kod.",
-  },
-  {
-    title: "Build",
-    text: "Motion, Lenis, czysty front. Mobile-first i szybkie ładowanie.",
-  },
-  {
-    title: "Launch",
-    text: "Wdrożenie, poprawki, handover. Potem rozwój albo samodzielnie.",
-  },
+  { n: "01", title: "Brief", text: "Cel, odbiorca, deadline, budżet. Bez zgadywania." },
+  { n: "02", title: "Kierunek", text: "Mood, struktura, copy. Widzisz to przed kodem." },
+  { n: "03", title: "Build", text: "Motion, performance, mobile-first. Czysty front." },
+  { n: "04", title: "Launch", text: "Live, poprawki, handover. Potem rozwój razem." },
 ];
 
 export function Process() {
-  const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     const track = trackRef.current;
+    const progress = progressRef.current;
     if (!section || !track) return;
 
     const mm = gsap.matchMedia();
-
     mm.add("(min-width: 1024px)", () => {
-      const total = track.scrollWidth - window.innerWidth;
-
+      const distance = () => Math.max(track.scrollWidth - window.innerWidth, 0);
       const tween = gsap.to(track, {
-        x: () => -Math.max(total, 0),
+        x: () => -distance(),
         ease: "none",
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: () => `+=${Math.max(total, window.innerHeight)}`,
+          end: () => `+=${distance() + window.innerHeight * 0.35}`,
           pin: true,
           scrub: 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            if (progress) gsap.set(progress, { scaleX: self.progress });
+          },
         },
       });
-
       return () => {
         tween.scrollTrigger?.kill();
         tween.kill();
@@ -64,46 +54,51 @@ export function Process() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      id="proces"
-      className="relative overflow-hidden border-t border-white/6 bg-graphite-light"
-    >
-      <div className="noise opacity-[0.03]" />
-      <div className="section-pad relative mx-auto max-w-6xl py-16 md:py-20">
-        <Reveal className="mb-10 max-w-2xl lg:mb-0">
-          <p className="mb-3 text-sm font-semibold tracking-[0.18em] text-lime uppercase">
-            Proces
-          </p>
-          <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-off-white md:text-5xl">
-            Scroll story od briefu do live
+    <section ref={sectionRef} id="proces" className="relative z-10 overflow-hidden">
+      <div className="section-pad mx-auto max-w-7xl py-16 md:py-24">
+        <Reveal className="max-w-3xl">
+          <p className="eyebrow mb-5">Proces</p>
+          <h2 className="display text-[clamp(2.8rem,9vw,6.5rem)] text-off-white">
+            Od briefu
+            <span className="block text-lime">do live.</span>
           </h2>
-          <p className="mt-4 text-sm text-off-white/55 md:text-base lg:hidden">
-            Przesuń w dół — kolejne etapy wjeżdżają w bok.
-          </p>
         </Reveal>
+        <div className="mt-8 hidden h-1 overflow-hidden rounded-full bg-white/10 lg:block">
+          <div
+            ref={progressRef}
+            className="h-full origin-left scale-x-0 rounded-full bg-lime"
+          />
+        </div>
       </div>
 
       <div className="lg:h-screen lg:overflow-hidden">
         <div
           ref={trackRef}
-          className="flex w-full flex-col gap-5 px-[clamp(1.25rem,4vw,3.5rem)] pb-20 lg:w-max lg:flex-row lg:items-center lg:gap-8 lg:px-[12vw] lg:pb-0"
+          className="flex w-full flex-col gap-4 px-[clamp(1.25rem,5vw,4rem)] pb-20 lg:w-max lg:flex-row lg:items-center lg:gap-6 lg:px-[10vw] lg:pb-0"
         >
-          {steps.map((step, index) => (
+          {steps.map((step, i) => (
             <article
-              key={step.title}
-              className="relative min-h-[16rem] w-full shrink-0 rounded-3xl border border-white/10 bg-graphite/70 p-8 backdrop-blur-md lg:h-[22rem] lg:w-[28rem]"
+              key={step.n}
+              className="panel relative min-h-[16rem] w-full shrink-0 overflow-hidden rounded-[2rem] p-8 lg:h-[26rem] lg:w-[32rem]"
             >
-              <p className="text-xs font-semibold tracking-[0.2em] text-lime uppercase">
-                0{index + 1}
-              </p>
-              <h3 className="mt-6 font-[family-name:var(--font-display)] text-4xl font-bold text-off-white">
-                {step.title}
-              </h3>
-              <p className="mt-4 max-w-sm text-base leading-relaxed text-off-white/65">
-                {step.text}
-              </p>
-              <div className="absolute right-8 bottom-8 h-px w-16 bg-lime" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_10%,rgba(215,255,50,0.12),transparent_45%)]" />
+              <div className="relative flex h-full flex-col">
+                <p className="display text-lime">{step.n}</p>
+                <h3 className="display mt-10 text-4xl text-off-white md:text-6xl">
+                  {step.title}
+                </h3>
+                <p className="mt-5 max-w-sm text-base leading-relaxed text-white/55">
+                  {step.text}
+                </p>
+                <div className="mt-auto pt-10">
+                  <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
+                    <div
+                      className="h-full rounded-full bg-lime"
+                      style={{ width: `${((i + 1) / steps.length) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
             </article>
           ))}
         </div>
