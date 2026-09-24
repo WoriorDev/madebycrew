@@ -46,318 +46,296 @@ const steps = [
   {
     n: "07",
     title: "Gotowe do użytkowania",
-    text: "Handover, dostęp i krótkie intro. Strona u Ciebie — z opcją opieki albo czystego oddania projektu.",
+    text: "Handover, dostęp i krótkie intro. Strona u Ciebie, z opcją opieki albo czystego oddania projektu.",
     hint: "Twój produkt, Twój rytm",
   },
 ];
 
+/** Udział scrolla: intro → kroki → lekkie outro */
+const INTRO = 0.12;
+const OUTRO = 0.06;
+const STEPS_SPAN = 1 - INTRO - OUTRO;
+
 export function Process() {
   const sectionRef = useRef<HTMLElement>(null);
+  const activeRef = useRef(-2);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const runway = section.querySelector<HTMLElement>("[data-proc-runway]");
     const sticky = section.querySelector<HTMLElement>("[data-proc-sticky]");
     const intro = section.querySelector<HTMLElement>("[data-proc-intro]");
     const stage = section.querySelector<HTMLElement>("[data-proc-stage]");
-    const rail = section.querySelector<HTMLElement>("[data-proc-rail]");
     const fill = section.querySelector<HTMLElement>("[data-proc-fill]");
     const glow = section.querySelector<HTMLElement>("[data-proc-glow]");
     const counter = section.querySelector<HTMLElement>("[data-proc-counter]");
-    const dots = gsap.utils.toArray<HTMLElement>("[data-proc-dot]");
     const panels = gsap.utils.toArray<HTMLElement>("[data-proc-panel]");
+    const dots = gsap.utils.toArray<HTMLElement>("[data-proc-dot]");
     const marks = gsap.utils.toArray<HTMLElement>("[data-proc-mark]");
     const labels = gsap.utils.toArray<HTMLElement>("[data-proc-label]");
+    const staticList = section.querySelector<HTMLElement>("[data-proc-static]");
 
-    if (!sticky) return;
+    if (!runway || !sticky || !intro || !stage) return;
+
+    const setRunwayHeight = () => {
+      // intro + ~0.9 ekranu na krok + outro
+      const vh = window.innerHeight;
+      runway.style.height = `${vh * (1.1 + steps.length * 0.9 + 0.35)}px`;
+    };
 
     if (reduce) {
-      section.style.height = "auto";
-      if (intro) {
-        gsap.set(intro, {
-          opacity: 1,
-          position: "relative",
-          inset: "auto",
-          paddingBlock: "5rem 2rem",
-        });
-      }
-      if (stage) {
-        gsap.set(stage, {
-          opacity: 1,
-          position: "relative",
-          inset: "auto",
-          paddingBottom: "5rem",
-        });
-      }
-      if (rail) gsap.set(rail, { opacity: 1 });
-      if (fill) gsap.set(fill, { scaleY: 1, transformOrigin: "top center" });
-      if (glow) gsap.set(glow, { opacity: 0.35 });
-      if (counter) gsap.set(counter, { opacity: 0 });
-      gsap.set(dots, { opacity: 1, scale: 1 });
-      gsap.set(marks, { opacity: 0 });
-      gsap.set(labels, { opacity: 0 });
-      const stack = section.querySelector<HTMLElement>("[data-proc-stack]");
-      if (stack) {
-        gsap.set(stack, {
-          display: "flex",
-          flexDirection: "column",
-          gap: "4.5rem",
-          minHeight: 0,
-        });
-      }
-      panels.forEach((el) => {
-        gsap.set(el, { opacity: 1, y: 0, position: "relative", inset: "auto" });
-      });
+      sticky.style.display = "none";
+      runway.style.height = "auto";
+      if (staticList) staticList.style.display = "block";
       return;
     }
 
-    const introHold = () => window.innerHeight * 1.15;
-    const stepHold = () => window.innerHeight * 1.05;
-    const outroHold = () => window.innerHeight * 0.45;
-    const scrubDistance = () =>
-      introHold() + steps.length * stepHold() + outroHold();
-
-    const syncHeight = () => {
-      // sticky viewport + scrub runway
-      section.style.height = `${scrubDistance() + window.innerHeight}px`;
-    };
-    syncHeight();
+    if (staticList) staticList.style.display = "none";
+    setRunwayHeight();
 
     const ctx = gsap.context(() => {
-      gsap.set(intro, { opacity: 1, scale: 1, y: 0 });
+      gsap.set(intro, { opacity: 1, y: 0, scale: 1 });
       gsap.set(stage, { opacity: 0 });
-      gsap.set(rail, { opacity: 0, x: -12 });
-      gsap.set(fill, { scaleY: 0, transformOrigin: "top center" });
-      gsap.set(glow, { opacity: 0, scale: 0.85 });
       gsap.set(counter, { opacity: 0 });
-      gsap.set(dots, { opacity: 0.22, scale: 0.75 });
-      gsap.set(panels, { opacity: 0, y: 36 });
-      gsap.set(marks, { opacity: 0, scale: 0.92, x: 40 });
-      gsap.set(labels, { opacity: 0, y: -6 });
+      gsap.set(fill, { scaleY: 0, transformOrigin: "top center" });
+      gsap.set(glow, { opacity: 0.08 });
+      gsap.set(panels, { opacity: 0, y: 28 });
+      gsap.set(marks, { opacity: 0, x: 24 });
+      gsap.set(labels, { opacity: 0, y: 8 });
+      gsap.set(dots, { opacity: 0.25, scale: 0.8 });
 
-      // Timeline durations are relative — mapped to scroll distance
-      // so each step gets a full viewport of scroll.
-      const introDur = 1.15;
-      const stepDur = 1.05;
-      const transitionDur = 0.35;
-      const outroDur = 0.45;
+      const showStep = (index: number) => {
+        if (index === activeRef.current) return;
+        activeRef.current = index;
 
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          // Bind to sticky panel: progress starts only when Process
-          // is actually stuck at the top — not while Oferty is still pinning.
-          trigger: sticky,
-          start: "clamp(top top)",
-          end: () => `+=${scrubDistance()}`,
-          scrub: 1.1,
-          invalidateOnRefresh: true,
-          anticipatePin: 0,
-          onRefresh: syncHeight,
-        },
-      });
-
-      // Intro dwell — stay on title for ~1 viewport of scroll
-      tl.to({}, { duration: introDur * 0.55 });
-      tl.to(intro, {
-        opacity: 0,
-        scale: 0.96,
-        y: -14,
-        duration: introDur * 0.45,
-      });
-
-      // First step enters
-      tl.to(stage, { opacity: 1, duration: transitionDur * 0.4 }, "-=0.12");
-      tl.to(rail, { opacity: 1, x: 0, duration: transitionDur }, "<");
-      tl.to(glow, { opacity: 0.55, scale: 1, duration: transitionDur }, "<");
-      tl.to(counter, { opacity: 1, duration: transitionDur * 0.6 }, "<0.05");
-      tl.to(labels[0], { opacity: 1, y: 0, duration: transitionDur }, "<");
-      tl.to(panels[0], { opacity: 1, y: 0, duration: transitionDur }, "<");
-      tl.to(marks[0], { opacity: 0.12, scale: 1, x: 0, duration: transitionDur }, "<");
-      tl.to(dots[0], { opacity: 1, scale: 1, duration: transitionDur * 0.7 }, "<");
-      tl.to(fill, { scaleY: 1 / steps.length, duration: transitionDur }, "<");
-
-      tl.to({}, { duration: stepDur * 0.65 });
-
-      for (let i = 1; i < steps.length; i++) {
-        const progress = (i + 1) / steps.length;
-
-        tl.to(panels[i - 1], { opacity: 0, y: -22, duration: transitionDur }, ">");
-        tl.to(
-          marks[i - 1],
-          { opacity: 0, x: -20, scale: 0.96, duration: transitionDur },
-          "<",
-        );
-        tl.to(labels[i - 1], { opacity: 0, y: 6, duration: transitionDur * 0.7 }, "<");
-        tl.to(panels[i], { opacity: 1, y: 0, duration: transitionDur }, "<0.06");
-        tl.to(marks[i], { opacity: 0.12, scale: 1, x: 0, duration: transitionDur }, "<");
-        tl.to(labels[i], { opacity: 1, y: 0, duration: transitionDur }, "<");
-        tl.to(fill, { scaleY: progress, duration: transitionDur }, "<");
-        tl.to(
-          glow,
-          {
-            opacity: 0.38 + i * 0.05,
-            x: i % 2 === 0 ? 36 : -18,
-            y: i * 10,
-            duration: transitionDur,
-          },
-          "<",
-        );
-
-        dots.forEach((dot, di) => {
-          tl.to(
-            dot,
-            {
-              opacity: di === i ? 1 : di < i ? 0.5 : 0.22,
-              scale: di === i ? 1 : di < i ? 0.9 : 0.75,
-              duration: transitionDur,
-            },
-            "<",
-          );
+        panels.forEach((panel, i) => {
+          const on = i === index;
+          gsap.to(panel, {
+            opacity: on ? 1 : 0,
+            y: on ? 0 : i < index ? -20 : 20,
+            duration: 0.4,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
         });
 
-        tl.to({}, { duration: stepDur * 0.65 });
-      }
+        marks.forEach((mark, i) => {
+          gsap.to(mark, {
+            opacity: i === index ? 0.07 : 0,
+            x: i === index ? 0 : 24,
+            duration: 0.45,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+        });
 
-      tl.to({}, { duration: outroDur });
+        labels.forEach((label, i) => {
+          gsap.to(label, {
+            opacity: i === index ? 1 : 0,
+            y: i === index ? 0 : 8,
+            duration: 0.3,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+        });
+
+        dots.forEach((dot, i) => {
+          gsap.to(dot, {
+            opacity: i === index ? 1 : i < index ? 0.55 : 0.25,
+            scale: i === index ? 1 : 0.8,
+            duration: 0.3,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+        });
+
+        if (fill) {
+          gsap.to(fill, {
+            scaleY: (index + 1) / steps.length,
+            duration: 0.4,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+        }
+      };
+
+      ScrollTrigger.create({
+        trigger: runway,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true,
+        invalidateOnRefresh: true,
+        onRefresh: setRunwayHeight,
+        onUpdate: (self) => {
+          const p = self.progress;
+
+          if (p < INTRO) {
+            const t = p / INTRO;
+            gsap.set(intro, {
+              opacity: 1 - t,
+              y: -32 * t,
+              scale: 1 - t * 0.04,
+            });
+            gsap.set(stage, { opacity: Math.max(0, (t - 0.45) / 0.55) });
+            gsap.set(counter, { opacity: Math.max(0, (t - 0.55) / 0.45) });
+            gsap.set(glow, { opacity: 0.08 + t * 0.4 });
+
+            if (t < 0.6) {
+              if (activeRef.current !== -1) {
+                activeRef.current = -1;
+                gsap.set(panels, { opacity: 0, y: 28 });
+                gsap.set(marks, { opacity: 0, x: 24 });
+                gsap.set(labels, { opacity: 0, y: 8 });
+                gsap.set(dots, { opacity: 0.25, scale: 0.8 });
+                if (fill) gsap.set(fill, { scaleY: 0 });
+              }
+            } else {
+              showStep(0);
+            }
+            return;
+          }
+
+          gsap.set(intro, { opacity: 0, y: -32, scale: 0.96 });
+          gsap.set(stage, { opacity: 1 });
+          gsap.set(counter, { opacity: 1 });
+          gsap.set(glow, { opacity: 0.48 });
+
+          if (p >= 1 - OUTRO) {
+            showStep(steps.length - 1);
+            return;
+          }
+
+          const t = (p - INTRO) / STEPS_SPAN;
+          const index = Math.min(
+            steps.length - 1,
+            Math.max(0, Math.floor(t * steps.length)),
+          );
+          showStep(index);
+        },
+      });
     }, section);
 
     const refresh = () => {
-      syncHeight();
+      setRunwayHeight();
       ScrollTrigger.refresh();
     };
 
     requestAnimationFrame(() => requestAnimationFrame(refresh));
-    const t1 = window.setTimeout(refresh, 200);
-    const t2 = window.setTimeout(refresh, 700);
-    window.addEventListener("load", refresh);
+    window.addEventListener("resize", refresh);
 
     return () => {
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-      window.removeEventListener("load", refresh);
+      window.removeEventListener("resize", refresh);
       ctx.revert();
     };
   }, []);
 
   return (
-    <section
-      id="proces"
-      ref={sectionRef}
-      className="relative z-0 bg-graphite"
-      // Height set in JS to match scrub distance exactly
-      style={{ height: "900vh" }}
-    >
-      <div
-        data-proc-sticky
-        className="sticky top-0 z-0 flex h-[100svh] flex-col overflow-hidden bg-graphite"
-      >
+    <section id="proces" ref={sectionRef} className="relative z-10 bg-graphite">
+      <div data-proc-runway className="relative">
         <div
-          data-proc-glow
-          aria-hidden
-          className="pointer-events-none absolute top-[18%] right-[-8%] h-[55vmax] w-[55vmax] rounded-full bg-[radial-gradient(circle,rgba(215,255,50,0.16),transparent_62%)] blur-3xl"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute bottom-[-20%] left-[-15%] h-[40vmax] w-[40vmax] rounded-full bg-[radial-gradient(circle,rgba(215,255,50,0.06),transparent_70%)] blur-3xl"
-        />
-
-        <div
-          data-proc-intro
-          className="pointer-events-none absolute inset-0 z-30 flex flex-col items-center justify-start px-6 pt-28 text-center md:pt-32"
+          data-proc-sticky
+          className="sticky top-0 flex h-[100svh] flex-col overflow-hidden bg-graphite"
         >
-          <p className="eyebrow mb-5">Proces</p>
-          <h2 className="display text-[clamp(2.4rem,1.3rem+4.5vw,5.5rem)] leading-[1.02] text-off-white">
-            <span className="block">Od briefu</span>
-            <span className="mt-1 block text-lime">do live.</span>
-          </h2>
-          <p className="mx-auto mt-7 max-w-sm text-sm leading-relaxed text-white/45 md:text-base">
-            Siedem etapów. Zero zgadywania.
-          </p>
-        </div>
+          <div
+            data-proc-glow
+            aria-hidden
+            className="pointer-events-none absolute top-[20%] right-[-10%] h-[50vmax] w-[50vmax] rounded-full bg-[radial-gradient(circle,rgba(215,255,50,0.15),transparent_64%)] blur-3xl"
+          />
 
-        <div data-proc-stage className="absolute inset-0 z-20 flex flex-col">
-          <div className="section-pad relative z-20 flex items-start justify-between pt-24 md:pt-28">
-            <p className="eyebrow">Proces</p>
-            <div
-              data-proc-counter
-              className="relative h-4 min-w-[11rem] text-right md:min-w-[14rem]"
-            >
-              {steps.map((step) => (
-                <p
-                  key={`label-${step.n}`}
-                  data-proc-label
-                  className="absolute inset-0 font-[family-name:var(--font-display)] text-[11px] font-bold tracking-[0.18em] text-white/40 uppercase md:text-xs"
-                >
-                  {step.n}
-                  <span className="mx-2 text-lime/50">—</span>
-                  {step.title}
-                </p>
-              ))}
-            </div>
+          {/* Intro: wyśrodkowany */}
+          <div
+            data-proc-intro
+            className="absolute inset-0 z-30 flex flex-col items-center justify-center px-6 text-center"
+          >
+            <p className="eyebrow mb-4">Proces</p>
+            <h2 className="display text-[clamp(2.5rem,7.5vw,5.25rem)] leading-[0.98] text-off-white">
+              Od briefu
+              <span className="mt-1 block text-lime">do live.</span>
+            </h2>
+            <p className="mx-auto mt-6 max-w-sm text-sm leading-relaxed text-white/45 md:text-base">
+              Siedem etapów. Zero zgadywania. Scrolluj, a przejdziesz całą drogę.
+            </p>
           </div>
 
-          <div className="section-pad relative flex flex-1 items-center pb-16 md:pb-20">
-            <div className="relative mx-auto flex w-full max-w-7xl items-center gap-6 md:gap-10 lg:gap-14">
+          {/* Scene: zamiana kroków */}
+          <div
+            data-proc-stage
+            className="absolute inset-0 z-20 flex flex-col opacity-0"
+          >
+            <div className="section-pad flex items-center justify-between pt-24 md:pt-28">
+              <p className="eyebrow">Proces</p>
               <div
-                data-proc-rail
-                aria-hidden
-                className="relative h-[min(52vh,22rem)] w-9 shrink-0 md:h-[min(58vh,26rem)] md:w-11"
+                data-proc-counter
+                className="relative h-4 min-w-[10rem] text-right opacity-0 md:min-w-[13rem]"
               >
-                <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-white/[0.1]" />
+                {steps.map((step) => (
+                  <p
+                    key={`label-${step.n}`}
+                    data-proc-label
+                    className="absolute inset-0 text-[11px] font-bold tracking-[0.16em] text-white/40 uppercase md:text-xs"
+                  >
+                    <span className="text-lime">{step.n}</span>
+                    <span className="mx-2 text-white/25">·</span>
+                    {step.title}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            <div className="section-pad relative flex flex-1 items-center pb-14 md:pb-20">
+              <div className="relative mx-auto flex w-full max-w-7xl items-center gap-6 md:gap-10 lg:gap-14">
                 <div
-                  data-proc-fill
-                  className="absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-lime shadow-[0_0_12px_rgba(215,255,50,0.55)]"
-                />
-                <div className="relative z-10 flex h-full flex-col justify-between py-0.5">
-                  {steps.map((step, i) => (
-                    <span
-                      key={step.n}
-                      data-proc-dot
-                      className="relative flex size-3 items-center justify-center md:size-3.5"
-                    >
-                      <span className="absolute inset-0 rounded-full border border-lime/40 bg-graphite shadow-[0_0_0_4px_rgba(5,6,7,0.85)]" />
-                      <span className="relative size-1.5 rounded-full bg-lime" />
-                      <span className="absolute -right-7 hidden font-[family-name:var(--font-display)] text-[8px] font-bold tracking-[0.12em] text-white/25 md:block">
-                        {String(i + 1).padStart(2, "0")}
+                  aria-hidden
+                  className="relative h-[min(50vh,21rem)] w-9 shrink-0 md:h-[min(56vh,24rem)] md:w-10"
+                >
+                  <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-white/10" />
+                  <div
+                    data-proc-fill
+                    className="absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-lime shadow-[0_0_12px_rgba(215,255,50,0.5)]"
+                  />
+                  <div className="relative z-10 flex h-full flex-col justify-between py-0.5">
+                    {steps.map((step) => (
+                      <span
+                        key={step.n}
+                        data-proc-dot
+                        className="relative flex size-3 items-center justify-center"
+                      >
+                        <span className="absolute inset-0 rounded-full border border-lime/40 bg-graphite" />
+                        <span className="relative size-1.5 rounded-full bg-lime" />
                       </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="relative min-h-[17rem] flex-1 overflow-hidden md:min-h-[20rem]">
+                  {steps.map((step) => (
+                    <span
+                      key={`mark-${step.n}`}
+                      data-proc-mark
+                      aria-hidden
+                      className="pointer-events-none absolute -right-2 -bottom-6 select-none font-[family-name:var(--font-display)] text-[clamp(6.5rem,20vw,13rem)] leading-none font-extrabold tracking-[-0.06em] text-white/[0.045] md:-right-4 md:-bottom-10"
+                    >
+                      {step.n}
                     </span>
                   ))}
-                </div>
-              </div>
 
-              <div className="relative min-h-[18rem] flex-1 overflow-hidden md:min-h-[20rem]">
-                {steps.map((step) => (
-                  <span
-                    key={`mark-${step.n}`}
-                    data-proc-mark
-                    aria-hidden
-                    className="pointer-events-none absolute -right-2 -bottom-8 select-none font-[family-name:var(--font-display)] text-[clamp(7rem,22vw,14rem)] leading-none font-extrabold tracking-[-0.06em] text-white/[0.04] md:-right-4 md:-bottom-12"
-                  >
-                    {step.n}
-                  </span>
-                ))}
-
-                <div
-                  data-proc-stack
-                  className="relative z-10 min-h-[18rem] md:min-h-[20rem]"
-                >
                   {steps.map((step) => (
                     <article
                       key={step.n}
                       data-proc-panel
-                      className="absolute inset-0 flex flex-col justify-center will-change-transform"
+                      className="absolute inset-0 flex flex-col justify-center opacity-0"
                     >
-                      <p className="mb-4 text-[11px] font-semibold tracking-[0.2em] text-lime/75 uppercase md:mb-5">
+                      <p className="mb-4 text-[11px] font-semibold tracking-[0.2em] text-lime/75 uppercase">
                         {step.hint}
                       </p>
-                      <h3 className="display max-w-3xl text-[clamp(2rem,1.2rem+3vw,4rem)] leading-[1.05] text-off-white text-balance">
+                      <h3 className="display max-w-3xl text-[clamp(1.9rem,1.1rem+2.8vw,3.75rem)] leading-[1.05] text-balance text-off-white">
                         {step.title}
                       </h3>
-                      <div className="mt-5 h-px w-16 origin-left bg-gradient-to-r from-lime/70 to-transparent md:mt-6" />
-                      <p className="mt-5 max-w-lg text-[clamp(1rem,0.9rem+0.8vw,1.2rem)] leading-relaxed text-white/55 md:mt-6">
+                      <div className="mt-5 h-px w-14 bg-gradient-to-r from-lime/70 to-transparent" />
+                      <p className="mt-5 max-w-lg text-[clamp(0.98rem,0.9rem+0.6vw,1.15rem)] leading-relaxed text-white/55">
                         {step.text}
                       </p>
                     </article>
@@ -367,6 +345,34 @@ export function Process() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Fallback bez animacji */}
+      <div
+        data-proc-static
+        className="section-pad mx-auto hidden max-w-7xl py-24 md:py-32"
+      >
+        <p className="eyebrow mb-4 text-center">Proces</p>
+        <h2 className="display mb-14 text-center text-[clamp(2.4rem,6vw,4.5rem)] text-off-white">
+          Od briefu
+          <span className="mt-1 block text-lime">do live.</span>
+        </h2>
+        <ol className="flex flex-col gap-12 border-l border-lime/30 pl-6 md:gap-14 md:pl-8">
+          {steps.map((step) => (
+            <li key={step.n} className="relative">
+              <span className="absolute top-2 -left-[1.7rem] size-2.5 rounded-full bg-lime md:-left-[2.15rem]" />
+              <p className="text-[11px] tracking-[0.18em] text-lime/70 uppercase">
+                {step.n} · {step.hint}
+              </p>
+              <h3 className="display mt-2 text-3xl text-off-white md:text-4xl">
+                {step.title}
+              </h3>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/50 md:text-base">
+                {step.text}
+              </p>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
