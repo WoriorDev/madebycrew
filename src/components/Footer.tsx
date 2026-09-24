@@ -6,7 +6,6 @@ const columns = [
     title: "Firma",
     links: [
       { label: "O nas", href: "#crew" },
-      { label: "Proces", href: "#proces" },
       { label: "Kontakt", href: "#kontakt" },
       { label: "CrewBot", href: "#top" },
     ],

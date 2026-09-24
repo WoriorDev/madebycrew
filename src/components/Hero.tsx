@@ -11,10 +11,10 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative z-10 flex min-h-[100svh] flex-col justify-start overflow-hidden"
+      className="relative z-10 flex min-h-[100svh] flex-col justify-start overflow-x-clip"
     >
-      <div className="section-pad relative mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-4 pt-[18vh] pb-16 text-center md:pt-[20vh] md:pb-20">
-        <h1 className="display max-w-4xl text-[clamp(2.4rem,8.5vw,5.75rem)] text-off-white">
+      <div className="section-pad relative mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-4 pt-28 pb-14 text-center sm:pt-32 md:pt-[min(18vh,7.5rem)] md:pb-20">
+        <h1 className="display max-w-4xl text-[clamp(2.15rem,1.15rem+4.2vw,5.5rem)] text-off-white">
           <motion.span
             className="block"
             initial={reduce ? false : { opacity: 0, y: 28 }}
@@ -24,7 +24,7 @@ export function Hero() {
             Nie znikaj
           </motion.span>
           <motion.span
-            className="block whitespace-nowrap text-lime"
+            className="block text-lime"
             initial={reduce ? false : { opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}

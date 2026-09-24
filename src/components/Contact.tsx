@@ -110,7 +110,7 @@ export function Contact() {
             <p data-contact-head className="eyebrow mb-4">
               Kontakt
             </p>
-            <h2 className="contact-display text-[clamp(2.8rem,9vw,6rem)] text-off-white">
+            <h2 className="contact-display text-[clamp(2.3rem,1.2rem+4.5vw,5.75rem)] text-off-white">
               <span data-contact-head className="block">
                 Masz pomysł?
               </span>
@@ -133,7 +133,7 @@ export function Contact() {
               </p>
               <MagneticButton
                 href="mailto:kontakt@madebycrew.pl"
-                className="display mt-2 inline-block text-[clamp(1.35rem,3vw,2.1rem)] text-lime transition hover:brightness-110"
+                className="display mt-2 inline-block max-w-full break-all text-[clamp(1.15rem,0.9rem+1.4vw,2rem)] text-lime transition hover:brightness-110 sm:break-normal"
               >
                 kontakt@madebycrew.pl
               </MagneticButton>

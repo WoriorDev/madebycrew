@@ -343,22 +343,22 @@ export function Crew() {
           data-crew-intro
           className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center px-6"
         >
-          <p className="display max-w-3xl text-center text-[clamp(1.75rem,5vw,3.5rem)] leading-[1.15] text-off-white">
+          <p className="display max-w-3xl text-center text-[clamp(1.6rem,1rem+2.8vw,3.25rem)] leading-[1.15] text-off-white">
             Chcesz wiedzieć coś o nas?
           </p>
         </div>
 
         <div data-crew-track className="will-change-transform">
-          <div className="flex h-[100svh] flex-col justify-center py-12 md:py-16">
+          <div className="flex h-[100svh] flex-col justify-center py-8 sm:py-10 md:py-14">
             <div
               data-crew-about
               className="section-pad relative z-10 mx-auto w-full max-w-7xl"
             >
-              <p data-crew-title className="eyebrow mb-4 md:mb-5">
+              <p data-crew-title className="eyebrow mb-3 md:mb-5">
                 O nas
               </p>
 
-              <h2 className="display max-w-4xl text-[clamp(2.4rem,6.5vw,4.5rem)] leading-[0.95] text-off-white">
+              <h2 className="display max-w-4xl text-[clamp(2rem,1.1rem+3.5vw,4.25rem)] leading-[1.05] text-off-white">
                 <span data-crew-title className="block">
                   Dwóch ziomków.
                 </span>
@@ -367,10 +367,10 @@ export function Crew() {
                 </span>
               </h2>
 
-              <div className="mt-8 max-w-3xl md:mt-10 lg:max-w-4xl">
+              <div className="mt-6 max-w-3xl md:mt-10 lg:max-w-4xl">
                 <p
                   data-crew-story
-                  className="max-w-none text-[clamp(1.08rem,2.15vw,1.38rem)] leading-[1.65] font-medium tracking-[-0.01em] text-pretty text-off-white"
+                  className="max-w-none text-[clamp(1rem,0.85rem+1.1vw,1.3rem)] leading-[1.6] font-medium tracking-[-0.01em] text-pretty text-off-white"
                   aria-label={story.join(" ")}
                 >
                   {words.map((item, i) => (
@@ -423,8 +423,8 @@ export function Crew() {
             </div>
           </div>
 
-          <div className="flex h-[100svh] flex-col items-center justify-center gap-5 px-4 pt-14 pb-8 md:gap-6 md:pt-16 md:pb-10">
-            <h3 className="display shrink-0 max-w-3xl px-4 text-center text-[clamp(1.45rem,3.6vw,2.6rem)] leading-[1.08] tracking-[-0.02em] text-off-white">
+          <div className="flex h-[100svh] flex-col items-center justify-center gap-4 px-4 pt-12 pb-6 sm:gap-5 md:gap-6 md:pt-14 md:pb-10">
+            <h3 className="display shrink-0 max-w-3xl px-4 text-center text-[clamp(1.35rem,0.9rem+2vw,2.5rem)] leading-[1.1] tracking-[-0.02em] text-off-white">
               <span data-crew-tech-title className="block">
                 Z takich technologii
               </span>

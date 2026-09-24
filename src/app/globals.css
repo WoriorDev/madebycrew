@@ -153,14 +153,16 @@ body {
   font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 800;
   letter-spacing: -0.045em;
-  line-height: 0.94;
+  line-height: 1.02;
+  text-wrap: balance;
 }
 
 .contact-display {
   font-family: var(--font-contact), var(--font-display), system-ui, sans-serif;
   font-weight: 700;
   letter-spacing: -0.03em;
-  line-height: 0.98;
+  line-height: 1.05;
+  text-wrap: balance;
 }
 
 .eyebrow {

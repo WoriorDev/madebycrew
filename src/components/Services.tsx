@@ -299,14 +299,12 @@ export function Services() {
 
   return (
     <section id="uslugi" ref={sectionRef} className="relative z-10">
-      <div className="flex h-[100svh] flex-col justify-center overflow-hidden py-16 md:py-20">
-        <div className="section-pad mx-auto mb-8 w-full max-w-7xl text-center md:mb-12">
-          <p className="eyebrow mb-4">Oferty</p>
-          <h2 className="display flex flex-col items-center text-[clamp(2rem,5.5vw,4.5rem)] leading-[0.95]">
+      <div className="flex h-[100svh] flex-col overflow-x-clip pt-24 pb-8 sm:pt-28 sm:pb-10 md:pt-32 md:pb-12">
+        <div className="section-pad mx-auto mb-5 w-full max-w-7xl shrink-0 text-center md:mb-8">
+          <p className="eyebrow mb-3 md:mb-4">Oferty</p>
+          <h2 className="display flex flex-col items-center text-[clamp(1.85rem,1rem+3.2vw,4.25rem)] leading-[1.05]">
             <span className="text-off-white">Twój biznes.</span>
-            <span className="whitespace-nowrap text-lime">
-              Nasza dobra robota.
-            </span>
+            <span className="text-lime">Nasza dobra robota.</span>
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/45 md:text-base">
             Od pierwszej strony po rozbudowany sklep. Wybierz, czego potrzebujesz,
@@ -316,7 +314,7 @@ export function Services() {
 
         <div
           ref={shellRef}
-          className="section-pad mx-auto flex w-full max-w-7xl justify-center"
+          className="section-pad mx-auto flex w-full max-w-7xl flex-1 items-center justify-center"
         >
           {/* outer: room for Popular sticking out — no scroll here */}
           <div className="relative overflow-visible py-6 md:py-8">
@@ -457,23 +455,9 @@ export function Services() {
           </div>
         </div>
 
-        <p className="section-pad mx-auto mt-6 max-w-lg text-center text-sm leading-relaxed text-white/45 md:mt-8 md:text-base">
+        <p className="section-pad mx-auto mt-4 max-w-lg shrink-0 text-center text-sm leading-relaxed text-white/45 md:mt-5 md:text-base">
           Każdy projekt wyceniamy indywidualnie, po poznaniu Twoich potrzeb.
         </p>
-
-        <div
-          aria-hidden
-          className="section-pad relative z-20 mx-auto mt-8 flex max-w-7xl items-center justify-center md:mt-10"
-        >
-          <div className="flex w-full max-w-xl items-center gap-4 md:max-w-2xl md:gap-5">
-            <span className="h-px flex-1 bg-gradient-to-r from-transparent via-white/25 to-lime/40" />
-            <span className="relative flex size-3 items-center justify-center">
-              <span className="absolute size-3 rotate-45 border border-lime/50 bg-lime/15 shadow-[0_0_18px_rgba(215,255,50,0.45)]" />
-              <span className="relative size-1.5 rotate-45 bg-lime" />
-            </span>
-            <span className="h-px flex-1 bg-gradient-to-l from-transparent via-white/25 to-lime/40" />
-          </div>
-        </div>
       </div>
     </section>
   );

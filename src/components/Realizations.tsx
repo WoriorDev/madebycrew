@@ -199,15 +199,15 @@ export function Realizations() {
       className="relative z-10 py-24 md:py-32"
     >
       <div className="section-pad mx-auto max-w-7xl">
-        <div data-proj-header className="mb-14 max-w-3xl md:mb-20">
+        <div data-proj-header className="mb-14 max-w-4xl md:mb-20">
           <p data-proj-eyebrow className="eyebrow mb-4">
             Projekty
           </p>
-          <h2 className="display text-[clamp(2rem,5vw,4.5rem)] text-off-white">
+          <h2 className="display text-[clamp(1.85rem,1rem+3vw,4.25rem)] text-off-white">
             {headLines.map((line) => (
               <span
                 key={line.text}
-                className={`mt-1 block whitespace-nowrap first:mt-0 ${line.lime ? "text-lime" : ""}`}
+                className={`mt-1 block first:mt-0 ${line.lime ? "text-lime" : ""}`}
               >
                 {splitWords(line.text).map((word, i) => (
                   <span key={`${line.text}-${i}`}>

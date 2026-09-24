@@ -14,7 +14,6 @@ const links = [
   { href: "#crew", label: "O nas" },
   { href: "#projekty", label: "Projekty" },
   { href: "#uslugi", label: "Oferty" },
-  { href: "#proces", label: "Proces" },
   { href: "#kontakt", label: "Kontakt" },
 ];
 
