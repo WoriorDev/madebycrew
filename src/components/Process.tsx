@@ -166,31 +166,15 @@ export function Process() {
       }
 
       if (fill && track) {
+        // Linia rośnie dopiero gdy kolejne etapy wchodzą w kadr
         gsap.to(fill, {
           scaleY: 1,
           ease: "none",
           scrollTrigger: {
             trigger: track,
-            start: "top 58%",
-            end: "bottom 38%",
-            scrub: 0.9,
-          },
-        });
-      }
-
-      // Mignięcie caret przy intro (pisanie)
-      if (caret) {
-        gsap.to(caret, {
-          opacity: 0.15,
-          repeat: -1,
-          yoyo: true,
-          duration: 0.45,
-          ease: "sine.inOut",
-          scrollTrigger: {
-            trigger: section.querySelector("[data-proc-header]"),
-            start: "top 70%",
-            end: "top 25%",
-            toggleActions: "play reverse play reverse",
+            start: "top 50%",
+            end: "bottom 45%",
+            scrub: 0.95,
           },
         });
       }
@@ -207,113 +191,100 @@ export function Process() {
         const stepCaret = step.querySelector("[data-proc-step-caret]");
         const article = step.querySelector("[data-proc-article]");
 
-        gsap.set(num, { opacity: 0, y: 18, scale: 0.9 });
-        gsap.set(hintWords, { opacity: 0, y: 10 });
-        gsap.set(titleWords, { opacity: 0, y: "108%" });
-        gsap.set(textWords, { opacity: 0, y: 14 });
+        // Ukryte do momentu wejścia w strefę etapu
+        gsap.set(num, { opacity: 0, y: 22, scale: 0.88 });
+        gsap.set(hintWords, { opacity: 0, y: 12 });
+        gsap.set(titleWords, { opacity: 0, y: "115%" });
+        gsap.set(textWords, { opacity: 0, y: 16 });
         gsap.set(rule, { scaleX: 0, transformOrigin: "left center" });
-        gsap.set(ghost, { opacity: 0, x: 36 });
-        gsap.set(dot, { scale: 0.5, opacity: 0.25 });
-        gsap.set(ring, { scale: 0.35, opacity: 0 });
+        gsap.set(ghost, { opacity: 0, x: 40 });
+        gsap.set(dot, { scale: 0.45, opacity: 0.2 });
+        gsap.set(ring, { scale: 0.3, opacity: 0 });
         gsap.set(stepCaret, { opacity: 0 });
-        gsap.set(article, { opacity: 0.4 });
+        gsap.set(article, { opacity: 0 });
 
+        // Animacja dopiero gdy etap jest wyżej w kadrze (nie na samym dole)
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: step,
-            start: "top 80%",
-            end: "top 28%",
-            scrub: 1.15,
+            start: "top 62%",
+            end: "top 22%",
+            scrub: 1.2,
           },
         });
 
-        // Kropka + pulse
-        tl.to(dot, { scale: 1, opacity: 1, duration: 0.3, ease: "none" }, 0);
+        tl.to(dot, { scale: 1, opacity: 1, duration: 0.28, ease: "none" }, 0);
         tl.to(
           ring,
-          { scale: 1.7, opacity: 0.5, duration: 0.4, ease: "none" },
+          { scale: 1.75, opacity: 0.55, duration: 0.38, ease: "none" },
           0,
         );
-        tl.to(ring, { scale: 2.3, opacity: 0, duration: 0.45, ease: "none" }, 0.32);
+        tl.to(ring, { scale: 2.4, opacity: 0, duration: 0.42, ease: "none" }, 0.3);
 
-        // Numer + hint pisze się
-        tl.to(num, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "none" }, 0.06);
+        tl.to(article, { opacity: 1, duration: 0.25, ease: "none" }, 0.02);
+        tl.to(num, { opacity: 1, y: 0, scale: 1, duration: 0.32, ease: "none" }, 0.05);
         tl.to(
           hintWords,
           {
             opacity: 1,
             y: 0,
-            stagger: 0.04,
-            duration: 0.35,
+            stagger: 0.045,
+            duration: 0.32,
             ease: "none",
           },
-          0.12,
+          0.1,
         );
 
-        // Tytuł: słowa wjeżdżają od dołu (pisanie)
         tl.to(
           titleWords,
           {
             opacity: 1,
             y: "0%",
-            stagger: 0.075,
+            stagger: 0.08,
             duration: 0.5,
             ease: "none",
           },
-          0.2,
+          0.18,
         );
 
-        tl.to(rule, { scaleX: 1, duration: 0.4, ease: "none" }, 0.38);
-        tl.to(ghost, { opacity: 0.055, x: 0, duration: 0.55, ease: "none" }, 0.22);
-        tl.to(article, { opacity: 1, duration: 0.35, ease: "none" }, 0.12);
+        tl.to(rule, { scaleX: 1, duration: 0.38, ease: "none" }, 0.36);
+        tl.to(ghost, { opacity: 0.055, x: 0, duration: 0.5, ease: "none" }, 0.2);
 
-        // Brzuch tekstu: word-write
-        tl.to(stepCaret, { opacity: 1, duration: 0.15, ease: "none" }, 0.45);
+        tl.to(stepCaret, { opacity: 1, duration: 0.12, ease: "none" }, 0.42);
         tl.to(
           textWords,
           {
             opacity: 1,
             y: 0,
-            stagger: 0.028,
-            duration: 0.55,
+            stagger: 0.03,
+            duration: 0.6,
             ease: "none",
           },
-          0.48,
+          0.45,
         );
-        tl.to(stepCaret, { opacity: 0, duration: 0.2, ease: "none" }, 0.92);
+        tl.to(stepCaret, { opacity: 0, duration: 0.18, ease: "none" }, 0.95);
 
+        // Aktywny etap w centrum: podświetlenie kropki
         ScrollTrigger.create({
           trigger: step,
-          start: "top 55%",
-          end: "bottom 40%",
+          start: "top 58%",
+          end: "bottom 45%",
           onEnter: () => {
-            gsap.to(article, { opacity: 1, duration: 0.3, overwrite: "auto" });
-            gsap.to(dot, { scale: 1.2, duration: 0.25, overwrite: "auto" });
+            gsap.to(dot, { scale: 1.25, duration: 0.28, overwrite: "auto" });
           },
           onEnterBack: () => {
-            gsap.to(article, { opacity: 1, duration: 0.3, overwrite: "auto" });
-            gsap.to(dot, { scale: 1.2, duration: 0.25, overwrite: "auto" });
+            gsap.to(dot, { scale: 1.25, duration: 0.28, overwrite: "auto" });
           },
           onLeave: () => {
             if (i < stepEls.length - 1) {
-              gsap.to(article, {
-                opacity: 0.5,
-                duration: 0.35,
-                overwrite: "auto",
-              });
-              gsap.to(dot, { scale: 1, duration: 0.2, overwrite: "auto" });
+              gsap.to(dot, { scale: 1, duration: 0.22, overwrite: "auto" });
             }
           },
           onLeaveBack: () => {
-            gsap.to(article, {
-              opacity: 0.4,
-              duration: 0.3,
-              overwrite: "auto",
-            });
             gsap.to(dot, {
-              scale: 0.8,
-              opacity: 0.4,
-              duration: 0.2,
+              scale: 0.75,
+              opacity: 0.35,
+              duration: 0.22,
               overwrite: "auto",
             });
           },
@@ -388,7 +359,7 @@ export function Process() {
             />
           </div>
 
-          <ol className="relative flex flex-col gap-16 md:gap-24">
+          <ol className="relative flex flex-col gap-24 md:gap-32">
             {steps.map((step, i) => (
               <li
                 key={step.n}
@@ -470,7 +441,7 @@ export function Process() {
                   {i < steps.length - 1 && (
                     <div
                       aria-hidden
-                      className="mt-12 h-px w-10 bg-gradient-to-r from-white/12 to-transparent md:mt-14"
+                      className="mt-16 h-px w-10 bg-gradient-to-r from-white/12 to-transparent md:mt-20"
                     />
                   )}
                 </article>
