@@ -180,6 +180,12 @@ body {
   pointer-events: none;
 }
 
+/* GSAP pin-spacer wraps #uslugi — keep Oferty above sticky Process */
+.pin-spacer:has(#uslugi) {
+  position: relative;
+  z-index: 20;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .film-noise {
     display: none;

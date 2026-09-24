@@ -4,6 +4,7 @@ import { Crew } from "@/components/Crew";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { Process } from "@/components/Process";
 import { Realizations } from "@/components/Realizations";
 import { Services } from "@/components/Services";
 import { Atmosphere } from "@/components/fx/Atmosphere";
@@ -31,6 +32,7 @@ export default function Home() {
         <Crew />
         <Realizations />
         <Services />
+        <Process />
         <Contact />
       </main>
       <Footer />

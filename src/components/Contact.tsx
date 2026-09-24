@@ -81,7 +81,7 @@ export function Contact() {
     <section
       id="kontakt"
       ref={sectionRef}
-      className="relative z-10 overflow-hidden pt-10 pb-24 md:pt-14 md:pb-32"
+      className="relative z-20 overflow-hidden pt-10 pb-24 md:pt-14 md:pb-32"
     >
       <div
         aria-hidden

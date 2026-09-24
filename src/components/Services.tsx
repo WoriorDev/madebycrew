@@ -205,6 +205,15 @@ export function Services() {
           scrub: 0.85,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onRefresh: () => {
+            // pin-spacer is the stacking sibling of #proces — z-index must
+            // live here or sticky Process paints over Oferty.
+            const spacer = section.parentElement;
+            if (spacer?.classList.contains("pin-spacer")) {
+              spacer.style.zIndex = "20";
+              spacer.style.position = "relative";
+            }
+          },
           snap: {
             snapTo: (value) => {
               const total = fadeScroll() + moveScroll();
@@ -298,7 +307,7 @@ export function Services() {
   }, [cardW, maxIndex]);
 
   return (
-    <section id="uslugi" ref={sectionRef} className="relative z-10">
+    <section id="uslugi" ref={sectionRef} className="relative z-20">
       <div className="flex h-[100svh] flex-col overflow-x-clip pt-24 pb-8 sm:pt-28 sm:pb-10 md:pt-32 md:pb-12">
         <div className="section-pad mx-auto mb-5 w-full max-w-7xl shrink-0 text-center md:mb-8">
           <p className="eyebrow mb-3 md:mb-4">Oferty</p>

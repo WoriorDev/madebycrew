@@ -1,0 +1,16 @@
+---
+description: Regularnie commituj i pushuj zmiany na GitHub z pełnym opisem
+alwaysApply: true
+---
+
+# Commit & push na GitHub
+
+Po większym, spójnym kawałku pracy (feature, fix, redesign sekcji) — **nie czekaj aż user napisze „commit”**:
+
+1. Zrób **commit** z pełnym opisem (dlaczego + co się zmieniło dla usera; 1–3 zdania / checklista w body).
+2. Od razu **`git push`** na tracking branch (zwykle `origin`).
+3. Nie pushuj sekretów (`.env`, klucze). Nie force-push na `main`/`master`.
+4. Nie rób pustych commitów. Jeśli nic nie ma do wrzucenia — pomiń.
+5. Przy wątpliwości „czy już pushować” — lepiej push po domkniętym tasku niż zbierać ogromny diff na koniec dnia.
+
+Styl wiadomości: konkretny tytuł + body po polsku lub angielsku (jak repo), bez laconicznego `.`.

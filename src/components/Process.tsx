@@ -11,25 +11,43 @@ const steps = [
     n: "01",
     title: "Brief",
     text: "Cel, odbiorca, deadline i budżet. Układamy zakres zanim ruszy design albo kod.",
-    hint: "Rozmowa, nie formularz na 40 pól",
+    hint: "Rozmowa na start",
   },
   {
     n: "02",
-    title: "Kierunek",
-    text: "Mood, struktura i copy. Widzisz kierunek wizualny zanim napiszemy pierwszą linijkę.",
-    hint: "Zatwierdzasz zanim budujemy",
+    title: "Ustalenie warunków",
+    text: "Termin, wycena i zasady współpracy. Wiesz dokładnie, co wchodzi w zakres i jak wygląda dalsza droga.",
+    hint: "Jasne zasady, zero niedomówień",
   },
   {
     n: "03",
-    title: "Build",
-    text: "Motion, performance i mobile-first. Czysty front, bez zbędnych warstw i korpo-processu.",
-    hint: "Jeden team, pełny ownership",
+    title: "Rozpoczęcie prac",
+    text: "Kick-off, struktura i kierunek wizualny. Ruszamy z projektem dopiero gdy oboje wiemy, dokąd idziemy.",
+    hint: "Start po akceptacji",
   },
   {
     n: "04",
-    title: "Launch",
-    text: "Live, poprawki i handover. Potem zostajemy na opiekę albo oddajemy projekt czysto.",
-    hint: "Start to nie koniec",
+    title: "Realizacja i poprawki",
+    text: "Budujemy stronę warstwa po warstwie. Dostajesz wgląd w postęp i wprowadzamy poprawki na bieżąco.",
+    hint: "Widzisz, jak rośnie",
+  },
+  {
+    n: "05",
+    title: "Poprawki końcowe",
+    text: "Dopieszczamy detale: copy, spacing, motion, mobile. Domknięcie przed testami, nie po wdrożeniu.",
+    hint: "Ostatnie szlify",
+  },
+  {
+    n: "06",
+    title: "Testy i wdrożenie",
+    text: "Sprawdzamy urządzenia, szybkość i formularze. Potem publikacja na live bez chaosu.",
+    hint: "Bez niespodzianek na produkcji",
+  },
+  {
+    n: "07",
+    title: "Gotowe do użytkowania",
+    text: "Handover, dostęp i krótkie intro. Strona u Ciebie — z opcją opieki albo czystego oddania projektu.",
+    hint: "Twój produkt, Twój rytm",
   },
 ];
 
@@ -41,6 +59,7 @@ export function Process() {
     if (!section) return;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const sticky = section.querySelector<HTMLElement>("[data-proc-sticky]");
     const intro = section.querySelector<HTMLElement>("[data-proc-intro]");
     const stage = section.querySelector<HTMLElement>("[data-proc-stage]");
     const rail = section.querySelector<HTMLElement>("[data-proc-rail]");
@@ -51,6 +70,8 @@ export function Process() {
     const panels = gsap.utils.toArray<HTMLElement>("[data-proc-panel]");
     const marks = gsap.utils.toArray<HTMLElement>("[data-proc-mark]");
     const labels = gsap.utils.toArray<HTMLElement>("[data-proc-label]");
+
+    if (!sticky) return;
 
     if (reduce) {
       section.style.height = "auto";
@@ -92,6 +113,18 @@ export function Process() {
       return;
     }
 
+    const introHold = () => window.innerHeight * 1.15;
+    const stepHold = () => window.innerHeight * 1.05;
+    const outroHold = () => window.innerHeight * 0.45;
+    const scrubDistance = () =>
+      introHold() + steps.length * stepHold() + outroHold();
+
+    const syncHeight = () => {
+      // sticky viewport + scrub runway
+      section.style.height = `${scrubDistance() + window.innerHeight}px`;
+    };
+    syncHeight();
+
     const ctx = gsap.context(() => {
       gsap.set(intro, { opacity: 1, scale: 1, y: 0 });
       gsap.set(stage, { opacity: 0 });
@@ -104,56 +137,71 @@ export function Process() {
       gsap.set(marks, { opacity: 0, scale: 0.92, x: 40 });
       gsap.set(labels, { opacity: 0, y: -6 });
 
-      // No GSAP pin — sticky panel + scrub only.
-      // pinType:transform was leaving a multi-viewport void on desktop
-      // after Crew/Services pins (wrong translateY ~5×vh).
+      // Timeline durations are relative — mapped to scroll distance
+      // so each step gets a full viewport of scroll.
+      const introDur = 1.15;
+      const stepDur = 1.05;
+      const transitionDur = 0.35;
+      const outroDur = 0.45;
+
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 0.85,
+          // Bind to sticky panel: progress starts only when Process
+          // is actually stuck at the top — not while Oferty is still pinning.
+          trigger: sticky,
+          start: "clamp(top top)",
+          end: () => `+=${scrubDistance()}`,
+          scrub: 1.1,
           invalidateOnRefresh: true,
+          anticipatePin: 0,
+          onRefresh: syncHeight,
         },
       });
 
-      tl.to({}, { duration: 0.35 });
-      tl.to(intro, { opacity: 0, scale: 0.96, y: -14, duration: 0.35 });
+      // Intro dwell — stay on title for ~1 viewport of scroll
+      tl.to({}, { duration: introDur * 0.55 });
+      tl.to(intro, {
+        opacity: 0,
+        scale: 0.96,
+        y: -14,
+        duration: introDur * 0.45,
+      });
 
-      tl.to(stage, { opacity: 1, duration: 0.12 }, "-=0.12");
-      tl.to(rail, { opacity: 1, x: 0, duration: 0.32 }, "<");
-      tl.to(glow, { opacity: 0.55, scale: 1, duration: 0.4 }, "<");
-      tl.to(counter, { opacity: 1, duration: 0.2 }, "<0.04");
-      tl.to(labels[0], { opacity: 1, y: 0, duration: 0.28 }, "<");
-      tl.to(panels[0], { opacity: 1, y: 0, duration: 0.4 }, "<");
-      tl.to(marks[0], { opacity: 0.12, scale: 1, x: 0, duration: 0.4 }, "<");
-      tl.to(dots[0], { opacity: 1, scale: 1, duration: 0.25 }, "<");
-      tl.to(fill, { scaleY: 1 / steps.length, duration: 0.32 }, "<");
+      // First step enters
+      tl.to(stage, { opacity: 1, duration: transitionDur * 0.4 }, "-=0.12");
+      tl.to(rail, { opacity: 1, x: 0, duration: transitionDur }, "<");
+      tl.to(glow, { opacity: 0.55, scale: 1, duration: transitionDur }, "<");
+      tl.to(counter, { opacity: 1, duration: transitionDur * 0.6 }, "<0.05");
+      tl.to(labels[0], { opacity: 1, y: 0, duration: transitionDur }, "<");
+      tl.to(panels[0], { opacity: 1, y: 0, duration: transitionDur }, "<");
+      tl.to(marks[0], { opacity: 0.12, scale: 1, x: 0, duration: transitionDur }, "<");
+      tl.to(dots[0], { opacity: 1, scale: 1, duration: transitionDur * 0.7 }, "<");
+      tl.to(fill, { scaleY: 1 / steps.length, duration: transitionDur }, "<");
 
-      tl.to({}, { duration: 0.55 });
+      tl.to({}, { duration: stepDur * 0.65 });
 
       for (let i = 1; i < steps.length; i++) {
         const progress = (i + 1) / steps.length;
 
-        tl.to(panels[i - 1], { opacity: 0, y: -24, duration: 0.34 }, ">");
+        tl.to(panels[i - 1], { opacity: 0, y: -22, duration: transitionDur }, ">");
         tl.to(
           marks[i - 1],
-          { opacity: 0, x: -24, scale: 0.96, duration: 0.3 },
+          { opacity: 0, x: -20, scale: 0.96, duration: transitionDur },
           "<",
         );
-        tl.to(labels[i - 1], { opacity: 0, y: 6, duration: 0.24 }, "<");
-        tl.to(panels[i], { opacity: 1, y: 0, duration: 0.38 }, "<0.05");
-        tl.to(marks[i], { opacity: 0.12, scale: 1, x: 0, duration: 0.38 }, "<");
-        tl.to(labels[i], { opacity: 1, y: 0, duration: 0.28 }, "<");
-        tl.to(fill, { scaleY: progress, duration: 0.38 }, "<");
+        tl.to(labels[i - 1], { opacity: 0, y: 6, duration: transitionDur * 0.7 }, "<");
+        tl.to(panels[i], { opacity: 1, y: 0, duration: transitionDur }, "<0.06");
+        tl.to(marks[i], { opacity: 0.12, scale: 1, x: 0, duration: transitionDur }, "<");
+        tl.to(labels[i], { opacity: 1, y: 0, duration: transitionDur }, "<");
+        tl.to(fill, { scaleY: progress, duration: transitionDur }, "<");
         tl.to(
           glow,
           {
-            opacity: 0.4 + i * 0.08,
-            x: i % 2 === 0 ? 40 : -20,
-            y: i * 12,
-            duration: 0.38,
+            opacity: 0.38 + i * 0.05,
+            x: i % 2 === 0 ? 36 : -18,
+            y: i * 10,
+            duration: transitionDur,
           },
           "<",
         );
@@ -164,29 +212,48 @@ export function Process() {
             {
               opacity: di === i ? 1 : di < i ? 0.5 : 0.22,
               scale: di === i ? 1 : di < i ? 0.9 : 0.75,
-              duration: 0.3,
+              duration: transitionDur,
             },
             "<",
           );
         });
 
-        tl.to({}, { duration: 0.6 });
+        tl.to({}, { duration: stepDur * 0.65 });
       }
 
-      tl.to({}, { duration: 0.35 });
+      tl.to({}, { duration: outroDur });
     }, section);
 
-    requestAnimationFrame(() => ScrollTrigger.refresh());
-    return () => ctx.revert();
+    const refresh = () => {
+      syncHeight();
+      ScrollTrigger.refresh();
+    };
+
+    requestAnimationFrame(() => requestAnimationFrame(refresh));
+    const t1 = window.setTimeout(refresh, 200);
+    const t2 = window.setTimeout(refresh, 700);
+    window.addEventListener("load", refresh);
+
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.removeEventListener("load", refresh);
+      ctx.revert();
+    };
   }, []);
 
   return (
     <section
       id="proces"
       ref={sectionRef}
-      className="relative z-10 h-[420vh] bg-graphite md:h-[400vh]"
+      className="relative z-0 bg-graphite"
+      // Height set in JS to match scrub distance exactly
+      style={{ height: "900vh" }}
     >
-      <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden">
+      <div
+        data-proc-sticky
+        className="sticky top-0 z-0 flex h-[100svh] flex-col overflow-hidden bg-graphite"
+      >
         <div
           data-proc-glow
           aria-hidden
@@ -207,7 +274,7 @@ export function Process() {
             <span className="mt-1 block text-lime">do live.</span>
           </h2>
           <p className="mx-auto mt-7 max-w-sm text-sm leading-relaxed text-white/45 md:text-base">
-            Cztery etapy. Zero zgadywania.
+            Siedem etapów. Zero zgadywania.
           </p>
         </div>
 
@@ -216,13 +283,13 @@ export function Process() {
             <p className="eyebrow">Proces</p>
             <div
               data-proc-counter
-              className="relative h-4 min-w-[10rem] text-right md:min-w-[12rem]"
+              className="relative h-4 min-w-[11rem] text-right md:min-w-[14rem]"
             >
               {steps.map((step) => (
                 <p
                   key={`label-${step.n}`}
                   data-proc-label
-                  className="absolute inset-0 font-[family-name:var(--font-display)] text-[11px] font-bold tracking-[0.22em] text-white/40 uppercase md:text-xs"
+                  className="absolute inset-0 font-[family-name:var(--font-display)] text-[11px] font-bold tracking-[0.18em] text-white/40 uppercase md:text-xs"
                 >
                   {step.n}
                   <span className="mx-2 text-lime/50">—</span>
@@ -237,7 +304,7 @@ export function Process() {
               <div
                 data-proc-rail
                 aria-hidden
-                className="relative h-[min(46vh,19rem)] w-9 shrink-0 md:h-[min(52vh,22rem)] md:w-11"
+                className="relative h-[min(52vh,22rem)] w-9 shrink-0 md:h-[min(58vh,26rem)] md:w-11"
               >
                 <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-white/[0.1]" />
                 <div
@@ -249,11 +316,11 @@ export function Process() {
                     <span
                       key={step.n}
                       data-proc-dot
-                      className="relative flex size-3.5 items-center justify-center md:size-4"
+                      className="relative flex size-3 items-center justify-center md:size-3.5"
                     >
                       <span className="absolute inset-0 rounded-full border border-lime/40 bg-graphite shadow-[0_0_0_4px_rgba(5,6,7,0.85)]" />
-                      <span className="relative size-1.5 rounded-full bg-lime md:size-2" />
-                      <span className="absolute -right-7 hidden font-[family-name:var(--font-display)] text-[9px] font-bold tracking-[0.14em] text-white/25 md:block">
+                      <span className="relative size-1.5 rounded-full bg-lime" />
+                      <span className="absolute -right-7 hidden font-[family-name:var(--font-display)] text-[8px] font-bold tracking-[0.12em] text-white/25 md:block">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                     </span>
@@ -286,7 +353,7 @@ export function Process() {
                       <p className="mb-4 text-[11px] font-semibold tracking-[0.2em] text-lime/75 uppercase md:mb-5">
                         {step.hint}
                       </p>
-                      <h3 className="display text-[clamp(2.4rem,1.4rem+3.5vw,4.5rem)] leading-[1.02] text-off-white">
+                      <h3 className="display max-w-3xl text-[clamp(2rem,1.2rem+3vw,4rem)] leading-[1.05] text-off-white text-balance">
                         {step.title}
                       </h3>
                       <div className="mt-5 h-px w-16 origin-left bg-gradient-to-r from-lime/70 to-transparent md:mt-6" />
