@@ -3,92 +3,178 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  IconClipboardList,
+  IconFileCheck,
+  IconRocket,
+  IconCode,
+  IconAdjustments,
+  IconCloudUpload,
+  IconCircleCheck,
+  type Icon,
+} from "@tabler/icons-react";
+import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const steps = [
+const steps: {
+  n: string;
+  title: string;
+  text: string;
+  Icon: Icon;
+}[] = [
   {
     n: "01",
     title: "Brief",
     text: "Cel, odbiorca, deadline i budżet. Układamy zakres zanim ruszy design albo kod.",
-    hint: "Rozmowa na start",
+    Icon: IconClipboardList,
   },
   {
     n: "02",
     title: "Ustalenie warunków",
-    text: "Termin, wycena i zasady współpracy. Wiesz dokładnie, co wchodzi w zakres i jak wygląda dalsza droga.",
-    hint: "Jasne zasady, zero niedomówień",
+    text: "Termin, wycena i zasady współpracy. Wiesz dokładnie, co wchodzi w zakres.",
+    Icon: IconFileCheck,
   },
   {
     n: "03",
     title: "Rozpoczęcie prac",
-    text: "Kick-off, struktura i kierunek wizualny. Ruszamy z projektem dopiero gdy oboje wiemy, dokąd idziemy.",
-    hint: "Start po akceptacji",
+    text: "Kick-off, struktura i kierunek wizualny. Ruszamy dopiero gdy obie strony wiedzą dokąd idziemy.",
+    Icon: IconRocket,
   },
   {
     n: "04",
     title: "Realizacja i poprawki",
-    text: "Budujemy stronę warstwa po warstwie. Dostajesz wgląd w postęp i wprowadzamy poprawki na bieżąco.",
-    hint: "Widzisz, jak rośnie",
+    text: "Budujemy warstwa po warstwie. Dostajesz wgląd w postęp i poprawki na bieżąco.",
+    Icon: IconCode,
   },
   {
     n: "05",
     title: "Poprawki końcowe",
-    text: "Dopieszczamy detale: copy, spacing, motion, mobile. Domknięcie przed testami, nie po wdrożeniu.",
-    hint: "Ostatnie szlify",
+    text: "Dopieszczamy detale: copy, spacing, motion, mobile. Domknięcie przed testami.",
+    Icon: IconAdjustments,
   },
   {
     n: "06",
     title: "Testy i wdrożenie",
     text: "Sprawdzamy urządzenia, szybkość i formularze. Potem publikacja na live bez chaosu.",
-    hint: "Bez niespodzianek na produkcji",
+    Icon: IconCloudUpload,
   },
   {
     n: "07",
     title: "Gotowe do użytkowania",
-    text: "Handover, dostęp i krótkie intro. Strona u Ciebie, z opcją opieki albo czystego oddania projektu.",
-    hint: "Twój produkt, Twój rytm",
+    text: "Handover, dostęp i krótkie intro. Strona u Ciebie — z opieką albo czystym oddaniem.",
+    Icon: IconCircleCheck,
   },
 ];
 
-const headLines = [
-  { text: "Od briefu", lime: false },
-  { text: "do live.", lime: true },
-];
-
-const introCopy =
-  "Siedem etapów. Jasna droga od pierwszej rozmowy do strony, z której korzystasz.";
-
-function splitWords(text: string) {
-  return text.split(" ").filter(Boolean);
+function StepMedia({
+  n,
+  Icon,
+  flip,
+}: {
+  n: string;
+  Icon: Icon;
+  flip?: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex items-center gap-3",
+        flip ? "flex-row-reverse justify-start md:justify-start" : "justify-end",
+      )}
+    >
+      <div
+        className={cn(
+          "relative flex size-16 shrink-0 items-center justify-center rounded-[1.35rem] border transition duration-500 md:size-20 md:rounded-[1.75rem]",
+          "border-white/10 bg-white/[0.04]",
+          "group-data-[active=true]:border-lime/40 group-data-[active=true]:bg-[#2a2a2a]",
+          "group-data-[active=true]:shadow-[0_0_24px_rgba(215,255,50,0.12)]",
+          "group-data-[done=true]:border-lime/20 group-data-[done=true]:bg-lime/[0.06]",
+        )}
+      >
+        <Icon
+          stroke={1.5}
+          className={cn(
+            "size-7 transition duration-500 md:size-8",
+            "text-white/35",
+            "group-data-[active=true]:text-lime",
+            "group-data-[done=true]:text-lime/65",
+          )}
+        />
+      </div>
+      <span
+        className={cn(
+          "hidden size-8 items-center justify-center rounded-xl border text-[0.7rem] font-medium tracking-wide transition duration-500 md:flex",
+          "border-white/10 bg-white/[0.06] text-white/40",
+          "group-data-[active=true]:border-transparent group-data-[active=true]:bg-lime group-data-[active=true]:text-graphite",
+          "group-data-[done=true]:border-lime/25 group-data-[done=true]:bg-lime/15 group-data-[done=true]:text-lime/80",
+        )}
+      >
+        {n}
+      </span>
+    </div>
+  );
 }
 
-function WriteWords({
+function StepCopy({
+  title,
   text,
-  attr,
-  className,
+  alignRight,
 }: {
+  title: string;
   text: string;
-  attr: string;
-  className?: string;
+  alignRight?: boolean;
 }) {
-  const words = splitWords(text);
   return (
-    <>
-      {words.map((word, i) => (
-        <span key={`${attr}-${i}`}>
-          <span className="inline-block overflow-hidden align-bottom">
-            <span
-              {...{ [attr]: true }}
-              className={`inline-block will-change-transform ${className ?? ""}`}
-            >
-              {word}
-            </span>
-          </span>
-          {i < words.length - 1 ? " " : ""}
-        </span>
-      ))}
-    </>
+    <div
+      className={cn(
+        "max-w-[20rem] transition duration-500",
+        alignRight && "ml-auto text-right",
+      )}
+    >
+      <h3
+        className={cn(
+          "text-[1.05rem] font-medium leading-snug tracking-[-0.02em] transition duration-500 md:text-[1.25rem]",
+          "text-white/45 group-data-[active=true]:text-off-white",
+          "group-data-[done=true]:text-white/70",
+        )}
+      >
+        {title}
+      </h3>
+      <p
+        className={cn(
+          "mt-1.5 text-sm leading-relaxed transition duration-500 md:mt-2",
+          "text-white/25 group-data-[active=true]:text-white/50",
+          "group-data-[done=true]:text-white/35",
+        )}
+      >
+        {text}
+      </p>
+    </div>
+  );
+}
+
+function CenterDot() {
+  return (
+    <div className="relative z-10 flex justify-center">
+      <span
+        className={cn(
+          "relative flex size-8 items-center justify-center rounded-lg border transition duration-500 md:size-9",
+          "border-white/12 bg-[#141414]",
+          "group-data-[active=true]:border-lime/50 group-data-[active=true]:bg-lime/10",
+          "group-data-[done=true]:border-lime/30 group-data-[done=true]:bg-lime/[0.07]",
+        )}
+      >
+        <span
+          className={cn(
+            "size-2 rounded-full transition duration-500 md:size-2.5",
+            "scale-50 bg-white/25",
+            "group-data-[active=true]:scale-100 group-data-[active=true]:bg-lime group-data-[active=true]:shadow-[0_0_10px_rgba(215,255,50,0.7)]",
+            "group-data-[done=true]:scale-100 group-data-[done=true]:bg-lime/70",
+          )}
+        />
+      </span>
+    </div>
   );
 }
 
@@ -100,194 +186,83 @@ export function Process() {
     if (!section) return;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
+    const rows = gsap.utils.toArray<HTMLElement>("[data-proc-row]");
+    const fills = gsap.utils.toArray<HTMLElement>("[data-proc-fill]");
+    const header = section.querySelector<HTMLElement>("[data-proc-header]");
+
+    const setActive = (index: number) => {
+      rows.forEach((row, i) => {
+        row.dataset.active = i === index ? "true" : "false";
+        row.dataset.done = i < index ? "true" : "false";
+      });
+    };
+
+    if (reduce) {
+      if (fills.length) gsap.set(fills, { scaleY: 1, transformOrigin: "top center" });
+      setActive(steps.length - 1);
+      return;
+    }
 
     const ctx = gsap.context(() => {
-      const eyebrow = section.querySelector("[data-proc-eyebrow]");
-      const headWords = section.querySelectorAll("[data-proc-head-word]");
-      const introWords = section.querySelectorAll("[data-proc-intro-word]");
-      const caret = section.querySelector<HTMLElement>("[data-proc-caret]");
-      const fill = section.querySelector<HTMLElement>("[data-proc-fill]");
-      const track = section.querySelector<HTMLElement>("[data-proc-track]");
-      const glow = section.querySelector<HTMLElement>("[data-proc-glow]");
-      const stepEls = gsap.utils.toArray<HTMLElement>("[data-proc-step]");
+      if (fills.length) gsap.set(fills, { scaleY: 0, transformOrigin: "top center" });
+      setActive(0);
 
-      gsap.set(eyebrow, { opacity: 0, y: 14 });
-      gsap.set(headWords, { opacity: 0, y: "110%" });
-      gsap.set(introWords, { opacity: 0, y: 16 });
-      gsap.set(caret, { opacity: 0, scaleY: 0.4 });
-      if (fill) gsap.set(fill, { scaleY: 0, transformOrigin: "top center" });
-      if (glow) gsap.set(glow, { opacity: 0.15, scale: 0.9 });
-
-      const headTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section.querySelector("[data-proc-header]"),
-          start: "top 78%",
-          end: "top 30%",
-          scrub: 1.05,
-        },
-      });
-
-      headTl.to(eyebrow, { opacity: 1, y: 0, duration: 0.3, ease: "none" }, 0);
-      headTl.to(
-        headWords,
-        {
-          opacity: 1,
-          y: "0%",
-          stagger: 0.07,
-          duration: 0.55,
-          ease: "none",
-        },
-        0.08,
-      );
-      headTl.to(
-        introWords,
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.035,
-          duration: 0.55,
-          ease: "none",
-        },
-        0.28,
-      );
-      headTl.to(
-        caret,
-        { opacity: 1, scaleY: 1, duration: 0.25, ease: "none" },
-        0.35,
-      );
-      headTl.to(caret, { opacity: 0, duration: 0.2, ease: "none" }, 0.85);
-      if (glow) {
-        headTl.to(
-          glow,
-          { opacity: 1, scale: 1, duration: 0.7, ease: "none" },
-          0.1,
+      if (header) {
+        gsap.fromTo(
+          header.children,
+          { opacity: 0, y: 22 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.06,
+            ease: "none",
+            scrollTrigger: {
+              trigger: header,
+              start: "top 80%",
+              end: "top 45%",
+              scrub: 0.9,
+            },
+          },
         );
       }
 
-      if (fill && track) {
-        // Linia rośnie dopiero gdy kolejne etapy wchodzą w kadr
-        gsap.to(fill, {
+      const track = section.querySelector<HTMLElement>("[data-proc-track]");
+      if (fills.length && track) {
+        gsap.to(fills, {
           scaleY: 1,
           ease: "none",
           scrollTrigger: {
             trigger: track,
-            start: "top 50%",
+            start: "top 55%",
             end: "bottom 45%",
-            scrub: 0.95,
+            scrub: 0.85,
           },
         });
       }
 
-      stepEls.forEach((step, i) => {
-        const num = step.querySelector("[data-proc-num]");
-        const hintWords = step.querySelectorAll("[data-proc-hint-word]");
-        const titleWords = step.querySelectorAll("[data-proc-title-word]");
-        const textWords = step.querySelectorAll("[data-proc-text-word]");
-        const rule = step.querySelector("[data-proc-rule]");
-        const ghost = step.querySelector("[data-proc-ghost]");
-        const dot = step.querySelector("[data-proc-dot]");
-        const ring = step.querySelector("[data-proc-ring]");
-        const stepCaret = step.querySelector("[data-proc-step-caret]");
-        const article = step.querySelector("[data-proc-article]");
-
-        // Ukryte do momentu wejścia w strefę etapu
-        gsap.set(num, { opacity: 0, y: 22, scale: 0.88 });
-        gsap.set(hintWords, { opacity: 0, y: 12 });
-        gsap.set(titleWords, { opacity: 0, y: "115%" });
-        gsap.set(textWords, { opacity: 0, y: 16 });
-        gsap.set(rule, { scaleX: 0, transformOrigin: "left center" });
-        gsap.set(ghost, { opacity: 0, x: 40 });
-        gsap.set(dot, { scale: 0.45, opacity: 0.2 });
-        gsap.set(ring, { scale: 0.3, opacity: 0 });
-        gsap.set(stepCaret, { opacity: 0 });
-        gsap.set(article, { opacity: 0 });
-
-        // Animacja dopiero gdy etap jest wyżej w kadrze (nie na samym dole)
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: step,
-            start: "top 62%",
-            end: "top 22%",
-            scrub: 1.2,
-          },
-        });
-
-        tl.to(dot, { scale: 1, opacity: 1, duration: 0.28, ease: "none" }, 0);
-        tl.to(
-          ring,
-          { scale: 1.75, opacity: 0.55, duration: 0.38, ease: "none" },
-          0,
-        );
-        tl.to(ring, { scale: 2.4, opacity: 0, duration: 0.42, ease: "none" }, 0.3);
-
-        tl.to(article, { opacity: 1, duration: 0.25, ease: "none" }, 0.02);
-        tl.to(num, { opacity: 1, y: 0, scale: 1, duration: 0.32, ease: "none" }, 0.05);
-        tl.to(
-          hintWords,
+      rows.forEach((row, i) => {
+        gsap.fromTo(
+          row,
+          { opacity: 0.55, y: 18 },
           {
             opacity: 1,
             y: 0,
-            stagger: 0.045,
-            duration: 0.32,
             ease: "none",
+            scrollTrigger: {
+              trigger: row,
+              start: "top 82%",
+              end: "top 52%",
+              scrub: 0.9,
+            },
           },
-          0.1,
         );
 
-        tl.to(
-          titleWords,
-          {
-            opacity: 1,
-            y: "0%",
-            stagger: 0.08,
-            duration: 0.5,
-            ease: "none",
-          },
-          0.18,
-        );
-
-        tl.to(rule, { scaleX: 1, duration: 0.38, ease: "none" }, 0.36);
-        tl.to(ghost, { opacity: 0.055, x: 0, duration: 0.5, ease: "none" }, 0.2);
-
-        tl.to(stepCaret, { opacity: 1, duration: 0.12, ease: "none" }, 0.42);
-        tl.to(
-          textWords,
-          {
-            opacity: 1,
-            y: 0,
-            stagger: 0.03,
-            duration: 0.6,
-            ease: "none",
-          },
-          0.45,
-        );
-        tl.to(stepCaret, { opacity: 0, duration: 0.18, ease: "none" }, 0.95);
-
-        // Aktywny etap w centrum: podświetlenie kropki
         ScrollTrigger.create({
-          trigger: step,
+          trigger: row,
           start: "top 58%",
-          end: "bottom 45%",
-          onEnter: () => {
-            gsap.to(dot, { scale: 1.25, duration: 0.28, overwrite: "auto" });
-          },
-          onEnterBack: () => {
-            gsap.to(dot, { scale: 1.25, duration: 0.28, overwrite: "auto" });
-          },
-          onLeave: () => {
-            if (i < stepEls.length - 1) {
-              gsap.to(dot, { scale: 1, duration: 0.22, overwrite: "auto" });
-            }
-          },
-          onLeaveBack: () => {
-            gsap.to(dot, {
-              scale: 0.75,
-              opacity: 0.35,
-              duration: 0.22,
-              overwrite: "auto",
-            });
-          },
+          end: "bottom 42%",
+          onEnter: () => setActive(i),
+          onEnterBack: () => setActive(i),
         });
       });
     }, section);
@@ -300,153 +275,147 @@ export function Process() {
     <section
       id="proces"
       ref={sectionRef}
-      className="relative z-10 overflow-hidden py-24 md:py-32"
+      className="relative z-0 overflow-hidden py-24 md:py-32"
     >
       <div
-        data-proc-glow
         aria-hidden
-        className="pointer-events-none absolute top-[10%] left-1/2 h-[46vmax] w-[46vmax] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(215,255,50,0.12),transparent_64%)] blur-3xl"
+        className="pointer-events-none absolute top-[8%] left-1/2 h-[40vmax] w-[40vmax] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(215,255,50,0.1),transparent_65%)] blur-3xl"
       />
 
-      <div className="section-pad relative mx-auto max-w-7xl">
+      <div className="section-pad relative mx-auto max-w-6xl">
         <header
           data-proc-header
-          className="mx-auto mb-16 max-w-2xl text-center md:mb-24"
+          className="mx-auto mb-14 max-w-2xl text-center md:mb-20"
         >
-          <p data-proc-eyebrow className="eyebrow mb-4">
-            Proces
-          </p>
-          <h2 className="display text-[clamp(2.5rem,7vw,5rem)] text-off-white">
-            {headLines.map((line) => (
-              <span
-                key={line.text}
-                className={`mt-1 block first:mt-0 ${line.lime ? "text-lime" : ""}`}
-              >
-                {splitWords(line.text).map((word, i) => (
-                  <span key={`${line.text}-${i}`}>
-                    <span className="inline-block overflow-hidden align-bottom">
-                      <span
-                        data-proc-head-word
-                        className="inline-block will-change-transform"
-                      >
-                        {word}
-                      </span>
-                    </span>
-                    {i < splitWords(line.text).length - 1 ? " " : ""}
-                  </span>
-                ))}
-              </span>
-            ))}
+          <p className="eyebrow mb-4">Proces</p>
+          <h2 className="display text-[clamp(2.4rem,6vw,4.75rem)] leading-[1.02] text-off-white">
+            <span className="block">Od briefu</span>
+            <span className="mt-1 block text-lime">do live.</span>
           </h2>
-          <p className="mx-auto mt-6 max-w-md text-sm leading-relaxed text-white/45 md:text-base">
-            <WriteWords text={introCopy} attr="data-proc-intro-word" />
-            <span
-              data-proc-caret
-              aria-hidden
-              className="ml-0.5 inline-block h-[0.95em] w-[2px] translate-y-[0.12em] bg-lime align-baseline"
-            />
+          <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-white/45 md:text-base">
+            Siedem etapów zaprojektowanych tak, żebyś zawsze wiedział, gdzie
+            jesteśmy i co dzieje się dalej.
           </p>
         </header>
 
-        <div data-proc-track className="relative mx-auto max-w-3xl">
+        <div data-proc-track className="relative mx-auto max-w-[65rem]">
+          {/* Center rail — desktop */}
           <div
             aria-hidden
-            className="absolute top-3 bottom-3 left-[1.15rem] w-px bg-white/10 md:left-[1.35rem]"
+            className="pointer-events-none absolute top-10 bottom-10 left-1/2 hidden w-px -translate-x-1/2 bg-white/10 md:block"
           >
             <div
               data-proc-fill
-              className="absolute inset-x-0 top-0 h-full origin-top bg-lime shadow-[0_0_16px_rgba(215,255,50,0.5)]"
+              className="absolute inset-x-0 top-0 h-full origin-top bg-gradient-to-b from-lime via-lime to-lime/25 shadow-[0_0_14px_rgba(215,255,50,0.45)]"
+            />
+          </div>
+          {/* Left rail — mobile */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute top-6 bottom-6 left-[1.15rem] w-px bg-white/10 md:hidden"
+          >
+            <div
+              data-proc-fill
+              className="absolute inset-x-0 top-0 h-full origin-top bg-gradient-to-b from-lime via-lime to-lime/25 shadow-[0_0_14px_rgba(215,255,50,0.45)]"
             />
           </div>
 
-          <ol className="relative flex flex-col gap-24 md:gap-32">
-            {steps.map((step, i) => (
-              <li
-                key={step.n}
-                data-proc-step
-                className="relative grid grid-cols-[2.5rem_1fr] gap-5 md:grid-cols-[3rem_1fr] md:gap-8"
-              >
-                <div className="relative flex justify-center pt-2">
-                  <span className="relative z-10 flex size-3 items-center justify-center md:size-3.5">
-                    <span
-                      data-proc-ring
-                      aria-hidden
-                      className="absolute size-3 rounded-full bg-lime/30 md:size-3.5"
-                    />
-                    <span
-                      data-proc-dot
-                      className="relative flex size-3 items-center justify-center md:size-3.5"
-                    >
-                      <span className="absolute inset-0 rounded-full border border-lime/55 bg-graphite shadow-[0_0_0_5px_rgba(5,6,7,0.95)]" />
-                      <span className="relative size-1.5 rounded-full bg-lime md:size-[7px]" />
-                    </span>
-                  </span>
-                </div>
-
-                <article
-                  data-proc-article
-                  className="relative min-w-0 overflow-hidden pb-1"
+          <ol className="relative flex flex-col gap-2 md:gap-2">
+            {steps.map((step, i) => {
+              const contentRight = i % 2 === 0;
+              return (
+                <li
+                  key={step.n}
+                  data-proc-row
+                  data-active={i === 0 ? "true" : "false"}
+                  data-done="false"
+                  className={cn(
+                    "group relative rounded-[1.75rem] transition duration-500 md:rounded-[3rem]",
+                    "bg-transparent",
+                    "data-[active=true]:bg-white/[0.045]",
+                    "data-[done=true]:bg-white/[0.02]",
+                  )}
                 >
-                  <span
-                    data-proc-ghost
-                    aria-hidden
-                    className="pointer-events-none absolute -top-6 -right-2 select-none font-[family-name:var(--font-display)] text-[clamp(5rem,16vw,9rem)] leading-none font-extrabold tracking-[-0.06em] text-white md:-top-8 md:-right-4"
-                  >
-                    {step.n}
-                  </span>
-
-                  <div className="relative z-10 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <span
-                      data-proc-num
-                      className="display text-sm text-lime md:text-base"
-                    >
-                      {step.n}
-                    </span>
-                    <span className="text-[10px] tracking-[0.18em] text-white/35 uppercase md:text-[11px]">
-                      <WriteWords text={step.hint} attr="data-proc-hint-word" />
-                    </span>
+                  {/* Mobile */}
+                  <div className="grid grid-cols-[2.75rem_1fr] items-center gap-3 px-2 py-3 md:hidden">
+                    <CenterDot />
+                    <div className="flex items-center gap-3 pr-2">
+                      <div
+                        className={cn(
+                          "relative flex size-14 shrink-0 items-center justify-center rounded-[1.15rem] border transition duration-500",
+                          "border-white/10 bg-white/[0.04]",
+                          "group-data-[active=true]:border-lime/40 group-data-[active=true]:bg-[#2a2a2a]",
+                          "group-data-[done=true]:border-lime/20 group-data-[done=true]:bg-lime/[0.06]",
+                        )}
+                      >
+                        <step.Icon
+                          stroke={1.5}
+                          className={cn(
+                            "size-6 transition duration-500",
+                            "text-white/35",
+                            "group-data-[active=true]:text-lime",
+                            "group-data-[done=true]:text-lime/65",
+                          )}
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-baseline gap-2">
+                          <span
+                            className={cn(
+                              "text-[0.65rem] font-medium tracking-wide transition duration-500",
+                              "text-white/30 group-data-[active=true]:text-lime",
+                            )}
+                          >
+                            {step.n}
+                          </span>
+                          <h3
+                            className={cn(
+                              "truncate text-[0.95rem] font-medium tracking-[-0.02em] transition duration-500",
+                              "text-white/50 group-data-[active=true]:text-off-white",
+                            )}
+                          >
+                            {step.title}
+                          </h3>
+                        </div>
+                        <p
+                          className={cn(
+                            "mt-0.5 line-clamp-2 text-[0.8rem] leading-snug transition duration-500",
+                            "text-white/25 group-data-[active=true]:text-white/45",
+                          )}
+                        >
+                          {step.text}
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
-                  <h3 className="display relative z-10 mt-2 text-[clamp(1.65rem,1rem+2vw,2.75rem)] leading-[1.05] text-off-white">
-                    {splitWords(step.title).map((word, wi) => (
-                      <span key={`${step.n}-t-${wi}`}>
-                        <span className="inline-block overflow-hidden align-bottom">
-                          <span
-                            data-proc-title-word
-                            className="inline-block will-change-transform"
-                          >
-                            {word}
-                          </span>
-                        </span>
-                        {wi < splitWords(step.title).length - 1 ? " " : ""}
-                      </span>
-                    ))}
-                  </h3>
+                  {/* Desktop: Conicorn zigzag 400 | 160 | 400 */}
+                  <div className="hidden min-h-[9.5rem] grid-cols-[1fr_10rem_1fr] items-center px-6 py-5 md:grid lg:px-10">
+                    <div>
+                      {contentRight ? (
+                        <StepMedia n={step.n} Icon={step.Icon} />
+                      ) : (
+                        <StepCopy
+                          title={step.title}
+                          text={step.text}
+                          alignRight
+                        />
+                      )}
+                    </div>
 
-                  <div
-                    data-proc-rule
-                    aria-hidden
-                    className="relative z-10 mt-4 h-px w-14 bg-gradient-to-r from-lime/80 to-transparent md:mt-5"
-                  />
+                    <CenterDot />
 
-                  <p className="relative z-10 mt-3 max-w-xl text-[0.95rem] leading-relaxed text-white/50 md:mt-4 md:text-base">
-                    <WriteWords text={step.text} attr="data-proc-text-word" />
-                    <span
-                      data-proc-step-caret
-                      aria-hidden
-                      className="ml-0.5 inline-block h-[0.9em] w-[2px] translate-y-[0.1em] bg-lime/80 align-baseline"
-                    />
-                  </p>
-
-                  {i < steps.length - 1 && (
-                    <div
-                      aria-hidden
-                      className="mt-16 h-px w-10 bg-gradient-to-r from-white/12 to-transparent md:mt-20"
-                    />
-                  )}
-                </article>
-              </li>
-            ))}
+                    <div>
+                      {contentRight ? (
+                        <StepCopy title={step.title} text={step.text} />
+                      ) : (
+                        <StepMedia n={step.n} Icon={step.Icon} flip />
+                      )}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
           </ol>
         </div>
       </div>
