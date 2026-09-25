@@ -233,8 +233,8 @@ export function Process() {
           ease: "none",
           scrollTrigger: {
             trigger: track,
-            start: "top 55%",
-            end: "bottom 45%",
+            start: "top 42%",
+            end: "bottom 38%",
             scrub: 0.85,
           },
         });
@@ -250,8 +250,8 @@ export function Process() {
             ease: "none",
             scrollTrigger: {
               trigger: row,
-              start: "top 82%",
-              end: "top 52%",
+              start: "top 72%",
+              end: "top 42%",
               scrub: 0.9,
             },
           },
@@ -259,8 +259,8 @@ export function Process() {
 
         ScrollTrigger.create({
           trigger: row,
-          start: "top 58%",
-          end: "bottom 42%",
+          start: "top 40%",
+          end: "bottom 30%",
           onEnter: () => setActive(i),
           onEnterBack: () => setActive(i),
         });
