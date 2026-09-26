@@ -1,8 +1,6 @@
 ---
-description: Regularnie commituj i pushuj zmiany na GitHub z pełnym opisem
 alwaysApply: true
 ---
-
 # Commit & push na GitHub
 
 Po większym, spójnym kawałku pracy (feature, fix, redesign sekcji) — **nie czekaj aż user napisze „commit”**:
