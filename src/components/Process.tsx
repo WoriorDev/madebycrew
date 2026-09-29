@@ -17,9 +17,6 @@ import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/** Scroll budget per step (vh). Sticky runway — no GSAP pin (avoids empty spacer after Oferty). */
-const VH_PER_STEP = 0.65;
-
 const steps: {
   n: string;
   title: string;
@@ -189,11 +186,10 @@ export function Process() {
     if (!section) return;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const runway = section.querySelector<HTMLElement>("[data-proc-runway]");
     const rows = gsap.utils.toArray<HTMLElement>("[data-proc-row]", section);
     const fills = gsap.utils.toArray<HTMLElement>("[data-proc-fill]", section);
     const track = section.querySelector<HTMLElement>("[data-proc-track]");
-    const stage = section.querySelector<HTMLElement>("[data-proc-stage]");
+    const header = section.querySelector<HTMLElement>("[data-proc-header]");
     const n = steps.length;
 
     let active = -1;
@@ -207,201 +203,217 @@ export function Process() {
       });
     };
 
-    const maxTrackY = () => {
-      if (!track || !stage) return 0;
-      return Math.max(0, track.scrollHeight - stage.clientHeight);
-    };
-
-    const applyProgress = (p: number) => {
-      const progress = Math.max(0, Math.min(1, p));
-      if (fills.length) gsap.set(fills, { scaleY: progress, transformOrigin: "top center" });
-      if (track) gsap.set(track, { y: -maxTrackY() * progress });
-      const idx =
-        progress < 0.05
-          ? 0
-          : Math.min(n - 1, Math.floor(((progress - 0.05) / 0.95) * n));
-      setActive(idx);
-    };
-
     if (reduce) {
-      applyProgress(1);
+      if (fills.length) gsap.set(fills, { scaleY: 1, transformOrigin: "top center" });
+      setActive(n - 1);
       return;
     }
 
     const ctx = gsap.context(() => {
-      applyProgress(0);
+      if (fills.length) gsap.set(fills, { scaleY: 0, transformOrigin: "top center" });
+      setActive(0);
 
-      if (!runway) return;
+      if (header) {
+        gsap.fromTo(
+          header.children,
+          { opacity: 0, y: 18 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.05,
+            ease: "none",
+            scrollTrigger: {
+              trigger: header,
+              start: "top 85%",
+              end: "top 55%",
+              scrub: 0.8,
+            },
+          },
+        );
+      }
 
-      ScrollTrigger.create({
-        trigger: runway,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 0.85,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => applyProgress(self.progress),
-      });
+      if (fills.length && track) {
+        gsap.to(fills, {
+          scaleY: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: track,
+            start: "top 55%",
+            end: "bottom 45%",
+            scrub: 0.85,
+          },
+        });
+      }
+
+      if (track) {
+        ScrollTrigger.create({
+          trigger: track,
+          start: "top 55%",
+          end: "bottom 45%",
+          scrub: 0.85,
+          onUpdate: () => {
+            const mid = window.innerHeight * 0.5;
+            let best = 0;
+            let bestDist = Infinity;
+            rows.forEach((row, i) => {
+              const r = row.getBoundingClientRect();
+              const c = r.top + r.height / 2;
+              const d = Math.abs(c - mid);
+              if (d < bestDist) {
+                bestDist = d;
+                best = i;
+              }
+            });
+            setActive(best);
+          },
+        });
+      }
     }, section);
 
     requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => ctx.revert();
   }, []);
 
-  const runwayVh = Math.round(VH_PER_STEP * steps.length * 100);
-
   return (
-    <section id="proces" ref={sectionRef} className="relative z-10">
-      {/* Tall runway + sticky stage = Oferty-like scroll budget, no GSAP pin-spacer */}
+    <section
+      id="proces"
+      ref={sectionRef}
+      className="relative z-10 overflow-hidden py-24 md:py-32"
+    >
       <div
-        data-proc-runway
-        className="relative"
-        style={{ height: `${runwayVh}vh` }}
-      >
-        <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden bg-background pt-24 pb-10 md:pt-28 md:pb-12">
+        aria-hidden
+        className="pointer-events-none absolute top-[8%] left-1/2 h-[40vmax] w-[40vmax] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(215,255,50,0.1),transparent_65%)] blur-3xl"
+      />
+
+      <div className="section-pad relative mx-auto max-w-6xl">
+        <header
+          data-proc-header
+          className="mx-auto mb-14 max-w-2xl text-center md:mb-20"
+        >
+          <p className="eyebrow mb-4">Proces</p>
+          <h2 className="display text-[clamp(2.4rem,6vw,4.75rem)] leading-[1.02] text-off-white">
+            <span className="block">Od briefu</span>
+            <span className="mt-1 block text-lime">do live.</span>
+          </h2>
+          <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-white/45 md:text-base">
+            Siedem etapów zaprojektowanych tak, żebyś zawsze wiedział, gdzie
+            jesteśmy i co dzieje się dalej.
+          </p>
+        </header>
+
+        <div data-proc-track className="relative mx-auto max-w-[65rem]">
           <div
             aria-hidden
-            className="pointer-events-none absolute top-[8%] left-1/2 h-[40vmax] w-[40vmax] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(215,255,50,0.1),transparent_65%)] blur-3xl"
-          />
-
-          <div className="section-pad relative mx-auto flex w-full max-w-6xl flex-1 flex-col">
-            <header
-              data-proc-header
-              className="mx-auto mb-6 max-w-2xl shrink-0 text-center md:mb-8"
-            >
-              <p className="eyebrow mb-3 md:mb-4">Proces</p>
-              <h2 className="display text-[clamp(2.1rem,5vw,3.75rem)] leading-[1.02] text-off-white">
-                <span className="block">Od briefu</span>
-                <span className="mt-1 block text-lime">do live.</span>
-              </h2>
-              <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-white/45 md:text-base">
-                Siedem etapów zaprojektowanych tak, żebyś zawsze wiedział, gdzie
-                jesteśmy i co dzieje się dalej.
-              </p>
-            </header>
-
+            className="pointer-events-none absolute top-10 bottom-10 left-1/2 hidden w-px -translate-x-1/2 bg-white/10 md:block"
+          >
             <div
-              data-proc-stage
-              className="relative min-h-0 flex-1 overflow-hidden"
-            >
-              <div
-                data-proc-track
-                className="relative mx-auto max-w-[65rem] will-change-transform"
-              >
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute top-10 bottom-10 left-1/2 hidden w-px -translate-x-1/2 bg-white/10 md:block"
-                >
-                  <div
-                    data-proc-fill
-                    className="absolute inset-x-0 top-0 h-full origin-top bg-gradient-to-b from-lime via-lime to-lime/25 shadow-[0_0_14px_rgba(215,255,50,0.45)]"
-                  />
-                </div>
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute top-6 bottom-6 left-[1.15rem] w-px bg-white/10 md:hidden"
-                >
-                  <div
-                    data-proc-fill
-                    className="absolute inset-x-0 top-0 h-full origin-top bg-gradient-to-b from-lime via-lime to-lime/25 shadow-[0_0_14px_rgba(215,255,50,0.45)]"
-                  />
-                </div>
+              data-proc-fill
+              className="absolute inset-x-0 top-0 h-full origin-top bg-gradient-to-b from-lime via-lime to-lime/25 shadow-[0_0_14px_rgba(215,255,50,0.45)]"
+            />
+          </div>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute top-6 bottom-6 left-[1.15rem] w-px bg-white/10 md:hidden"
+          >
+            <div
+              data-proc-fill
+              className="absolute inset-x-0 top-0 h-full origin-top bg-gradient-to-b from-lime via-lime to-lime/25 shadow-[0_0_14px_rgba(215,255,50,0.45)]"
+            />
+          </div>
 
-                <ol className="relative flex flex-col gap-3 md:gap-4">
-                  {steps.map((step, i) => {
-                    const contentRight = i % 2 === 0;
-                    return (
-                      <li
-                        key={step.n}
-                        data-proc-row
-                        data-active={i === 0 ? "true" : "false"}
-                        data-done="false"
+          <ol className="relative flex flex-col gap-10 md:gap-16">
+            {steps.map((step, i) => {
+              const contentRight = i % 2 === 0;
+              return (
+                <li
+                  key={step.n}
+                  data-proc-row
+                  data-active={i === 0 ? "true" : "false"}
+                  data-done="false"
+                  className={cn(
+                    "group relative rounded-[1.75rem] transition duration-500 md:rounded-[3rem]",
+                    "bg-transparent",
+                    "data-[active=true]:bg-white/[0.045]",
+                    "data-[done=true]:bg-white/[0.02]",
+                  )}
+                >
+                  <div className="grid grid-cols-[2.75rem_1fr] items-center gap-3 px-2 py-2 md:hidden">
+                    <CenterDot />
+                    <div className="flex items-center gap-3 pr-2">
+                      <div
                         className={cn(
-                          "group relative rounded-[1.75rem] transition duration-500 md:rounded-[3rem]",
-                          "bg-transparent",
-                          "data-[active=true]:bg-white/[0.045]",
-                          "data-[done=true]:bg-white/[0.02]",
+                          "relative flex size-14 shrink-0 items-center justify-center rounded-[1.15rem] border transition duration-500",
+                          "border-white/10 bg-white/[0.04]",
+                          "group-data-[active=true]:border-lime/40 group-data-[active=true]:bg-[#2a2a2a]",
+                          "group-data-[done=true]:border-lime/20 group-data-[done=true]:bg-lime/[0.06]",
                         )}
                       >
-                        <div className="grid grid-cols-[2.75rem_1fr] items-center gap-3 px-2 py-3 md:hidden">
-                          <CenterDot />
-                          <div className="flex items-center gap-3 pr-2">
-                            <div
-                              className={cn(
-                                "relative flex size-14 shrink-0 items-center justify-center rounded-[1.15rem] border transition duration-500",
-                                "border-white/10 bg-white/[0.04]",
-                                "group-data-[active=true]:border-lime/40 group-data-[active=true]:bg-[#2a2a2a]",
-                                "group-data-[done=true]:border-lime/20 group-data-[done=true]:bg-lime/[0.06]",
-                              )}
-                            >
-                              <step.Icon
-                                stroke={1.5}
-                                className={cn(
-                                  "size-6 transition duration-500",
-                                  "text-white/35",
-                                  "group-data-[active=true]:text-lime",
-                                  "group-data-[done=true]:text-lime/65",
-                                )}
-                              />
-                            </div>
-                            <div className="min-w-0">
-                              <div className="flex items-baseline gap-2">
-                                <span
-                                  className={cn(
-                                    "text-[0.65rem] font-medium tracking-wide transition duration-500",
-                                    "text-white/30 group-data-[active=true]:text-lime",
-                                  )}
-                                >
-                                  {step.n}
-                                </span>
-                                <h3
-                                  className={cn(
-                                    "truncate text-[0.95rem] font-medium tracking-[-0.02em] transition duration-500",
-                                    "text-white/50 group-data-[active=true]:text-off-white",
-                                  )}
-                                >
-                                  {step.title}
-                                </h3>
-                              </div>
-                              <p
-                                className={cn(
-                                  "mt-0.5 line-clamp-2 text-[0.8rem] leading-snug transition duration-500",
-                                  "text-white/25 group-data-[active=true]:text-white/45",
-                                )}
-                              >
-                                {step.text}
-                              </p>
-                            </div>
-                          </div>
+                        <step.Icon
+                          stroke={1.5}
+                          className={cn(
+                            "size-6 transition duration-500",
+                            "text-white/35",
+                            "group-data-[active=true]:text-lime",
+                            "group-data-[done=true]:text-lime/65",
+                          )}
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-baseline gap-2">
+                          <span
+                            className={cn(
+                              "text-[0.65rem] font-medium tracking-wide transition duration-500",
+                              "text-white/30 group-data-[active=true]:text-lime",
+                            )}
+                          >
+                            {step.n}
+                          </span>
+                          <h3
+                            className={cn(
+                              "truncate text-[0.95rem] font-medium tracking-[-0.02em] transition duration-500",
+                              "text-white/50 group-data-[active=true]:text-off-white",
+                            )}
+                          >
+                            {step.title}
+                          </h3>
                         </div>
+                        <p
+                          className={cn(
+                            "mt-0.5 line-clamp-2 text-[0.8rem] leading-snug transition duration-500",
+                            "text-white/25 group-data-[active=true]:text-white/45",
+                          )}
+                        >
+                          {step.text}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
 
-                        <div className="hidden min-h-[8.5rem] grid-cols-[1fr_10rem_1fr] items-center px-6 py-4 md:grid lg:px-10">
-                          <div>
-                            {contentRight ? (
-                              <StepMedia n={step.n} Icon={step.Icon} />
-                            ) : (
-                              <StepCopy
-                                title={step.title}
-                                text={step.text}
-                                alignRight
-                              />
-                            )}
-                          </div>
-                          <CenterDot />
-                          <div>
-                            {contentRight ? (
-                              <StepCopy title={step.title} text={step.text} />
-                            ) : (
-                              <StepMedia n={step.n} Icon={step.Icon} flip />
-                            )}
-                          </div>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ol>
-              </div>
-            </div>
-          </div>
+                  <div className="hidden min-h-[8.5rem] grid-cols-[1fr_10rem_1fr] items-center px-6 py-4 md:grid lg:px-10">
+                    <div>
+                      {contentRight ? (
+                        <StepMedia n={step.n} Icon={step.Icon} />
+                      ) : (
+                        <StepCopy
+                          title={step.title}
+                          text={step.text}
+                          alignRight
+                        />
+                      )}
+                    </div>
+                    <CenterDot />
+                    <div>
+                      {contentRight ? (
+                        <StepCopy title={step.title} text={step.text} />
+                      ) : (
+                        <StepMedia n={step.n} Icon={step.Icon} flip />
+                      )}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
         </div>
       </div>
     </section>
