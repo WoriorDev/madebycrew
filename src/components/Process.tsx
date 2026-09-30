@@ -91,11 +91,11 @@ export function Process() {
     const n = steps.length;
 
     const headerTop = () => {
-      // Leave room under fixed nav so eyebrow "Proces" stays visible
+      // A bit lower under the nav so eyebrow + title + desc breathe
       const raw = getComputedStyle(document.documentElement)
         .getPropertyValue("--space-header")
         .trim();
-      return `calc(${raw || "5.5rem"} + 0.35rem)`;
+      return `calc(${raw || "5.5rem"} + 1.75rem)`;
     };
 
     const lockLast = () => {
@@ -103,7 +103,7 @@ export function Process() {
       setActive(n - 1);
       if (fill) gsap.set(fill, { scaleY: 1, transformOrigin: "top center" });
       if (head) gsap.set(head, { top: headerTop(), yPercent: 0 });
-      if (desc) gsap.set(desc, { opacity: 0, y: -10 });
+      if (desc) gsap.set(desc, { opacity: 0.72, y: 0 });
       if (titleEl) gsap.set(titleEl, { scale: 0.82 });
       if (stepsEl) gsap.set(stepsEl, { autoAlpha: 1, y: 0 });
     };
@@ -189,7 +189,7 @@ export function Process() {
       );
       tl.to(
         desc,
-        { opacity: 0, y: -14, duration: riseDur, ease: "none" },
+        { opacity: 0.72, duration: riseDur, ease: "none" },
         "rise",
       );
       if (titleEl) {
@@ -246,10 +246,10 @@ export function Process() {
               </h2>
               <p
                 data-proc-desc
-                className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-white/50 md:mt-5 md:text-base"
+                className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-white/50 md:mt-5 md:text-[0.95rem]"
               >
-                Siedem etapów od pierwszej rozmowy do działającej strony —
-                bez niespodzianek po drodze.
+                Od pierwszej rozmowy do wrzucenia strony na live — krok po
+                kroku, bez zgadywania.
               </p>
             </div>
           </div>
@@ -258,7 +258,7 @@ export function Process() {
             data-proc-steps
             className="section-pad relative mx-auto flex w-full max-w-5xl flex-1 flex-col"
             style={{
-              paddingTop: "calc(var(--space-header) + 7.25rem)",
+              paddingTop: "calc(var(--space-header) + 9.5rem)",
               paddingBottom: "var(--space-panel-y)",
               visibility: "hidden",
             }}
