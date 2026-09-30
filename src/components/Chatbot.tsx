@@ -219,7 +219,14 @@ export function Chatbot() {
   }
 
   return (
-    <div className="fixed right-4 bottom-4 z-[60] flex flex-col items-end gap-3 md:right-7 md:bottom-7">
+    <div
+      className="fixed z-[60] flex flex-col items-end"
+      style={{
+        right: "var(--bot-offset)",
+        bottom: "var(--bot-offset)",
+        gap: "var(--bot-gap)",
+      }}
+    >
       <AnimatePresence>
         {open && (
           <motion.section
@@ -231,24 +238,29 @@ export function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 14, scale: 0.96 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="flex h-[min(36rem,calc(100svh-6rem))] w-[min(26rem,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-[1.75rem] border border-white/12 bg-[#0a0c10]/92 shadow-[0_40px_120px_rgba(0,0,0,0.65)] backdrop-blur-2xl"
+            className="flex flex-col overflow-hidden border border-white/12 bg-[#0a0c10]/92 shadow-[0_40px_120px_rgba(0,0,0,0.65)] backdrop-blur-2xl"
+            style={{
+              height: "var(--bot-panel-h)",
+              width: "var(--bot-panel-w)",
+              borderRadius: "var(--bot-radius)",
+            }}
           >
-            <header className="relative flex items-center justify-between gap-3 border-b border-white/8 px-4 py-3.5">
+            <header className="relative flex items-center justify-between gap-2 border-b border-white/8 px-3 py-2.5 md:gap-3 md:px-4 md:py-3">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-lime/50 to-transparent" />
-              <div className="flex min-w-0 items-center gap-3">
+              <div className="flex min-w-0 items-center gap-2.5">
                 <div className="relative">
                   <Image
                     src="/brand/mark.png"
                     alt=""
                     width={36}
                     height={36}
-                    className="size-9 rounded-full object-contain mix-blend-screen"
+                    className="size-7 rounded-full object-contain mix-blend-screen md:size-8"
                   />
-                  <span className="absolute right-0 bottom-0 size-2.5 rounded-full border-2 border-[#0a0c10] bg-lime" />
+                  <span className="absolute right-0 bottom-0 size-2 rounded-full border-2 border-[#0a0c10] bg-lime md:size-2.5" />
                 </div>
                 <div className="min-w-0">
-                  <p className="display text-sm text-off-white">CrewBot</p>
-                  <p className="truncate text-[11px] text-white/45">
+                  <p className="display text-xs text-off-white md:text-sm">CrewBot</p>
+                  <p className="truncate text-[10px] text-white/45 md:text-[11px]">
                     Online · oferta, proces, kontakt
                   </p>
                 </div>
@@ -281,10 +293,10 @@ export function Chatbot() {
               {messages.length === 0 && (
                 <div className="space-y-4">
                   <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                    <p className="display text-lg text-off-white">
+                    <p className="display text-base text-off-white md:text-lg">
                       Hej, tu CrewBot.
                     </p>
-                    <p className="mt-2 text-sm leading-relaxed text-white/55">
+                    <p className="mt-1.5 text-xs leading-relaxed text-white/55 md:mt-2 md:text-sm">
                       Pytaj o landingi, redesign, timing, wycenę albo jak
                       wygląda współpraca. Konkretnie, bez bełkotu.
                     </p>
@@ -436,9 +448,10 @@ export function Chatbot() {
               initial={{ opacity: 0, y: 8, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 6, scale: 0.95 }}
-              className="absolute right-0 bottom-[calc(100%+0.75rem)] w-56 rounded-2xl border border-white/12 bg-[#0a0c10]/95 p-3 shadow-2xl backdrop-blur-xl"
+              className="absolute right-0 bottom-[calc(100%+0.55rem)] rounded-2xl border border-white/12 bg-[#0a0c10]/95 p-2.5 shadow-2xl backdrop-blur-xl md:p-3"
+              style={{ width: "var(--bot-nudge-w)" }}
             >
-              <p className="text-xs leading-relaxed text-white/70">
+              <p className="text-[11px] leading-relaxed text-white/70 md:text-xs">
                 Masz pytanie o stronę? CrewBot ogarnie ofertę w 10 sekund.
               </p>
               <button
@@ -447,7 +460,7 @@ export function Chatbot() {
                   setNudge(false);
                   setOpen(true);
                 }}
-                className="mt-2 text-[11px] font-bold text-lime"
+                className="mt-1.5 text-[10px] font-bold text-lime md:mt-2 md:text-[11px]"
               >
                 Zapytaj →
               </button>
@@ -462,13 +475,18 @@ export function Chatbot() {
             setNudge(false);
           }}
           whileTap={{ scale: 0.97 }}
-          className="inline-flex items-center gap-2.5 rounded-full bg-lime px-4 py-3 text-sm font-bold text-graphite shadow-[0_16px_50px_rgba(215,255,50,0.32)] transition hover:brightness-110"
+          className="inline-flex items-center gap-2 rounded-full bg-lime font-bold text-graphite shadow-[0_16px_50px_rgba(215,255,50,0.32)] transition hover:brightness-110"
+          style={{
+            paddingInline: "var(--bot-btn-px)",
+            paddingBlock: "var(--bot-btn-py)",
+            fontSize: "var(--bot-btn-font)",
+          }}
           aria-expanded={open}
           aria-controls={undefined}
         >
-          <span className="relative flex size-2.5">
+          <span className="relative flex size-2">
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-graphite/40" />
-            <span className="relative inline-flex size-2.5 rounded-full bg-graphite" />
+            <span className="relative inline-flex size-2 rounded-full bg-graphite" />
           </span>
           {open ? "Zamknij" : "Zapytaj CrewBota"}
         </motion.button>

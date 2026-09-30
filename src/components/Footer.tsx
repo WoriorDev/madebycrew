@@ -56,13 +56,22 @@ export function Footer() {
         className="pointer-events-none absolute -bottom-24 left-1/2 h-48 w-[70%] -translate-x-1/2 rounded-full bg-lime/8 blur-3xl"
       />
 
-      <div className="section-pad relative mx-auto max-w-[96rem] pt-[clamp(2.5rem,6svh,5rem)] pb-8 md:pb-10">
+      <div
+        className="section-pad relative mx-auto max-w-[96rem]"
+        style={{
+          paddingTop: "var(--footer-pt)",
+          paddingBottom: "var(--footer-pb)",
+        }}
+      >
         {/* top grid */}
-        <div className="grid gap-12 lg:grid-cols-[1.15fr_1.85fr] lg:gap-16">
+        <div
+          className="grid lg:grid-cols-[1.15fr_1.85fr]"
+          style={{ gap: "var(--footer-gap)" }}
+        >
           <div>
             <a
               href="#top"
-              className="inline-flex items-center gap-3"
+              className="inline-flex items-center gap-2.5 md:gap-3"
               aria-label="MadeByCrew.pl"
             >
               <Image
@@ -70,21 +79,35 @@ export function Footer() {
                 alt=""
                 width={36}
                 height={36}
-                className="size-9 object-contain mix-blend-screen"
+                className="object-contain mix-blend-screen"
+                style={{
+                  width: "var(--footer-mark)",
+                  height: "var(--footer-mark)",
+                }}
               />
-              <BrandBanner className="h-7" />
+              <BrandBanner className="w-auto h-[length:var(--footer-brand-h)]" />
             </a>
-            <p className="mt-6 max-w-xs text-lg leading-snug text-off-white/85 md:text-xl">
+            <p
+              className="mt-[clamp(0.85rem,2svh,1.5rem)] max-w-xs leading-snug text-off-white/85"
+              style={{ fontSize: "var(--footer-tagline)" }}
+            >
               Gdzie design i kod
               <span className="block text-white/45">dostają charakter.</span>
             </p>
-            <ul className="mt-6 flex items-center gap-3">
+            <ul
+              className="mt-[clamp(0.75rem,1.8svh,1.5rem)] flex items-center"
+              style={{ gap: "clamp(0.45rem,1.2svh,0.75rem)" }}
+            >
               {socials.map((s) => (
                 <li key={s.label}>
                   <a
                     href={s.href}
                     aria-label={s.label}
-                    className="inline-flex size-10 items-center justify-center rounded-full border border-white/15 text-white/60 transition hover:border-lime/45 hover:text-lime"
+                    className="inline-flex items-center justify-center rounded-full border border-white/15 text-white/60 transition hover:border-lime/45 hover:text-lime"
+                    style={{
+                      width: "var(--footer-social)",
+                      height: "var(--footer-social)",
+                    }}
                   >
                     <SocialIcon name={s.icon} />
                   </a>
@@ -93,19 +116,26 @@ export function Footer() {
             </ul>
             <a
               href="mailto:kontakt@madebycrew.pl"
-              className="display mt-5 inline-block text-xl text-off-white transition hover:text-lime md:text-2xl"
+              className="display mt-[clamp(0.65rem,1.5svh,1.25rem)] inline-block text-off-white transition hover:text-lime"
+              style={{ fontSize: "var(--footer-mail)" }}
             >
               kontakt@madebycrew.pl
             </a>
           </div>
 
-          <div className="grid gap-10 sm:grid-cols-3">
+          <div
+            className="grid sm:grid-cols-3"
+            style={{ gap: "var(--footer-col-gap)" }}
+          >
             {columns.map((col) => (
               <div key={col.title}>
-                <p className="mb-4 text-[11px] font-bold tracking-[0.2em] text-white/40 uppercase">
+                <p className="mb-[clamp(0.55rem,1.4svh,1rem)] text-[11px] font-bold tracking-[0.2em] text-white/40 uppercase">
                   {col.title}
                 </p>
-                <ul className="flex flex-col gap-2.5">
+                <ul
+                  className="flex flex-col"
+                  style={{ gap: "clamp(0.35rem,0.9svh,0.65rem)" }}
+                >
                   {col.links.map((link) => (
                     <li key={link.label}>
                       <a
@@ -123,7 +153,7 @@ export function Footer() {
         </div>
 
         {/* bottom strip */}
-        <div className="mt-14 flex flex-col gap-2 border-t border-white/8 pt-6 text-xs text-white/35 md:mt-16 md:flex-row md:items-center md:justify-between">
+        <div className="mt-[clamp(1.5rem,4svh,4rem)] flex flex-col gap-2 border-t border-white/8 pt-[clamp(0.75rem,2svh,1.5rem)] text-xs text-white/35 md:flex-row md:items-center md:justify-between">
           <p>© {year} MadeByCrew.pl. All rights reserved.</p>
           <a
             href="/login"

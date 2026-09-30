@@ -92,21 +92,28 @@ export function Header() {
           : "border-b border-transparent bg-transparent",
       )}
     >
-      <div className="section-pad mx-auto flex max-w-[96rem] items-center justify-between py-4 md:py-5">
-        <a href="#top" className="inline-flex items-center gap-3" aria-label="MadeByCrew.pl">
+      <div
+        className="section-pad mx-auto flex max-w-[96rem] items-center justify-between"
+        style={{ paddingBlock: "var(--chrome-pad-y)" }}
+      >
+        <a href="#top" className="inline-flex items-center gap-2.5 md:gap-3" aria-label="MadeByCrew.pl">
           <Image
             src="/brand/mark.png"
             alt=""
             width={32}
             height={32}
-            className="size-8 object-contain mix-blend-screen"
+            className="object-contain mix-blend-screen"
+            style={{ width: "var(--chrome-mark)", height: "var(--chrome-mark)" }}
             priority
           />
-          <BrandBanner className="hidden h-6 w-auto sm:block md:h-7" priority />
+          <BrandBanner
+            className="hidden w-auto sm:block h-[length:var(--chrome-brand-h)]"
+            priority
+          />
         </a>
 
         <nav
-          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex"
+          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex"
           aria-label="Główne"
         >
           {links.map((link) => {
@@ -117,17 +124,22 @@ export function Header() {
                 href={link.href}
                 aria-current={isActive ? "true" : undefined}
                 className={cn(
-                  "relative rounded-full px-3.5 py-2 text-[13px] font-medium transition",
+                  "relative rounded-full font-medium transition",
                   isActive
                     ? "text-lime"
                     : "text-white/70 hover:bg-white/5 hover:text-lime",
                 )}
+                style={{
+                  paddingInline: "var(--chrome-nav-px)",
+                  paddingBlock: "var(--chrome-nav-py)",
+                  fontSize: "var(--chrome-font)",
+                }}
               >
                 {link.label}
                 {isActive && (
                   <span
                     aria-hidden
-                    className="absolute inset-x-3.5 -bottom-0.5 mx-auto h-px bg-lime/80"
+                    className="absolute inset-x-3 -bottom-0.5 mx-auto h-px bg-lime/80"
                   />
                 )}
               </a>
@@ -138,12 +150,17 @@ export function Header() {
         <div className="flex items-center gap-2">
           <a
             href="#kontakt"
-            className="group relative hidden h-10 items-center gap-2 overflow-hidden rounded-full bg-lime px-5 text-[13px] font-bold text-graphite shadow-[0_0_24px_rgba(215,255,50,0.22)] transition hover:brightness-110 sm:inline-flex"
+            className="group relative hidden items-center gap-1.5 overflow-hidden rounded-full bg-lime font-bold text-graphite shadow-[0_0_24px_rgba(215,255,50,0.22)] transition hover:brightness-110 sm:inline-flex"
+            style={{
+              height: "var(--chrome-cta-h)",
+              paddingInline: "var(--chrome-cta-px)",
+              fontSize: "var(--chrome-font)",
+            }}
           >
             <span className="relative z-10">Porozmawiajmy</span>
             <span
               aria-hidden
-              className="relative z-10 inline-flex size-5 items-center justify-center rounded-full bg-graphite/15 transition group-hover:translate-x-0.5"
+              className="relative z-10 inline-flex size-4 items-center justify-center rounded-full bg-graphite/15 transition group-hover:translate-x-0.5 md:size-5"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path
@@ -162,7 +179,11 @@ export function Header() {
           </a>
           <button
             type="button"
-            className="inline-flex size-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.06] backdrop-blur-md lg:hidden"
+            className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.06] backdrop-blur-md lg:hidden"
+            style={{
+              width: "var(--chrome-cta-h)",
+              height: "var(--chrome-cta-h)",
+            }}
             aria-expanded={open}
             aria-label={open ? "Zamknij menu" : "Otwórz menu"}
             onClick={() => setOpen((v) => !v)}
