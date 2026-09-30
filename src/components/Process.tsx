@@ -89,7 +89,14 @@ export function Process() {
     const n = steps.length;
 
     const apply = (p: number, isActive: boolean) => {
+      // Po sekcji (scroll dalej) — zostań na ostatnim etapie, nie wracaj do intro
       if (!isActive) {
+        if (p >= 0.999) {
+          setPhase("steps");
+          setActive(n - 1);
+          if (fill) gsap.set(fill, { scaleY: 1, transformOrigin: "top center" });
+          return;
+        }
         setPhase("pre");
         setActive(0);
         if (fill) gsap.set(fill, { scaleY: 0, transformOrigin: "top center" });
@@ -138,6 +145,7 @@ export function Process() {
         invalidateOnRefresh: true,
         onUpdate: (self) => apply(self.progress, self.isActive),
         onRefresh: (self) => apply(self.progress, self.isActive),
+        onLeave: () => apply(1, false),
         onLeaveBack: () => apply(0, false),
       });
     }, section);
