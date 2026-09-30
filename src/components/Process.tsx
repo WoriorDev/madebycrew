@@ -67,17 +67,15 @@ const steps: {
   },
 ];
 
-/** Hold centered title, then rise, then scrub steps */
+/** Timeline fractions (scrubbed): hold → rise → steps */
 const INTRO_END = 0.34;
 const RISE_END = 0.48;
-
-type Phase = "pre" | "intro" | "rise" | "steps";
 
 export function Process() {
   const sectionRef = useRef<HTMLElement>(null);
   const fillRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const [phase, setPhase] = useState<Phase>("pre");
+  const [showSteps, setShowSteps] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -86,38 +84,47 @@ export function Process() {
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const runway = section.querySelector<HTMLElement>("[data-proc-runway]");
+    const head = section.querySelector<HTMLElement>("[data-proc-head]");
+    const desc = section.querySelector<HTMLElement>("[data-proc-desc]");
+    const titleEl = section.querySelector<HTMLElement>("[data-proc-title]");
+    const stepsEl = section.querySelector<HTMLElement>("[data-proc-steps]");
     const n = steps.length;
 
-    const apply = (p: number, isActive: boolean) => {
-      // Po sekcji (scroll dalej) — zostań na ostatnim etapie, nie wracaj do intro
-      if (!isActive) {
-        if (p >= 0.999) {
-          setPhase("steps");
-          setActive(n - 1);
-          if (fill) gsap.set(fill, { scaleY: 1, transformOrigin: "top center" });
-          return;
-        }
-        setPhase("pre");
-        setActive(0);
-        if (fill) gsap.set(fill, { scaleY: 0, transformOrigin: "top center" });
-        return;
-      }
+    const headerTop = () => {
+      const raw = getComputedStyle(document.documentElement)
+        .getPropertyValue("--space-header")
+        .trim();
+      return raw || "5.5rem";
+    };
 
-      if (p < INTRO_END) {
-        setPhase("intro");
-        setActive(0);
-        if (fill) gsap.set(fill, { scaleY: 0, transformOrigin: "top center" });
-        return;
-      }
+    const lockLast = () => {
+      setShowSteps(true);
+      setActive(n - 1);
+      if (fill) gsap.set(fill, { scaleY: 1, transformOrigin: "top center" });
+      if (head) gsap.set(head, { top: headerTop(), yPercent: 0 });
+      if (desc) gsap.set(desc, { opacity: 0, y: -10 });
+      if (titleEl) gsap.set(titleEl, { scale: 0.78 });
+      if (stepsEl) gsap.set(stepsEl, { autoAlpha: 1, y: 0 });
+    };
 
+    const resetIntro = () => {
+      setShowSteps(false);
+      setActive(0);
+      if (fill) gsap.set(fill, { scaleY: 0, transformOrigin: "top center" });
+      if (head) gsap.set(head, { top: "50%", yPercent: -50 });
+      if (desc) gsap.set(desc, { opacity: 1, y: 0 });
+      if (titleEl) gsap.set(titleEl, { scale: 1 });
+      if (stepsEl) gsap.set(stepsEl, { autoAlpha: 0, y: 36 });
+    };
+
+    const syncSteps = (p: number) => {
       if (p < RISE_END) {
-        setPhase("rise");
+        setShowSteps(false);
         setActive(0);
         if (fill) gsap.set(fill, { scaleY: 0, transformOrigin: "top center" });
         return;
       }
-
-      setPhase("steps");
+      setShowSteps(true);
       const t = (p - RISE_END) / (1 - RISE_END);
       const idx = Math.min(n - 1, Math.floor(t * n + 0.001));
       setActive(idx);
@@ -125,38 +132,88 @@ export function Process() {
     };
 
     if (reduce) {
-      setPhase("steps");
-      setActive(n - 1);
-      if (fill) gsap.set(fill, { scaleY: 1, transformOrigin: "top center" });
+      lockLast();
       return;
     }
 
-    const ctx = gsap.context(() => {
-      if (fill) gsap.set(fill, { scaleY: 0, transformOrigin: "top center" });
-      apply(0, false);
-      if (!runway) return;
+    if (!runway || !head || !desc || !stepsEl) return;
 
-      ScrollTrigger.create({
-        trigger: runway,
-        // Slight delay after sticky locks so title sits centered first
-        start: "top+=8% top",
-        end: "bottom bottom",
-        scrub: 0.85,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => apply(self.progress, self.isActive),
-        onRefresh: (self) => apply(self.progress, self.isActive),
-        onLeave: () => apply(1, false),
-        onLeaveBack: () => apply(0, false),
+    const ctx = gsap.context(() => {
+      resetIntro();
+
+      const riseDur = RISE_END - INTRO_END;
+      const stepsDur = 1 - RISE_END;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: runway,
+          start: "top+=8% top",
+          end: "bottom bottom",
+          scrub: 0.9,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            if (!self.isActive) {
+              if (self.progress >= 0.999) lockLast();
+              else resetIntro();
+              return;
+            }
+            syncSteps(self.progress);
+          },
+          onLeave: () => lockLast(),
+          onLeaveBack: () => resetIntro(),
+          onRefresh: (self) => {
+            if (!self.isActive) {
+              if (self.progress >= 0.999) lockLast();
+              else resetIntro();
+            } else {
+              syncSteps(self.progress);
+            }
+          },
+        },
       });
+
+      // Hold title + desc centered
+      tl.to({}, { duration: INTRO_END });
+
+      // Smooth rise with scroll
+      tl.to(
+        head,
+        {
+          top: headerTop,
+          yPercent: 0,
+          duration: riseDur,
+          ease: "none",
+        },
+        "rise",
+      );
+      tl.to(
+        desc,
+        { opacity: 0, y: -14, duration: riseDur, ease: "none" },
+        "rise",
+      );
+      if (titleEl) {
+        tl.to(
+          titleEl,
+          { scale: 0.78, duration: riseDur, ease: "none" },
+          "rise",
+        );
+      }
+
+      // Steps fade in as title settles
+      tl.fromTo(
+        stepsEl,
+        { autoAlpha: 0, y: 36 },
+        { autoAlpha: 1, y: 0, duration: Math.min(0.08, stepsDur * 0.2), ease: "none" },
+        RISE_END,
+      );
+
+      // Remainder maps to step scrub (driven in onUpdate)
+      tl.to({}, { duration: Math.max(0.01, stepsDur - 0.08) });
     }, section);
 
     requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => ctx.revert();
   }, []);
-
-  const titleCentered = phase === "pre" || phase === "intro";
-  const titleUp = phase === "rise" || phase === "steps";
-  const showSteps = phase === "steps";
 
   return (
     <section id="proces" ref={sectionRef} className="relative z-10">
@@ -168,45 +225,22 @@ export function Process() {
         }}
       >
         <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden bg-transparent">
-          {/* One title block: center → rises to top */}
           <div
-            className={cn(
-              "absolute inset-x-0 z-20 flex flex-col items-center px-6 transition-all duration-700 ease-out",
-              titleCentered
-                ? "top-0 bottom-0 justify-center"
-                : "top-[var(--space-header)] bottom-auto justify-start",
-            )}
+            data-proc-head
+            className="absolute inset-x-0 z-20 flex justify-center px-6 will-change-transform"
           >
-            <div
-              className={cn(
-                "mx-auto max-w-2xl text-center transition duration-700",
-                titleUp ? "opacity-100" : "opacity-100",
-              )}
-            >
+            <div className="mx-auto max-w-2xl origin-top text-center">
               <p className="eyebrow mb-3 md:mb-4">Proces</p>
               <h2
-                className={cn(
-                  "display type-display leading-[1.05] text-off-white transition-all duration-700",
-                  titleCentered ? "" : "text-[clamp(1.75rem,4vw,2.75rem)]",
-                )}
+                data-proc-title
+                className="display type-display origin-top leading-[1.05] text-off-white will-change-transform"
               >
-                <span className={titleCentered ? "block" : "inline"}>
-                  Od briefu
-                </span>
-                <span
-                  className={cn(
-                    "text-lime",
-                    titleCentered ? "mt-1 block" : "inline",
-                  )}
-                >
-                  {titleCentered ? "do live." : " do live."}
-                </span>
+                <span className="block">Od briefu</span>
+                <span className="mt-1 block text-lime">do live.</span>
               </h2>
               <p
-                className={cn(
-                  "mx-auto mt-4 max-w-md text-sm leading-relaxed text-white/50 transition duration-700 md:mt-5 md:text-base",
-                  titleCentered ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none",
-                )}
+                data-proc-desc
+                className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-white/50 md:mt-5 md:text-base"
               >
                 Siedem etapów od pierwszej rozmowy do działającej strony —
                 bez niespodzianek po drodze.
@@ -214,17 +248,13 @@ export function Process() {
             </div>
           </div>
 
-          {/* Steps — appear after title has risen */}
           <div
-            className={cn(
-              "section-pad relative mx-auto flex w-full max-w-5xl flex-1 flex-col transition duration-600",
-              showSteps
-                ? "pointer-events-auto opacity-100 translate-y-0"
-                : "pointer-events-none opacity-0 translate-y-8",
-            )}
+            data-proc-steps
+            className="section-pad relative mx-auto flex w-full max-w-5xl flex-1 flex-col"
             style={{
               paddingTop: "calc(var(--space-header) + 5.5rem)",
               paddingBottom: "var(--space-panel-y)",
+              visibility: "hidden",
             }}
           >
             <div className="relative mx-auto flex min-h-0 w-full max-w-3xl flex-1 items-center gap-6 md:gap-10 lg:gap-12">
