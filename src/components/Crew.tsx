@@ -359,7 +359,7 @@ export function Crew() {
               data-crew-about
               className="section-pad relative z-10 mx-auto w-full max-w-7xl"
             >
-              <p data-crew-title className="eyebrow mb-3 md:mb-5">
+              <p data-crew-title className="eyebrow mb-2 md:mb-3">
                 O nas
               </p>
 
@@ -367,15 +367,15 @@ export function Crew() {
                 <span data-crew-title className="block">
                   Dwóch ziomków.
                 </span>
-                <span data-crew-title className="mt-1 block text-lime">
+                <span data-crew-title className="mt-0.5 block text-lime">
                   Jeden standard.
                 </span>
               </h2>
 
-              <div className="mt-6 max-w-3xl md:mt-10 lg:max-w-4xl">
+              <div className="mt-4 max-w-3xl md:mt-6 lg:max-w-4xl">
                 <p
                   data-crew-story
-                  className="max-w-none text-[clamp(1rem,0.85rem+1.1vw,1.3rem)] leading-[1.6] font-medium tracking-[-0.01em] text-pretty text-off-white"
+                  className="max-w-none text-[clamp(0.9rem,0.75rem+0.85vw,1.15rem)] leading-[1.5] font-medium tracking-[-0.01em] text-pretty text-off-white"
                   aria-label={story.join(" ")}
                 >
                   {words.map((item, i) => (
@@ -395,14 +395,14 @@ export function Crew() {
 
                 <div
                   data-crew-stats
-                  className="mt-8 grid grid-cols-3 gap-3 border-t border-white/10 pt-7 md:mt-10 md:gap-6 md:pt-9"
+                  className="mt-5 grid grid-cols-3 gap-2 border-t border-white/10 pt-5 md:mt-7 md:gap-5 md:pt-6"
                 >
                   {stats.map((s) => (
                     <div key={s.label} data-crew-stat>
-                      <p className="display text-2xl text-lime md:text-3xl lg:text-4xl">
+                      <p className="display text-xl text-lime md:text-2xl lg:text-3xl">
                         {s.value}
                       </p>
-                      <p className="mt-1.5 text-[11px] tracking-[0.14em] text-white/40 uppercase">
+                      <p className="mt-1 text-[10px] tracking-[0.14em] text-white/40 uppercase md:text-[11px]">
                         {s.label}
                       </p>
                     </div>
