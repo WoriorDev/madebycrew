@@ -69,8 +69,8 @@ const steps: {
 
 type Phase = "pre" | "intro" | "header" | "steps";
 
-const INTRO_END = 0.16;
-const HEADER_END = 0.28;
+const INTRO_END = 0.22;
+const HEADER_END = 0.36;
 
 export function Process() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -130,7 +130,8 @@ export function Process() {
 
       ScrollTrigger.create({
         trigger: runway,
-        start: "top top",
+        // Start later so sticky locks first; progress doesn't jump mid-section on approach
+        start: "top 18%",
         end: "bottom bottom",
         scrub: 0.85,
         invalidateOnRefresh: true,

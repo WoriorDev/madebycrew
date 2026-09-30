@@ -471,10 +471,6 @@ export function Services() {
             </div>
           </div>
         </div>
-
-        <p className="section-pad mx-auto mt-4 max-w-lg shrink-0 text-center text-sm leading-relaxed text-white/45 md:mt-5 md:text-base">
-          Każdy projekt wyceniamy indywidualnie, po poznaniu Twoich potrzeb.
-        </p>
       </div>
     </section>
   );
