@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { cssVarNumber } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -269,7 +270,8 @@ export function Crew() {
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: () => `+=${window.innerHeight * 5.2}`,
+          end: () =>
+            `+=${window.innerHeight * cssVarNumber("--pin-crew-screens", 5.2)}`,
           pin: pin,
           pinType: "transform",
           scrub: 0.85,
@@ -338,18 +340,21 @@ export function Crew() {
 
   return (
     <section id="crew" ref={sectionRef} className="relative z-10">
-      <div ref={pinRef} className="relative h-[100svh] overflow-hidden">
+      <div ref={pinRef} className="panel-svh relative overflow-hidden">
         <div
           data-crew-intro
           className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center px-6"
         >
-          <p className="display max-w-3xl text-center text-[clamp(1.6rem,1rem+2.8vw,3.25rem)] leading-[1.15] text-off-white">
+          <p className="display type-display max-w-3xl text-center leading-[1.15] text-off-white">
             Chcesz wiedzieć coś o nas?
           </p>
         </div>
 
         <div data-crew-track className="will-change-transform">
-          <div className="flex h-[100svh] flex-col justify-center py-8 sm:py-10 md:py-14">
+          <div
+            className="panel-svh flex flex-col justify-center"
+            style={{ paddingBlock: "var(--space-panel-y)" }}
+          >
             <div
               data-crew-about
               className="section-pad relative z-10 mx-auto w-full max-w-7xl"
@@ -358,7 +363,7 @@ export function Crew() {
                 O nas
               </p>
 
-              <h2 className="display max-w-4xl text-[clamp(2rem,1.1rem+3.5vw,4.25rem)] leading-[1.05] text-off-white">
+              <h2 className="display type-display max-w-4xl leading-[1.05] text-off-white">
                 <span data-crew-title className="block">
                   Dwóch ziomków.
                 </span>
@@ -423,8 +428,14 @@ export function Crew() {
             </div>
           </div>
 
-          <div className="flex h-[100svh] flex-col items-center justify-center gap-4 px-4 pt-12 pb-6 sm:gap-5 md:gap-6 md:pt-14 md:pb-10">
-            <h3 className="display shrink-0 max-w-3xl px-4 text-center text-[clamp(1.35rem,0.9rem+2vw,2.5rem)] leading-[1.1] tracking-[-0.02em] text-off-white">
+          <div
+            className="panel-svh flex flex-col items-center justify-center gap-3 px-4 sm:gap-4 md:gap-5"
+            style={{
+              paddingTop: "var(--space-header)",
+              paddingBottom: "var(--space-panel-y)",
+            }}
+          >
+            <h3 className="display type-display shrink-0 max-w-3xl px-4 text-center leading-[1.1] tracking-[-0.02em] text-off-white">
               <span data-crew-tech-title className="block">
                 Z takich technologii
               </span>

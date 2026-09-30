@@ -34,7 +34,7 @@ export default function Home() {
         <Services />
         <div
           aria-hidden
-          className="relative z-10 flex h-20 items-center justify-center md:h-28"
+          className="relative z-10 flex h-[clamp(3.5rem,8svh,7rem)] items-center justify-center"
         >
           <div className="flex w-full max-w-xl items-center gap-4 px-8 md:max-w-2xl md:gap-5">
             <span className="h-px flex-1 bg-gradient-to-r from-transparent via-white/25 to-lime/40" />

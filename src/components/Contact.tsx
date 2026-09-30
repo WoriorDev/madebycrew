@@ -81,7 +81,7 @@ export function Contact() {
     <section
       id="kontakt"
       ref={sectionRef}
-      className="relative z-20 overflow-hidden pt-10 pb-24 md:pt-14 md:pb-32"
+      className="relative z-20 overflow-hidden pt-[clamp(1.5rem,4svh,3.5rem)] pb-[var(--space-section-lg)]"
     >
       <div
         aria-hidden
@@ -110,7 +110,7 @@ export function Contact() {
             <p data-contact-head className="eyebrow mb-4">
               Kontakt
             </p>
-            <h2 className="contact-display text-[clamp(2.3rem,1.2rem+4.5vw,5.75rem)] text-off-white">
+            <h2 className="contact-display type-contact text-off-white">
               <span data-contact-head className="block">
                 Masz pomysł?
               </span>

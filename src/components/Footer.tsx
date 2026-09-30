@@ -56,7 +56,7 @@ export function Footer() {
         className="pointer-events-none absolute -bottom-24 left-1/2 h-48 w-[70%] -translate-x-1/2 rounded-full bg-lime/8 blur-3xl"
       />
 
-      <div className="section-pad relative mx-auto max-w-[96rem] pt-16 pb-8 md:pt-20 md:pb-10">
+      <div className="section-pad relative mx-auto max-w-[96rem] pt-[clamp(2.5rem,6svh,5rem)] pb-8 md:pb-10">
         {/* top grid */}
         <div className="grid gap-12 lg:grid-cols-[1.15fr_1.85fr] lg:gap-16">
           <div>

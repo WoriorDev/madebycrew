@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { cn } from "@/lib/utils";
+import { cn, cssVarNumber } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -171,8 +171,10 @@ export function Services() {
     if (reduce) return;
 
     const step = cardW + GAP;
-    const fadeScroll = () => window.innerHeight * 0.7;
-    const moveScroll = () => maxIndex * window.innerHeight * 0.9;
+    const fadeScroll = () =>
+      window.innerHeight * cssVarNumber("--pin-offer-fade", 0.7);
+    const moveScroll = () =>
+      maxIndex * window.innerHeight * cssVarNumber("--pin-offer-step", 0.9);
 
     const ctx = gsap.context(() => {
       gsap.set(track, { x: 0 });
@@ -308,14 +310,20 @@ export function Services() {
 
   return (
     <section id="uslugi" ref={sectionRef} className="relative z-20">
-      <div className="flex h-[100svh] flex-col overflow-x-clip pt-24 pb-8 sm:pt-28 sm:pb-10 md:pt-32 md:pb-12">
-        <div className="section-pad mx-auto mb-5 w-full max-w-7xl shrink-0 text-center md:mb-8">
-          <p className="eyebrow mb-3 md:mb-4">Oferty</p>
-          <h2 className="display flex flex-col items-center text-[clamp(1.85rem,1rem+3.2vw,4.25rem)] leading-[1.05]">
+      <div
+        className="panel-svh flex flex-col overflow-x-clip"
+        style={{
+          paddingTop: "var(--space-header)",
+          paddingBottom: "var(--space-panel-y)",
+        }}
+      >
+        <div className="section-pad mx-auto mb-3 w-full max-w-7xl shrink-0 text-center md:mb-5">
+          <p className="eyebrow mb-2 md:mb-3">Oferty</p>
+          <h2 className="display type-display flex flex-col items-center leading-[1.05]">
             <span className="text-off-white">Twój biznes.</span>
             <span className="text-lime">Nasza dobra robota.</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/45 md:text-base">
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/45 md:mt-4 md:text-base">
             Od pierwszej strony po rozbudowany sklep. Wybierz, czego potrzebujesz,
             a my zadbamy o projekt i wykonanie.
           </p>
@@ -326,7 +334,7 @@ export function Services() {
           className="section-pad mx-auto flex w-full max-w-7xl flex-1 items-center justify-center"
         >
           {/* outer: room for Popular sticking out — no scroll here */}
-          <div className="relative overflow-visible py-6 md:py-8">
+          <div className="relative overflow-visible py-3 md:py-5">
             {/* inner strip: only horizontal clip, never scrolls itself */}
             <div
               ref={viewportRef}
@@ -372,10 +380,10 @@ export function Services() {
                       />
                     </div>
 
-                    <h3 className="min-h-[3rem] text-[1.25rem] font-semibold tracking-[-0.02em] text-off-white md:text-[1.35rem]">
+                    <h3 className="min-h-0 text-[1.15rem] font-semibold tracking-[-0.02em] text-off-white md:min-h-[2.75rem] md:text-[1.35rem]">
                       {pkg.name}
                     </h3>
-                    <p className="mt-2 min-h-[4rem] text-sm leading-relaxed text-white/45">
+                    <p className="mt-2 min-h-0 text-sm leading-relaxed text-white/45 md:min-h-[3.5rem]">
                       {pkg.blurb}
                     </p>
 

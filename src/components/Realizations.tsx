@@ -196,14 +196,14 @@ export function Realizations() {
     <section
       id="projekty"
       ref={sectionRef}
-      className="relative z-10 py-24 md:py-32"
+      className="relative z-10 section-y-lg"
     >
       <div className="section-pad mx-auto max-w-7xl">
-        <div data-proj-header className="mb-14 max-w-4xl md:mb-20">
+        <div data-proj-header className="mb-[clamp(2rem,5svh,5rem)] max-w-4xl">
           <p data-proj-eyebrow className="eyebrow mb-4">
             Projekty
           </p>
-          <h2 className="display text-[clamp(1.85rem,1rem+3vw,4.25rem)] text-off-white">
+          <h2 className="display type-display text-off-white">
             {headLines.map((line) => (
               <span
                 key={line.text}

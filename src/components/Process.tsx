@@ -278,7 +278,7 @@ export function Process() {
     <section
       id="proces"
       ref={sectionRef}
-      className="relative z-10 overflow-hidden py-24 md:py-32"
+      className="relative z-10 overflow-hidden section-y-lg"
     >
       <div
         aria-hidden
@@ -288,10 +288,10 @@ export function Process() {
       <div className="section-pad relative mx-auto max-w-6xl">
         <header
           data-proc-header
-          className="mx-auto mb-14 max-w-2xl text-center md:mb-20"
+          className="mx-auto mb-[clamp(2rem,5svh,5rem)] max-w-2xl text-center md:mb-[clamp(2.5rem,6svh,5rem)]"
         >
           <p className="eyebrow mb-4">Proces</p>
-          <h2 className="display text-[clamp(2.4rem,6vw,4.75rem)] leading-[1.02] text-off-white">
+          <h2 className="display type-display leading-[1.02] text-off-white">
             <span className="block">Od briefu</span>
             <span className="mt-1 block text-lime">do live.</span>
           </h2>
@@ -321,7 +321,7 @@ export function Process() {
             />
           </div>
 
-          <ol className="relative flex flex-col gap-10 md:gap-16">
+          <ol className="relative flex flex-col gap-8 md:gap-12">
             {steps.map((step, i) => {
               const contentRight = i % 2 === 0;
               return (
@@ -389,7 +389,7 @@ export function Process() {
                     </div>
                   </div>
 
-                  <div className="hidden min-h-[8.5rem] grid-cols-[1fr_10rem_1fr] items-center px-6 py-4 md:grid lg:px-10">
+                  <div className="hidden min-h-0 grid-cols-[1fr_10rem_1fr] items-center px-6 py-3 md:grid lg:px-10">
                     <div>
                       {contentRight ? (
                         <StepMedia n={step.n} Icon={step.Icon} />
