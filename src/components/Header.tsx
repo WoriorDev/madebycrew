@@ -29,6 +29,12 @@ function getActiveHref() {
     if (!el) continue;
 
     const rect = el.getBoundingClientRect();
+
+    // Proces: nie zaznaczaj póki sekcja nie dojdzie blisko góry (sticky)
+    if (link.href === "#proces" && rect.top > window.innerHeight * 0.12) {
+      continue;
+    }
+
     const visibleTop = Math.max(rect.top, 0);
     const visibleBottom = Math.min(rect.bottom, window.innerHeight);
     const visible = Math.max(0, visibleBottom - visibleTop);

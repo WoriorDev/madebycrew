@@ -130,8 +130,8 @@ export function Process() {
 
       ScrollTrigger.create({
         trigger: runway,
-        // Start later so sticky locks first; progress doesn't jump mid-section on approach
-        start: "top 18%",
+        // Progress starts after sticky has already locked and scrolled a bit
+        start: "top+=18% top",
         end: "bottom bottom",
         scrub: 0.85,
         invalidateOnRefresh: true,
