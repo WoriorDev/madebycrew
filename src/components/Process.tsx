@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -67,181 +67,47 @@ const steps: {
   },
 ];
 
-function StepMedia({
-  n,
-  Icon,
-  flip,
-}: {
-  n: string;
-  Icon: Icon;
-  flip?: boolean;
-}) {
-  return (
-    <div
-      className={cn(
-        "flex items-center gap-3",
-        flip ? "flex-row-reverse justify-start md:justify-start" : "justify-end",
-      )}
-    >
-      <div
-        className={cn(
-          "relative flex size-14 shrink-0 items-center justify-center rounded-[1.2rem] border transition duration-500 md:size-16 md:rounded-[1.45rem]",
-          "border-white/10 bg-white/[0.04]",
-          "group-data-[active=true]:border-lime/40 group-data-[active=true]:bg-[#2a2a2a]",
-          "group-data-[active=true]:shadow-[0_0_24px_rgba(215,255,50,0.12)]",
-          "group-data-[done=true]:border-lime/20 group-data-[done=true]:bg-lime/[0.06]",
-        )}
-      >
-        <Icon
-          stroke={1.5}
-          className={cn(
-            "size-6 transition duration-500 md:size-7",
-            "text-white/35",
-            "group-data-[active=true]:text-lime",
-            "group-data-[done=true]:text-lime/65",
-          )}
-        />
-      </div>
-      <span
-        className={cn(
-          "hidden size-7 items-center justify-center rounded-lg border text-[0.65rem] font-medium tracking-wide transition duration-500 md:flex",
-          "border-white/10 bg-white/[0.06] text-white/40",
-          "group-data-[active=true]:border-transparent group-data-[active=true]:bg-lime group-data-[active=true]:text-graphite",
-          "group-data-[done=true]:border-lime/25 group-data-[done=true]:bg-lime/15 group-data-[done=true]:text-lime/80",
-        )}
-      >
-        {n}
-      </span>
-    </div>
-  );
-}
-
-function StepCopy({
-  title,
-  text,
-  alignRight,
-}: {
-  title: string;
-  text: string;
-  alignRight?: boolean;
-}) {
-  return (
-    <div
-      className={cn(
-        "max-w-[18rem] transition duration-500 md:max-w-[20rem]",
-        alignRight && "ml-auto text-right",
-      )}
-    >
-      <h3
-        className={cn(
-          "text-[1rem] font-medium leading-snug tracking-[-0.02em] transition duration-500 md:text-[1.15rem]",
-          "text-white/45 group-data-[active=true]:text-off-white",
-          "group-data-[done=true]:text-white/70",
-        )}
-      >
-        {title}
-      </h3>
-      <p
-        className={cn(
-          "mt-1 text-sm leading-relaxed transition duration-500",
-          "text-white/25 group-data-[active=true]:text-white/50",
-          "group-data-[done=true]:text-white/35",
-        )}
-      >
-        {text}
-      </p>
-    </div>
-  );
-}
-
-function CenterDot() {
-  return (
-    <div className="relative z-10 flex justify-center">
-      <span
-        className={cn(
-          "relative flex size-7 items-center justify-center rounded-lg border transition duration-500 md:size-8",
-          "border-white/12 bg-[#141414]",
-          "group-data-[active=true]:border-lime/50 group-data-[active=true]:bg-lime/10",
-          "group-data-[done=true]:border-lime/30 group-data-[done=true]:bg-lime/[0.07]",
-        )}
-      >
-        <span
-          className={cn(
-            "size-2 rounded-full transition duration-500",
-            "scale-50 bg-white/25",
-            "group-data-[active=true]:scale-100 group-data-[active=true]:bg-lime group-data-[active=true]:shadow-[0_0_10px_rgba(215,255,50,0.7)]",
-            "group-data-[done=true]:scale-100 group-data-[done=true]:bg-lime/70",
-          )}
-        />
-      </span>
-    </div>
-  );
-}
-
 export function Process() {
   const sectionRef = useRef<HTMLElement>(null);
+  const fillRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
 
   useEffect(() => {
     const section = sectionRef.current;
+    const fill = fillRef.current;
     if (!section) return;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const runway = section.querySelector<HTMLElement>("[data-proc-runway]");
-    const rows = gsap.utils.toArray<HTMLElement>("[data-proc-row]", section);
-    const fills = gsap.utils.toArray<HTMLElement>("[data-proc-fill]", section);
-    const track = section.querySelector<HTMLElement>("[data-proc-track]");
-    const stage = section.querySelector<HTMLElement>("[data-proc-stage]");
     const n = steps.length;
 
-    let active = -1;
-    const setActive = (index: number) => {
-      const next = Math.max(0, Math.min(n - 1, index));
-      if (next === active) return;
-      active = next;
-      rows.forEach((row, i) => {
-        row.dataset.active = i === next ? "true" : "false";
-        row.dataset.done = i < next ? "true" : "false";
-      });
-    };
-
-    const yForIndex = (i: number) => {
-      if (!track || !stage || !rows[i]) return 0;
-      const row = rows[i];
-      const mid = row.offsetTop + row.offsetHeight / 2;
-      return stage.clientHeight / 2 - mid;
-    };
-
-    const applyProgress = (p: number) => {
-      const progress = Math.max(0, Math.min(1, p));
-      const exact = progress * (n - 1);
-      const i0 = Math.floor(exact);
-      const i1 = Math.min(n - 1, i0 + 1);
-      const t = exact - i0;
-      const y = yForIndex(i0) * (1 - t) + yForIndex(i1) * t;
-      if (track) gsap.set(track, { y });
-      if (fills.length) {
-        gsap.set(fills, { scaleY: progress, transformOrigin: "top center" });
-      }
-      setActive(Math.round(exact));
-    };
-
     if (reduce) {
-      applyProgress(1);
+      setActive(n - 1);
+      if (fill) gsap.set(fill, { scaleY: 1, transformOrigin: "top center" });
       return;
     }
 
     const ctx = gsap.context(() => {
-      applyProgress(0);
+      if (fill) gsap.set(fill, { scaleY: 0, transformOrigin: "top center" });
       if (!runway) return;
 
       ScrollTrigger.create({
         trigger: runway,
         start: "top top",
         end: "bottom bottom",
-        scrub: 0.9,
+        scrub: 0.85,
         invalidateOnRefresh: true,
-        onUpdate: (self) => applyProgress(self.progress),
-        onRefresh: (self) => applyProgress(self.progress),
+        onUpdate: (self) => {
+          const p = self.progress;
+          if (fill) gsap.set(fill, { scaleY: p });
+          const idx = Math.min(n - 1, Math.floor(p * n + 0.001));
+          setActive(idx);
+        },
+        onRefresh: (self) => {
+          const p = self.progress;
+          if (fill) gsap.set(fill, { scaleY: p });
+          setActive(Math.min(n - 1, Math.floor(p * n + 0.001)));
+        },
       });
     }, section);
 
@@ -261,147 +127,129 @@ export function Process() {
         <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden bg-background">
           <div
             aria-hidden
-            className="pointer-events-none absolute top-[10%] left-1/2 h-[36vmax] w-[36vmax] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(215,255,50,0.09),transparent_65%)] blur-3xl"
+            className="pointer-events-none absolute top-[12%] left-1/2 h-[36vmax] w-[36vmax] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(215,255,50,0.09),transparent_65%)] blur-3xl"
           />
 
           <div
-            className="section-pad relative mx-auto flex w-full max-w-6xl flex-1 flex-col"
+            className="section-pad relative mx-auto flex w-full max-w-5xl flex-1 flex-col"
             style={{
               paddingTop: "var(--space-header)",
               paddingBottom: "var(--space-panel-y)",
             }}
           >
-            <header
-              data-proc-header
-              className="mx-auto mb-3 max-w-2xl shrink-0 text-center md:mb-4"
-            >
-              <p className="eyebrow mb-2">Proces</p>
+            <header className="mx-auto mb-6 max-w-2xl shrink-0 text-center md:mb-8">
+              <p className="eyebrow mb-2 md:mb-3">Proces</p>
               <h2 className="display type-display leading-[1.02] text-off-white">
                 <span className="inline">Od briefu </span>
                 <span className="text-lime">do live.</span>
               </h2>
             </header>
 
-            <div
-              data-proc-stage
-              className="relative min-h-0 flex-1 overflow-hidden"
-            >
-              <div
-                data-proc-track
-                className="relative mx-auto max-w-[65rem] will-change-transform"
+            <div className="relative mx-auto flex min-h-0 w-full max-w-3xl flex-1 items-center gap-6 md:gap-10 lg:gap-14">
+              {/* Left progress rail — like page scroll indicator */}
+              <aside
+                aria-hidden
+                className="relative flex h-[min(52vh,22rem)] w-8 shrink-0 flex-col items-center md:h-[min(56vh,26rem)] md:w-10"
               >
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute top-8 bottom-8 left-1/2 hidden w-px -translate-x-1/2 bg-white/10 md:block"
-                >
+                <div className="relative h-full w-px">
                   <div
-                    data-proc-fill
-                    className="absolute inset-x-0 top-0 h-full origin-top bg-gradient-to-b from-lime via-lime to-lime/25 shadow-[0_0_14px_rgba(215,255,50,0.45)]"
+                    className="absolute inset-0 opacity-40"
+                    style={{
+                      backgroundImage:
+                        "repeating-linear-gradient(to bottom, rgba(247,248,250,0.45) 0 4px, transparent 4px 10px)",
+                    }}
                   />
-                </div>
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute top-4 bottom-4 left-[1.05rem] w-px bg-white/10 md:hidden"
-                >
                   <div
-                    data-proc-fill
-                    className="absolute inset-x-0 top-0 h-full origin-top bg-gradient-to-b from-lime via-lime to-lime/25 shadow-[0_0_14px_rgba(215,255,50,0.45)]"
+                    ref={fillRef}
+                    className="absolute inset-x-0 top-0 h-full origin-top scale-y-0 bg-lime"
+                    style={{ boxShadow: "0 0 12px rgba(215,255,50,0.55)" }}
                   />
-                </div>
-
-                <ol className="relative flex flex-col gap-4 md:gap-5">
-                  {steps.map((step, i) => {
-                    const contentRight = i % 2 === 0;
-                    return (
+                  <ol className="absolute inset-0 flex flex-col justify-between">
+                    {steps.map((step, i) => (
                       <li
                         key={step.n}
-                        data-proc-row
-                        data-active={i === 0 ? "true" : "false"}
-                        data-done="false"
-                        className={cn(
-                          "group relative rounded-[1.5rem] transition duration-500 md:rounded-[2.5rem]",
-                          "bg-transparent",
-                          "data-[active=true]:bg-white/[0.045]",
-                          "data-[done=true]:bg-white/[0.02]",
-                        )}
+                        className="relative flex justify-center"
                       >
-                        <div className="grid grid-cols-[2.5rem_1fr] items-center gap-3 px-2 py-2 md:hidden">
-                          <CenterDot />
-                          <div className="flex items-center gap-3 pr-2">
-                            <div
-                              className={cn(
-                                "relative flex size-12 shrink-0 items-center justify-center rounded-[1rem] border transition duration-500",
-                                "border-white/10 bg-white/[0.04]",
-                                "group-data-[active=true]:border-lime/40 group-data-[active=true]:bg-[#2a2a2a]",
-                                "group-data-[done=true]:border-lime/20 group-data-[done=true]:bg-lime/[0.06]",
-                              )}
-                            >
-                              <step.Icon
-                                stroke={1.5}
-                                className={cn(
-                                  "size-5 transition duration-500",
-                                  "text-white/35",
-                                  "group-data-[active=true]:text-lime",
-                                  "group-data-[done=true]:text-lime/65",
-                                )}
-                              />
-                            </div>
-                            <div className="min-w-0">
-                              <div className="flex items-baseline gap-2">
-                                <span
-                                  className={cn(
-                                    "text-[0.65rem] font-medium tracking-wide transition duration-500",
-                                    "text-white/30 group-data-[active=true]:text-lime",
-                                  )}
-                                >
-                                  {step.n}
-                                </span>
-                                <h3
-                                  className={cn(
-                                    "truncate text-[0.95rem] font-medium tracking-[-0.02em] transition duration-500",
-                                    "text-white/50 group-data-[active=true]:text-off-white",
-                                  )}
-                                >
-                                  {step.title}
-                                </h3>
-                              </div>
-                              <p
-                                className={cn(
-                                  "mt-0.5 line-clamp-2 text-[0.78rem] leading-snug transition duration-500",
-                                  "text-white/25 group-data-[active=true]:text-white/45",
-                                )}
-                              >
-                                {step.text}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="hidden grid-cols-[1fr_9rem_1fr] items-center px-5 py-3 md:grid lg:px-8">
-                          <div>
-                            {contentRight ? (
-                              <StepMedia n={step.n} Icon={step.Icon} />
-                            ) : (
-                              <StepCopy
-                                title={step.title}
-                                text={step.text}
-                                alignRight
-                              />
-                            )}
-                          </div>
-                          <CenterDot />
-                          <div>
-                            {contentRight ? (
-                              <StepCopy title={step.title} text={step.text} />
-                            ) : (
-                              <StepMedia n={step.n} Icon={step.Icon} flip />
-                            )}
-                          </div>
-                        </div>
+                        <span
+                          className={cn(
+                            "size-2.5 rounded-full border transition duration-400 md:size-3",
+                            i < active
+                              ? "border-lime/50 bg-lime/70"
+                              : i === active
+                                ? "border-lime bg-lime shadow-[0_0_14px_3px_rgba(215,255,50,0.75)]"
+                                : "border-white/25 bg-[#0a0c10]",
+                          )}
+                        />
                       </li>
-                    );
-                  })}
-                </ol>
+                    ))}
+                  </ol>
+                </div>
+              </aside>
+
+              {/* Single active card */}
+              <div className="relative min-h-0 flex-1">
+                {steps.map((step, i) => {
+                  const Icon = step.Icon;
+                  const on = i === active;
+                  return (
+                    <article
+                      key={step.n}
+                      aria-hidden={!on}
+                      className={cn(
+                        "absolute inset-0 flex flex-col justify-center transition duration-500 ease-out",
+                        on
+                          ? "pointer-events-auto translate-y-0 opacity-100"
+                          : "pointer-events-none translate-y-3 opacity-0",
+                      )}
+                    >
+                      <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.035] px-6 py-7 md:rounded-[2.25rem] md:px-10 md:py-10">
+                        <div className="flex items-center gap-4 md:gap-5">
+                          <div
+                            className={cn(
+                              "flex size-14 shrink-0 items-center justify-center rounded-[1.2rem] border md:size-16 md:rounded-[1.4rem]",
+                              "border-lime/40 bg-[#2a2a2a] shadow-[0_0_28px_rgba(215,255,50,0.14)]",
+                            )}
+                          >
+                            <Icon
+                              stroke={1.5}
+                              className="size-7 text-lime md:size-8"
+                            />
+                          </div>
+                          <span className="display text-[clamp(2rem,5vw,3.25rem)] leading-none tracking-[-0.04em] text-lime">
+                            {step.n}
+                          </span>
+                        </div>
+                        <h3 className="display mt-5 text-[clamp(1.45rem,3.5vw,2.25rem)] leading-[1.1] text-off-white md:mt-6">
+                          {step.title}
+                        </h3>
+                        <p className="mt-3 max-w-lg text-sm leading-relaxed text-white/50 md:mt-4 md:text-base">
+                          {step.text}
+                        </p>
+                        <p className="mt-6 text-[11px] font-medium tracking-[0.16em] text-white/30 uppercase">
+                          Etap {i + 1} / {steps.length}
+                        </p>
+                      </div>
+                    </article>
+                  );
+                })}
+                {/* Spacer so absolute cards have height */}
+                <div className="invisible flex flex-col justify-center" aria-hidden>
+                  <div className="rounded-[1.75rem] px-6 py-7 md:rounded-[2.25rem] md:px-10 md:py-10">
+                    <div className="flex items-center gap-4 md:gap-5">
+                      <div className="size-14 md:size-16" />
+                      <span className="display text-[clamp(2rem,5vw,3.25rem)] leading-none">
+                        00
+                      </span>
+                    </div>
+                    <h3 className="display mt-5 text-[clamp(1.45rem,3.5vw,2.25rem)] leading-[1.1] md:mt-6">
+                      {steps[0].title}
+                    </h3>
+                    <p className="mt-3 max-w-lg text-sm md:mt-4 md:text-base">
+                      {steps[0].text}
+                    </p>
+                    <p className="mt-6 text-[11px]">Etap</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

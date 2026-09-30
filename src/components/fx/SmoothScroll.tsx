@@ -4,15 +4,12 @@ import { useEffect, useState } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { cssVarNumber } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const easeOutExpo = (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
+const HEADER_OFFSET = -88;
 
-function headerOffset() {
-  return cssVarNumber("--header-offset", -88);
-}
+const easeOutExpo = (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
 
 /** Lenis + GSAP ticker + clean in-page anchor scrolling */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
@@ -40,7 +37,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
         if (!section) return;
         event.preventDefault();
         const top =
-          section.getBoundingClientRect().top + window.scrollY + headerOffset();
+          section.getBoundingClientRect().top + window.scrollY + HEADER_OFFSET;
         window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
         history.replaceState(null, "", href);
       };
@@ -56,7 +53,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       smoothWheel: true,
       touchMultiplier: 1.2,
       anchors: {
-        offset: headerOffset(),
+        offset: HEADER_OFFSET,
         duration: 1.25,
         easing: easeOutExpo,
       },
