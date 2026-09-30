@@ -221,7 +221,7 @@ export function Process() {
         data-proc-runway
         className="relative"
         style={{
-          height: `calc((var(--proc-intro-vh, 1.1) + var(--proc-vh-per-step, 0.5) * ${steps.length}) * 100vh)`,
+          height: `calc((var(--proc-intro-vh, 1.1) + var(--proc-vh-per-step, 0.75) * ${steps.length}) * 100vh)`,
         }}
       >
         <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden bg-transparent">
