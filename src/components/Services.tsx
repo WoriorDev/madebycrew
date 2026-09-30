@@ -8,9 +8,9 @@ import { cn, cssVarNumber } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const GAP = 20;
-const MAX_CARD_DESKTOP = 340;
-const MAX_CARD_MOBILE = 360;
+const GAP = 16;
+const MAX_CARD_DESKTOP = 280;
+const MAX_CARD_MOBILE = 300;
 const MQ = "(min-width: 768px)";
 
 const packages = [
@@ -317,13 +317,13 @@ export function Services() {
           paddingBottom: "var(--space-panel-y)",
         }}
       >
-        <div className="section-pad mx-auto mb-3 w-full max-w-7xl shrink-0 text-center md:mb-5">
-          <p className="eyebrow mb-2 md:mb-3">Oferty</p>
+        <div className="section-pad mx-auto mb-2 w-full max-w-7xl shrink-0 text-center md:mb-3">
+          <p className="eyebrow mb-1.5 md:mb-2">Oferty</p>
           <h2 className="display type-display flex flex-col items-center leading-[1.05]">
             <span className="text-off-white">Twój biznes.</span>
             <span className="text-lime">Nasza dobra robota.</span>
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/45 md:mt-4 md:text-base">
+          <p className="mx-auto mt-2 hidden max-w-xl text-sm leading-relaxed text-white/45 min-[801px]:block md:mt-3">
             Od pierwszej strony po rozbudowany sklep. Wybierz, czego potrzebujesz,
             a my zadbamy o projekt i wykonanie.
           </p>
@@ -334,7 +334,7 @@ export function Services() {
           className="section-pad mx-auto flex w-full max-w-7xl flex-1 items-center justify-center"
         >
           {/* outer: room for Popular sticking out — no scroll here */}
-          <div className="relative overflow-visible py-3 md:py-5">
+          <div className="relative overflow-visible py-1 md:py-2">
             {/* inner strip: only horizontal clip, never scrolls itself */}
             <div
               ref={viewportRef}
@@ -355,35 +355,35 @@ export function Services() {
                       flex: cardW ? `0 0 ${cardW}px` : "0 0 auto",
                     }}
                     className={cn(
-                      "wire-card relative box-border flex flex-col p-6 md:p-7",
-                      !cardW && "w-full max-w-[340px]",
+                      "wire-card relative box-border flex flex-col p-4 md:p-5",
+                      !cardW && "w-full max-w-[280px]",
                       pkg.popular &&
-                        "z-20 origin-center scale-[1.05] border-lime/50 bg-white/[0.05] shadow-[0_0_40px_rgba(215,255,50,0.12)]",
+                        "z-20 origin-center scale-[1.04] border-lime/50 bg-white/[0.05] shadow-[0_0_40px_rgba(215,255,50,0.12)]",
                     )}
                   >
                     {pkg.popular && (
                       <span
                         data-popular-badge
-                        className="absolute top-5 right-5 rounded-full bg-lime px-3.5 py-1.5 text-[11px] font-bold tracking-[0.14em] text-graphite uppercase"
+                        className="absolute top-3 right-3 rounded-full bg-lime px-2.5 py-1 text-[10px] font-bold tracking-[0.14em] text-graphite uppercase"
                       >
                         Popular
                       </span>
                     )}
 
-                    <div className="relative mb-5 h-14 w-14">
+                    <div className="relative mb-3 h-10 w-10 md:mb-4 md:h-12 md:w-12">
                       <Image
                         src={pkg.icon}
                         alt=""
                         fill
-                        sizes="56px"
+                        sizes="48px"
                         className="object-contain object-left"
                       />
                     </div>
 
-                    <h3 className="min-h-0 text-[1.15rem] font-semibold tracking-[-0.02em] text-off-white md:min-h-[2.75rem] md:text-[1.35rem]">
+                    <h3 className="min-h-0 text-[1.05rem] font-semibold tracking-[-0.02em] text-off-white md:text-[1.2rem]">
                       {pkg.name}
                     </h3>
-                    <p className="mt-2 min-h-0 text-sm leading-relaxed text-white/45 md:min-h-[3.5rem]">
+                    <p className="mt-1.5 line-clamp-3 min-h-0 text-xs leading-relaxed text-white/45 md:text-sm">
                       {pkg.blurb}
                     </p>
 
@@ -391,7 +391,7 @@ export function Services() {
                       href="#kontakt"
                       data-popular-cta={pkg.popular ? true : undefined}
                       className={cn(
-                        "mt-6 inline-flex h-11 shrink-0 items-center justify-center rounded-full border text-sm font-bold transition",
+                        "mt-4 inline-flex h-9 shrink-0 items-center justify-center rounded-full border text-xs font-bold transition md:mt-5 md:h-10 md:text-sm",
                         pkg.popular
                           ? "border-transparent bg-lime text-graphite hover:brightness-110"
                           : "border-white/12 bg-white/[0.03] text-off-white hover:border-lime/40 hover:text-lime",
@@ -400,11 +400,11 @@ export function Services() {
                       {pkg.cta}
                     </a>
 
-                    <ul className="mt-7 flex flex-col gap-2.5 border-t border-white/8 pt-6">
+                    <ul className="mt-4 flex flex-col gap-1.5 border-t border-white/8 pt-4 md:mt-5 md:gap-2 md:pt-5">
                       {pkg.features.map((feature) => (
                         <li
                           key={feature}
-                          className="flex items-start gap-2.5 text-sm text-white/60"
+                          className="flex items-start gap-2 text-xs text-white/60 md:text-sm"
                         >
                           <span
                             className={cn(

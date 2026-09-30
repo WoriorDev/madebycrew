@@ -14,9 +14,10 @@
   --type-display: clamp(1.5rem, 1.35svh + 2vw, 3.25rem);
   --type-contact: clamp(1.85rem, 1.55svh + 2.4vw, 4.25rem);
   --pin-crew-screens: 4;
-  --pin-offer-fade: 0.55;
-  --pin-offer-step: 0.7;
-  --proc-vh-per-step: 0.55;
+  --pin-offer-fade: 0.4;
+  --pin-offer-step: 0.5;
+  --proc-vh-per-step: 0.5;
+  --proc-intro-vh: 0.9;
 
   /* Chrome: nav / footer / CrewBot — scale with viewport height */
   --chrome-pad-y: clamp(0.55rem, 1.4svh, 1.15rem);
@@ -183,9 +184,10 @@ body {
     --type-display: clamp(1.35rem, 1.05svh + 1.6vw, 2.25rem);
     --type-contact: clamp(1.6rem, 1.2svh + 2vw, 2.65rem);
     --pin-crew-screens: 3.1;
-    --pin-offer-fade: 0.38;
-    --pin-offer-step: 0.48;
-    --proc-vh-per-step: 0.48;
+    --pin-offer-fade: 0.28;
+    --pin-offer-step: 0.36;
+    --proc-vh-per-step: 0.42;
+    --proc-intro-vh: 0.75;
 
     --chrome-pad-y: clamp(0.4rem, 1svh, 0.75rem);
     --chrome-mark: clamp(1.25rem, 2.6svh, 1.65rem);
@@ -220,9 +222,10 @@ body {
     --type-display: clamp(1.2rem, 0.9svh + 1.4vw, 1.9rem);
     --type-contact: clamp(1.4rem, 1svh + 1.7vw, 2.2rem);
     --pin-crew-screens: 2.6;
-    --pin-offer-fade: 0.3;
-    --pin-offer-step: 0.4;
-    --proc-vh-per-step: 0.42;
+    --pin-offer-fade: 0.22;
+    --pin-offer-step: 0.3;
+    --proc-vh-per-step: 0.36;
+    --proc-intro-vh: 0.65;
 
     --chrome-pad-y: clamp(0.3rem, 0.8svh, 0.55rem);
     --chrome-mark: clamp(1.15rem, 2.3svh, 1.45rem);
