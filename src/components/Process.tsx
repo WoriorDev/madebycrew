@@ -68,8 +68,8 @@ const steps: {
 ];
 
 /** Timeline fractions (scrubbed): hold → rise → steps */
-const INTRO_END = 0.34;
-const RISE_END = 0.48;
+const INTRO_END = 0.22;
+const RISE_END = 0.34;
 
 export function Process() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -91,10 +91,11 @@ export function Process() {
     const n = steps.length;
 
     const headerTop = () => {
+      // Leave room under fixed nav so eyebrow "Proces" stays visible
       const raw = getComputedStyle(document.documentElement)
         .getPropertyValue("--space-header")
         .trim();
-      return raw || "5.5rem";
+      return `calc(${raw || "5.5rem"} + 0.35rem)`;
     };
 
     const lockLast = () => {
@@ -103,7 +104,7 @@ export function Process() {
       if (fill) gsap.set(fill, { scaleY: 1, transformOrigin: "top center" });
       if (head) gsap.set(head, { top: headerTop(), yPercent: 0 });
       if (desc) gsap.set(desc, { opacity: 0, y: -10 });
-      if (titleEl) gsap.set(titleEl, { scale: 0.78 });
+      if (titleEl) gsap.set(titleEl, { scale: 0.82 });
       if (stepsEl) gsap.set(stepsEl, { autoAlpha: 1, y: 0 });
     };
 
@@ -194,7 +195,7 @@ export function Process() {
       if (titleEl) {
         tl.to(
           titleEl,
-          { scale: 0.78, duration: riseDur, ease: "none" },
+          { scale: 0.82, duration: riseDur, ease: "none" },
           "rise",
         );
       }
@@ -221,16 +222,21 @@ export function Process() {
         data-proc-runway
         className="relative"
         style={{
-          height: `calc((var(--proc-intro-vh, 1.1) + var(--proc-vh-per-step, 0.75) * ${steps.length}) * 100vh)`,
+          height: `calc((var(--proc-intro-vh, 1.1) + var(--proc-vh-per-step, 1.15) * ${steps.length}) * 100vh)`,
         }}
       >
         <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden bg-transparent">
           <div
             data-proc-head
-            className="absolute inset-x-0 z-20 flex justify-center px-6 will-change-transform"
+            className="absolute inset-x-0 z-30 flex justify-center px-6 will-change-transform"
           >
             <div className="mx-auto max-w-2xl origin-top text-center">
-              <p className="eyebrow mb-3 md:mb-4">Proces</p>
+              <p
+                data-proc-eyebrow
+                className="eyebrow mb-3 opacity-100 md:mb-4"
+              >
+                Proces
+              </p>
               <h2
                 data-proc-title
                 className="display type-display origin-top leading-[1.05] text-off-white will-change-transform"
@@ -252,7 +258,7 @@ export function Process() {
             data-proc-steps
             className="section-pad relative mx-auto flex w-full max-w-5xl flex-1 flex-col"
             style={{
-              paddingTop: "calc(var(--space-header) + 5.5rem)",
+              paddingTop: "calc(var(--space-header) + 7.25rem)",
               paddingBottom: "var(--space-panel-y)",
               visibility: "hidden",
             }}
