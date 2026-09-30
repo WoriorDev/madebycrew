@@ -67,10 +67,11 @@ const steps: {
   },
 ];
 
-type Phase = "pre" | "intro" | "header" | "steps";
+/** Hold centered title, then rise, then scrub steps */
+const INTRO_END = 0.26;
+const RISE_END = 0.4;
 
-const INTRO_END = 0.22;
-const HEADER_END = 0.36;
+type Phase = "pre" | "intro" | "rise" | "steps";
 
 export function Process() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -102,15 +103,15 @@ export function Process() {
         return;
       }
 
-      if (p < HEADER_END) {
-        setPhase("header");
+      if (p < RISE_END) {
+        setPhase("rise");
         setActive(0);
         if (fill) gsap.set(fill, { scaleY: 0, transformOrigin: "top center" });
         return;
       }
 
       setPhase("steps");
-      const t = (p - HEADER_END) / (1 - HEADER_END);
+      const t = (p - RISE_END) / (1 - RISE_END);
       const idx = Math.min(n - 1, Math.floor(t * n + 0.001));
       setActive(idx);
       if (fill) gsap.set(fill, { scaleY: t, transformOrigin: "top center" });
@@ -130,8 +131,8 @@ export function Process() {
 
       ScrollTrigger.create({
         trigger: runway,
-        // Progress starts after sticky has already locked and scrolled a bit
-        start: "top+=18% top",
+        // Sticky locks first; then progress: hold title → rise → steps
+        start: "top top",
         end: "bottom bottom",
         scrub: 0.85,
         invalidateOnRefresh: true,
@@ -145,9 +146,9 @@ export function Process() {
     return () => ctx.revert();
   }, []);
 
-  const showIntro = phase === "pre" || phase === "intro";
-  const showHeader = phase === "header" || phase === "steps";
-  const showSteps = phase === "header" || phase === "steps";
+  const titleCentered = phase === "pre" || phase === "intro";
+  const titleUp = phase === "rise" || phase === "steps";
+  const showSteps = phase === "steps";
 
   return (
     <section id="proces" ref={sectionRef} className="relative z-10">
@@ -155,61 +156,70 @@ export function Process() {
         data-proc-runway
         className="relative"
         style={{
-          height: `calc((var(--proc-intro-vh, 0.9) + var(--proc-vh-per-step, 0.5) * ${steps.length}) * 100vh)`,
+          height: `calc((var(--proc-intro-vh, 1.1) + var(--proc-vh-per-step, 0.5) * ${steps.length}) * 100vh)`,
         }}
       >
         <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden bg-transparent">
-          {/* Centered intro title — like Crew "Chcesz wiedzieć coś o nas?" */}
+          {/* One title block: center → rises to top */}
           <div
-            data-proc-intro
             className={cn(
-              "pointer-events-none absolute inset-0 z-20 flex items-center justify-center px-6 transition duration-500",
-              showIntro ? "opacity-100" : "opacity-0",
+              "absolute inset-x-0 z-20 flex flex-col items-center px-6 transition-all duration-700 ease-out",
+              titleCentered
+                ? "top-0 bottom-0 justify-center"
+                : "top-[var(--space-header)] bottom-auto justify-start",
             )}
           >
-            <div className="text-center">
+            <div
+              className={cn(
+                "mx-auto max-w-2xl text-center transition duration-700",
+                titleUp ? "opacity-100" : "opacity-100",
+              )}
+            >
               <p className="eyebrow mb-3 md:mb-4">Proces</p>
-              <h2 className="display type-display leading-[1.05] text-off-white">
-                <span className="block">Od briefu</span>
-                <span className="mt-1 block text-lime">do live.</span>
+              <h2
+                className={cn(
+                  "display type-display leading-[1.05] text-off-white transition-all duration-700",
+                  titleCentered ? "" : "text-[clamp(1.75rem,4vw,2.75rem)]",
+                )}
+              >
+                <span className={titleCentered ? "block" : "inline"}>
+                  Od briefu
+                </span>
+                <span
+                  className={cn(
+                    "text-lime",
+                    titleCentered ? "mt-1 block" : "inline",
+                  )}
+                >
+                  {titleCentered ? "do live." : " do live."}
+                </span>
               </h2>
+              <p
+                className={cn(
+                  "mx-auto mt-4 max-w-md text-sm leading-relaxed text-white/50 transition duration-700 md:mt-5 md:text-base",
+                  titleCentered ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none",
+                )}
+              >
+                Siedem etapów od pierwszej rozmowy do działającej strony —
+                bez niespodzianek po drodze.
+              </p>
             </div>
           </div>
 
+          {/* Steps — appear after title has risen */}
           <div
             className={cn(
-              "section-pad relative mx-auto flex w-full max-w-5xl flex-1 flex-col transition duration-500",
-              showSteps ? "opacity-100" : "opacity-0",
+              "section-pad relative mx-auto flex w-full max-w-5xl flex-1 flex-col transition duration-600",
+              showSteps
+                ? "pointer-events-auto opacity-100 translate-y-0"
+                : "pointer-events-none opacity-0 translate-y-8",
             )}
             style={{
-              paddingTop: "var(--space-header)",
+              paddingTop: "calc(var(--space-header) + 5.5rem)",
               paddingBottom: "var(--space-panel-y)",
             }}
           >
-            <header
-              className={cn(
-                "mx-auto mb-5 max-w-2xl shrink-0 text-center transition duration-500 md:mb-7",
-                showHeader
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-4 opacity-0",
-              )}
-            >
-              <p className="eyebrow mb-2">Proces</p>
-              <h2 className="display type-display leading-[1.02] text-off-white">
-                <span className="inline">Od briefu </span>
-                <span className="text-lime">do live.</span>
-              </h2>
-            </header>
-
-            <div
-              className={cn(
-                "relative mx-auto flex min-h-0 w-full max-w-3xl flex-1 items-center gap-6 transition duration-500 md:gap-10 lg:gap-12",
-                phase === "steps"
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-6 opacity-0",
-              )}
-            >
-              {/* Left rail */}
+            <div className="relative mx-auto flex min-h-0 w-full max-w-3xl flex-1 items-center gap-6 md:gap-10 lg:gap-12">
               <aside
                 aria-hidden
                 className="relative flex h-[min(48vh,20rem)] w-7 shrink-0 flex-col items-center md:h-[min(52vh,24rem)] md:w-9"
@@ -246,11 +256,10 @@ export function Process() {
                 </div>
               </aside>
 
-              {/* Stage content — no card chrome */}
               <div className="relative min-h-0 flex-1">
                 {steps.map((step, i) => {
                   const Icon = step.Icon;
-                  const on = i === active && phase === "steps";
+                  const on = i === active && showSteps;
                   return (
                     <article
                       key={step.n}
