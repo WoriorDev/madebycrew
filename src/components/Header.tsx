@@ -30,8 +30,8 @@ function getActiveHref() {
 
     const rect = el.getBoundingClientRect();
 
-    // Proces: nie zaznaczaj póki sekcja nie dojdzie blisko góry (sticky)
-    if (link.href === "#proces" && rect.top > window.innerHeight * 0.12) {
+    // Proces: nie zaznaczaj póki sticky nie zablokuje blisko góry
+    if (link.href === "#proces" && rect.top > window.innerHeight * 0.04) {
       continue;
     }
 

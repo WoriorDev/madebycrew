@@ -68,8 +68,8 @@ const steps: {
 ];
 
 /** Hold centered title, then rise, then scrub steps */
-const INTRO_END = 0.26;
-const RISE_END = 0.4;
+const INTRO_END = 0.34;
+const RISE_END = 0.48;
 
 type Phase = "pre" | "intro" | "rise" | "steps";
 
@@ -131,8 +131,8 @@ export function Process() {
 
       ScrollTrigger.create({
         trigger: runway,
-        // Sticky locks first; then progress: hold title → rise → steps
-        start: "top top",
+        // Slight delay after sticky locks so title sits centered first
+        start: "top+=8% top",
         end: "bottom bottom",
         scrub: 0.85,
         invalidateOnRefresh: true,

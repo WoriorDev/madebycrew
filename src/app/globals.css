@@ -17,7 +17,7 @@
   --pin-offer-fade: 0.4;
   --pin-offer-step: 0.5;
   --proc-vh-per-step: 0.5;
-  --proc-intro-vh: 1.35;
+  --proc-intro-vh: 1.5;
 
   /* Chrome: nav / footer / CrewBot — scale with viewport height */
   --chrome-pad-y: clamp(0.55rem, 1.4svh, 1.15rem);
