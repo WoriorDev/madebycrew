@@ -174,87 +174,90 @@ body {
   font-size: var(--type-contact);
 }
 
-@media (max-height: 900px) {
+/* Laptopy / niższe viewporty — całość ~10% mniejsza niż na dużych monitorach
+   (baza html to 90%, tu 81% ≈ −10% względem tego) */
+@media (max-height: 1050px) {
   :root {
-    --space-section: clamp(1.75rem, 4.5svh, 3.5rem);
-    --space-section-lg: clamp(2rem, 5svh, 4.25rem);
-    --space-header: clamp(3.75rem, 8.5svh, 5.25rem);
-    --space-panel-y: clamp(0.65rem, 2.2svh, 1.5rem);
-    --type-hero: clamp(1.65rem, 1.35svh + 2.3vw, 2.85rem);
-    --type-display: clamp(1.35rem, 1.05svh + 1.6vw, 2.25rem);
-    --type-contact: clamp(1.6rem, 1.2svh + 2vw, 2.65rem);
-    --pin-crew-screens: 3.1;
-    --pin-offer-fade: 0.28;
-    --pin-offer-step: 0.36;
+    --space-section: clamp(1.55rem, 4svh, 3.15rem);
+    --space-section-lg: clamp(1.8rem, 4.5svh, 3.8rem);
+    --space-header: clamp(3.4rem, 7.6svh, 4.75rem);
+    --space-panel-y: clamp(0.55rem, 2svh, 1.35rem);
+    --type-hero: clamp(1.5rem, 1.2svh + 2.1vw, 2.55rem);
+    --type-display: clamp(1.2rem, 0.95svh + 1.45vw, 2.05rem);
+    --type-contact: clamp(1.45rem, 1.1svh + 1.8vw, 2.4rem);
+    --pin-crew-screens: 2.9;
+    --pin-offer-fade: 0.26;
+    --pin-offer-step: 0.34;
     --proc-vh-per-step: 0.95;
     --proc-intro-vh: 0.85;
 
-    --chrome-pad-y: clamp(0.4rem, 1svh, 0.75rem);
-    --chrome-mark: clamp(1.25rem, 2.6svh, 1.65rem);
-    --chrome-brand-h: clamp(0.95rem, 1.9svh, 1.35rem);
-    --chrome-cta-h: clamp(1.7rem, 3.4svh, 2.1rem);
-    --header-offset: clamp(-3.75rem, -8svh, -3.25rem);
+    --chrome-pad-y: clamp(0.35rem, 0.9svh, 0.7rem);
+    --chrome-mark: clamp(1.15rem, 2.35svh, 1.5rem);
+    --chrome-brand-h: clamp(0.85rem, 1.7svh, 1.25rem);
+    --chrome-cta-h: clamp(1.55rem, 3.1svh, 1.9rem);
+    --chrome-font: clamp(0.62rem, 1svh + 0.12vw, 0.75rem);
+    --header-offset: clamp(-3.4rem, -7.2svh, -2.95rem);
 
-    --bot-panel-h: min(22rem, calc(100svh - 4.25rem));
-    --bot-panel-w: min(19rem, calc(100vw - 1.25rem));
-    --bot-btn-py: clamp(0.35rem, 0.9svh, 0.55rem);
-    --bot-btn-font: clamp(0.65rem, 1svh + 0.1vw, 0.75rem);
+    --bot-panel-h: min(20rem, calc(100svh - 4rem));
+    --bot-panel-w: min(18rem, calc(100vw - 1.25rem));
+    --bot-btn-py: clamp(0.3rem, 0.8svh, 0.5rem);
+    --bot-btn-font: clamp(0.62rem, 0.9svh + 0.1vw, 0.72rem);
 
-    --footer-pt: clamp(1.15rem, 3.5svh, 2.75rem);
-    --footer-pb: clamp(0.85rem, 2.2svh, 1.75rem);
-    --footer-gap: clamp(1rem, 2.5svh, 2rem);
-    --footer-tagline: clamp(0.85rem, 1.2svh + 0.3vw, 1.05rem);
-    --footer-mail: clamp(0.95rem, 1.35svh + 0.3vw, 1.2rem);
+    --footer-pt: clamp(1rem, 3.2svh, 2.5rem);
+    --footer-pb: clamp(0.75rem, 2svh, 1.55rem);
+    --footer-gap: clamp(0.9rem, 2.25svh, 1.8rem);
+    --footer-tagline: clamp(0.8rem, 1.1svh + 0.28vw, 0.95rem);
+    --footer-mail: clamp(0.88rem, 1.2svh + 0.28vw, 1.1rem);
   }
 
   html {
-    font-size: 85%;
+    font-size: 81%;
   }
 }
 
 @media (max-height: 760px) {
   :root {
-    --space-section: clamp(1.35rem, 3.5svh, 2.5rem);
-    --space-section-lg: clamp(1.5rem, 4svh, 3rem);
-    --space-header: clamp(3.25rem, 7.5svh, 4.5rem);
-    --space-panel-y: clamp(0.5rem, 1.8svh, 1.1rem);
-    --type-hero: clamp(1.45rem, 1.1svh + 2vw, 2.35rem);
-    --type-display: clamp(1.2rem, 0.9svh + 1.4vw, 1.9rem);
-    --type-contact: clamp(1.4rem, 1svh + 1.7vw, 2.2rem);
-    --pin-crew-screens: 2.6;
-    --pin-offer-fade: 0.22;
-    --pin-offer-step: 0.3;
+    --space-section: clamp(1.25rem, 3.2svh, 2.25rem);
+    --space-section-lg: clamp(1.35rem, 3.6svh, 2.7rem);
+    --space-header: clamp(3rem, 7svh, 4.1rem);
+    --space-panel-y: clamp(0.45rem, 1.6svh, 1rem);
+    --type-hero: clamp(1.35rem, 1svh + 1.85vw, 2.15rem);
+    --type-display: clamp(1.1rem, 0.85svh + 1.3vw, 1.75rem);
+    --type-contact: clamp(1.25rem, 0.9svh + 1.55vw, 2rem);
+    --pin-crew-screens: 2.4;
+    --pin-offer-fade: 0.2;
+    --pin-offer-step: 0.28;
     --proc-vh-per-step: 0.8;
     --proc-intro-vh: 0.7;
 
-    --chrome-pad-y: clamp(0.3rem, 0.8svh, 0.55rem);
-    --chrome-mark: clamp(1.15rem, 2.3svh, 1.45rem);
-    --chrome-brand-h: clamp(0.85rem, 1.7svh, 1.15rem);
-    --chrome-cta-h: clamp(1.55rem, 3svh, 1.85rem);
-    --chrome-font: clamp(0.62rem, 1svh + 0.1vw, 0.72rem);
-    --header-offset: clamp(-3.25rem, -7svh, -2.85rem);
+    --chrome-pad-y: clamp(0.28rem, 0.75svh, 0.5rem);
+    --chrome-mark: clamp(1.05rem, 2.1svh, 1.35rem);
+    --chrome-brand-h: clamp(0.8rem, 1.55svh, 1.05rem);
+    --chrome-cta-h: clamp(1.4rem, 2.8svh, 1.7rem);
+    --chrome-font: clamp(0.58rem, 0.9svh + 0.1vw, 0.68rem);
+    --header-offset: clamp(-3rem, -6.5svh, -2.65rem);
 
-    --bot-offset: clamp(0.5rem, 1.3svh, 0.85rem);
-    --bot-panel-h: min(18rem, calc(100svh - 3.75rem));
-    --bot-panel-w: min(17rem, calc(100vw - 1rem));
-    --bot-btn-py: clamp(0.3rem, 0.75svh, 0.45rem);
-    --bot-btn-px: clamp(0.65rem, 1.2svh, 0.85rem);
-    --bot-radius: clamp(0.85rem, 1.8svh, 1.25rem);
-    --bot-nudge-w: clamp(9.5rem, 24svh, 12rem);
+    --bot-offset: clamp(0.45rem, 1.2svh, 0.75rem);
+    --bot-panel-h: min(16.5rem, calc(100svh - 3.5rem));
+    --bot-panel-w: min(16rem, calc(100vw - 1rem));
+    --bot-btn-py: clamp(0.28rem, 0.7svh, 0.4rem);
+    --bot-btn-px: clamp(0.6rem, 1.1svh, 0.8rem);
+    --bot-radius: clamp(0.8rem, 1.6svh, 1.15rem);
+    --bot-nudge-w: clamp(9rem, 22svh, 11rem);
 
-    --footer-pt: clamp(0.95rem, 2.8svh, 2rem);
-    --footer-pb: clamp(0.7rem, 1.8svh, 1.35rem);
-    --footer-gap: clamp(0.85rem, 2svh, 1.5rem);
-    --footer-col-gap: clamp(0.85rem, 2svh, 1.5rem);
-    --footer-tagline: clamp(0.8rem, 1svh + 0.25vw, 0.95rem);
-    --footer-mail: clamp(0.9rem, 1.15svh + 0.25vw, 1.1rem);
-    --footer-mark: clamp(1.25rem, 2.6svh, 1.75rem);
-    --footer-brand-h: clamp(1rem, 2svh, 1.35rem);
-    --footer-social: clamp(1.75rem, 3.4svh, 2.1rem);
+    --footer-pt: clamp(0.85rem, 2.5svh, 1.8rem);
+    --footer-pb: clamp(0.65rem, 1.6svh, 1.2rem);
+    --footer-gap: clamp(0.75rem, 1.8svh, 1.35rem);
+    --footer-col-gap: clamp(0.75rem, 1.8svh, 1.35rem);
+    --footer-tagline: clamp(0.75rem, 0.9svh + 0.22vw, 0.9rem);
+    --footer-mail: clamp(0.85rem, 1.05svh + 0.22vw, 1rem);
+    --footer-mark: clamp(1.15rem, 2.35svh, 1.6rem);
+    --footer-brand-h: clamp(0.9rem, 1.8svh, 1.25rem);
+    --footer-social: clamp(1.6rem, 3.1svh, 1.9rem);
   }
 
   html {
-    font-size: 82%;
+    font-size: 78%;
   }
 }
 
@@ -351,7 +354,8 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
-  /* 90% jak zoom przeglądarki — bez CSS zoom (psuje pin GSAP / oferty) */
+  /* Baza: 90% jak zoom przeglądarki — bez CSS zoom (psuje pin GSAP / oferty).
+     Laptopy (max-height ≤1050px): 81% ≈ −10% względem tej bazy. */
   html {
     font-size: 90%;
   }
