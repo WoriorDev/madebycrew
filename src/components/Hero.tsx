@@ -11,11 +11,13 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative z-10 flex min-h-[100svh] flex-col justify-start overflow-x-clip"
+      className="relative z-10 flex flex-col justify-start overflow-x-clip"
     >
       <div
-        className="section-pad relative mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-4 pb-[clamp(2rem,6svh,5rem)] text-center"
-        style={{ paddingTop: "var(--space-header)" }}
+        className="section-pad relative mx-auto flex w-full max-w-5xl flex-col items-center justify-start px-4 pb-[clamp(0.45rem,1.4svh,0.9rem)] text-center"
+        style={{
+          paddingTop: "calc(var(--space-header) + clamp(3rem, 8svh, 5.75rem))",
+        }}
       >
         <h1 className="display type-hero max-w-4xl text-off-white">
           <motion.span
@@ -92,7 +94,7 @@ export function Hero() {
           initial={reduce ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="group mt-24 mb-2 flex flex-col items-center gap-3 md:mt-28"
+          className="group mt-8 mb-0 flex flex-col items-center gap-2 md:mt-9"
           aria-label="Przewiń dalej"
         >
           <span className="text-[10px] font-medium tracking-[0.28em] text-white/30 uppercase transition group-hover:text-white/55">

@@ -8,7 +8,6 @@ const columns = [
       { label: "O nas", href: "#crew" },
       { label: "Proces", href: "#proces" },
       { label: "Kontakt", href: "#kontakt" },
-      { label: "CrewBot", href: "#top" },
     ],
   },
   {
@@ -129,7 +128,10 @@ export function Footer() {
           >
             {columns.map((col) => (
               <div key={col.title}>
-                <p className="mb-[clamp(0.55rem,1.4svh,1rem)] text-[11px] font-bold tracking-[0.2em] text-white/40 uppercase">
+                <p
+                  className="mb-[clamp(0.55rem,1.4svh,1rem)] font-bold tracking-[0.2em] text-white/40 uppercase"
+                  style={{ fontSize: "var(--footer-label)" }}
+                >
                   {col.title}
                 </p>
                 <ul
@@ -140,7 +142,8 @@ export function Footer() {
                     <li key={link.label}>
                       <a
                         href={link.href}
-                        className="text-sm text-white/70 transition hover:text-lime"
+                        className="text-white/70 transition hover:text-lime"
+                        style={{ fontSize: "var(--footer-link)" }}
                       >
                         {link.label}
                       </a>
@@ -153,7 +156,10 @@ export function Footer() {
         </div>
 
         {/* bottom strip */}
-        <div className="mt-[clamp(1.5rem,4svh,4rem)] flex flex-col gap-2 border-t border-white/8 pt-[clamp(0.75rem,2svh,1.5rem)] text-xs text-white/35 md:flex-row md:items-center md:justify-between">
+        <div
+          className="mt-[clamp(1.5rem,4svh,4rem)] flex flex-col gap-2 border-t border-white/8 pt-[clamp(0.75rem,2svh,1.5rem)] text-white/35 md:flex-row md:items-center md:justify-between"
+          style={{ fontSize: "calc(1.1 * 0.75rem)" }}
+        >
           <p>© {year} MadeByCrew.pl. All rights reserved.</p>
           <a
             href="/login"

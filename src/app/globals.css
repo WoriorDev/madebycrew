@@ -20,14 +20,14 @@
   --proc-intro-vh: 1.45;
 
   /* Chrome: nav / footer / CrewBot — scale with viewport height */
-  --chrome-pad-y: clamp(0.55rem, 1.4svh, 1.15rem);
-  --chrome-mark: clamp(1.4rem, 3svh, 2rem);
-  --chrome-brand-h: clamp(1.05rem, 2.2svh, 1.75rem);
-  --chrome-nav-py: clamp(0.3rem, 0.75svh, 0.5rem);
-  --chrome-nav-px: clamp(0.55rem, 1.1svh, 0.875rem);
-  --chrome-cta-h: clamp(1.85rem, 4svh, 2.5rem);
-  --chrome-cta-px: clamp(0.8rem, 1.6svh, 1.25rem);
-  --chrome-font: clamp(0.68rem, 1.15svh + 0.15vw, 0.8125rem);
+  --chrome-pad-y: calc(1.05 * clamp(0.55rem, 1.4svh, 1.15rem));
+  --chrome-mark: calc(1.05 * clamp(1.4rem, 3svh, 2rem));
+  --chrome-brand-h: calc(1.05 * clamp(1.05rem, 2.2svh, 1.75rem));
+  --chrome-nav-py: calc(1.05 * clamp(0.3rem, 0.75svh, 0.5rem));
+  --chrome-nav-px: calc(1.05 * clamp(0.55rem, 1.1svh, 0.875rem));
+  --chrome-cta-h: calc(1.05 * clamp(1.85rem, 4svh, 2.5rem));
+  --chrome-cta-px: calc(1.05 * clamp(0.8rem, 1.6svh, 1.25rem));
+  --chrome-font: calc(1.05 * clamp(0.68rem, 1.15svh + 0.15vw, 0.8125rem));
   --header-offset: clamp(-4.25rem, -9svh, -3.5rem);
 
   --bot-offset: clamp(0.65rem, 1.8svh, 1.75rem);
@@ -40,15 +40,17 @@
   --bot-radius: clamp(1rem, 2.2svh, 1.75rem);
   --bot-nudge-w: clamp(11rem, 28svh, 14rem);
 
-  --footer-pt: clamp(1.5rem, 4.5svh, 4rem);
-  --footer-pb: clamp(1rem, 2.8svh, 2.5rem);
-  --footer-gap: clamp(1.25rem, 3.5svh, 3rem);
-  --footer-col-gap: clamp(1.25rem, 3svh, 2.5rem);
-  --footer-tagline: clamp(0.9rem, 1.5svh + 0.35vw, 1.25rem);
-  --footer-mail: clamp(1rem, 1.7svh + 0.4vw, 1.5rem);
-  --footer-mark: clamp(1.5rem, 3.2svh, 2.25rem);
-  --footer-brand-h: clamp(1.15rem, 2.4svh, 1.75rem);
-  --footer-social: clamp(2rem, 4svh, 2.5rem);
+  --footer-pt: calc(1.1 * clamp(1.5rem, 4.5svh, 4rem));
+  --footer-pb: calc(1.1 * clamp(1rem, 2.8svh, 2.5rem));
+  --footer-gap: calc(1.1 * clamp(1.25rem, 3.5svh, 3rem));
+  --footer-col-gap: calc(1.1 * clamp(1.25rem, 3svh, 2.5rem));
+  --footer-tagline: calc(1.1 * clamp(0.9rem, 1.5svh + 0.35vw, 1.25rem));
+  --footer-mail: calc(1.1 * clamp(1rem, 1.7svh + 0.4vw, 1.5rem));
+  --footer-mark: calc(1.1 * clamp(1.5rem, 3.2svh, 2.25rem));
+  --footer-brand-h: calc(1.1 * clamp(1.15rem, 2.4svh, 1.75rem));
+  --footer-social: calc(1.1 * clamp(2rem, 4svh, 2.5rem));
+  --footer-link: calc(1.1 * 0.875rem);
+  --footer-label: calc(1.1 * 0.6875rem);
 
   --lime: #d7ff32;
   --off-white: #f7f8fa;
@@ -174,8 +176,8 @@ body {
   font-size: var(--type-contact);
 }
 
-/* Laptopy / niższe viewporty — całość ~20% mniejsza niż baza 90% na dużych monitorach
-   (81% × 0.9 ≈ 73%) */
+/* Laptopy / niższe viewporty — całość ~20% mniejsza niż baza 81% na dużych monitorach
+   (90% × 0.9 ≈ 81%; laptopy 73% × 0.9 ≈ 66%) */
 @media (max-height: 1050px) {
   :root {
     --space-section: clamp(1.4rem, 3.6svh, 2.85rem);
@@ -191,11 +193,11 @@ body {
     --proc-vh-per-step: 0.9;
     --proc-intro-vh: 0.8;
 
-    --chrome-pad-y: clamp(0.3rem, 0.8svh, 0.65rem);
-    --chrome-mark: clamp(1.05rem, 2.1svh, 1.35rem);
-    --chrome-brand-h: clamp(0.8rem, 1.55svh, 1.15rem);
-    --chrome-cta-h: clamp(1.4rem, 2.8svh, 1.75rem);
-    --chrome-font: clamp(0.58rem, 0.9svh + 0.1vw, 0.7rem);
+    --chrome-pad-y: calc(1.05 * clamp(0.3rem, 0.8svh, 0.65rem));
+    --chrome-mark: calc(1.05 * clamp(1.05rem, 2.1svh, 1.35rem));
+    --chrome-brand-h: calc(1.05 * clamp(0.8rem, 1.55svh, 1.15rem));
+    --chrome-cta-h: calc(1.05 * clamp(1.4rem, 2.8svh, 1.75rem));
+    --chrome-font: calc(1.05 * clamp(0.58rem, 0.9svh + 0.1vw, 0.7rem));
     --header-offset: clamp(-3.1rem, -6.5svh, -2.7rem);
 
     --bot-panel-h: min(18rem, calc(100svh - 3.75rem));
@@ -203,15 +205,15 @@ body {
     --bot-btn-py: clamp(0.28rem, 0.75svh, 0.45rem);
     --bot-btn-font: clamp(0.58rem, 0.85svh + 0.1vw, 0.68rem);
 
-    --footer-pt: clamp(0.9rem, 2.9svh, 2.25rem);
-    --footer-pb: clamp(0.7rem, 1.8svh, 1.4rem);
-    --footer-gap: clamp(0.8rem, 2svh, 1.6rem);
-    --footer-tagline: clamp(0.75rem, 1svh + 0.25vw, 0.9rem);
-    --footer-mail: clamp(0.82rem, 1.1svh + 0.25vw, 1rem);
+    --footer-pt: calc(1.1 * clamp(0.9rem, 2.9svh, 2.25rem));
+    --footer-pb: calc(1.1 * clamp(0.7rem, 1.8svh, 1.4rem));
+    --footer-gap: calc(1.1 * clamp(0.8rem, 2svh, 1.6rem));
+    --footer-tagline: calc(1.1 * clamp(0.75rem, 1svh + 0.25vw, 0.9rem));
+    --footer-mail: calc(1.1 * clamp(0.82rem, 1.1svh + 0.25vw, 1rem));
   }
 
   html {
-    font-size: 73%;
+    font-size: 66%;
   }
 }
 
@@ -230,11 +232,11 @@ body {
     --proc-vh-per-step: 0.75;
     --proc-intro-vh: 0.65;
 
-    --chrome-pad-y: clamp(0.25rem, 0.7svh, 0.45rem);
-    --chrome-mark: clamp(0.95rem, 1.9svh, 1.25rem);
-    --chrome-brand-h: clamp(0.72rem, 1.4svh, 0.95rem);
-    --chrome-cta-h: clamp(1.25rem, 2.55svh, 1.55rem);
-    --chrome-font: clamp(0.55rem, 0.85svh + 0.08vw, 0.64rem);
+    --chrome-pad-y: calc(1.05 * clamp(0.25rem, 0.7svh, 0.45rem));
+    --chrome-mark: calc(1.05 * clamp(0.95rem, 1.9svh, 1.25rem));
+    --chrome-brand-h: calc(1.05 * clamp(0.72rem, 1.4svh, 0.95rem));
+    --chrome-cta-h: calc(1.05 * clamp(1.25rem, 2.55svh, 1.55rem));
+    --chrome-font: calc(1.05 * clamp(0.55rem, 0.85svh + 0.08vw, 0.64rem));
     --header-offset: clamp(-2.75rem, -6svh, -2.4rem);
 
     --bot-offset: clamp(0.4rem, 1.1svh, 0.7rem);
@@ -245,19 +247,19 @@ body {
     --bot-radius: clamp(0.75rem, 1.45svh, 1.05rem);
     --bot-nudge-w: clamp(8.5rem, 20svh, 10rem);
 
-    --footer-pt: clamp(0.75rem, 2.25svh, 1.6rem);
-    --footer-pb: clamp(0.6rem, 1.45svh, 1.1rem);
-    --footer-gap: clamp(0.7rem, 1.6svh, 1.2rem);
-    --footer-col-gap: clamp(0.7rem, 1.6svh, 1.2rem);
-    --footer-tagline: clamp(0.7rem, 0.85svh + 0.2vw, 0.85rem);
-    --footer-mail: clamp(0.8rem, 0.95svh + 0.2vw, 0.95rem);
-    --footer-mark: clamp(1.05rem, 2.1svh, 1.45rem);
-    --footer-brand-h: clamp(0.85rem, 1.65svh, 1.15rem);
-    --footer-social: clamp(1.45rem, 2.8svh, 1.75rem);
+    --footer-pt: calc(1.1 * clamp(0.75rem, 2.25svh, 1.6rem));
+    --footer-pb: calc(1.1 * clamp(0.6rem, 1.45svh, 1.1rem));
+    --footer-gap: calc(1.1 * clamp(0.7rem, 1.6svh, 1.2rem));
+    --footer-col-gap: calc(1.1 * clamp(0.7rem, 1.6svh, 1.2rem));
+    --footer-tagline: calc(1.1 * clamp(0.7rem, 0.85svh + 0.2vw, 0.85rem));
+    --footer-mail: calc(1.1 * clamp(0.8rem, 0.95svh + 0.2vw, 0.95rem));
+    --footer-mark: calc(1.1 * clamp(1.05rem, 2.1svh, 1.45rem));
+    --footer-brand-h: calc(1.1 * clamp(0.85rem, 1.65svh, 1.15rem));
+    --footer-social: calc(1.1 * clamp(1.45rem, 2.8svh, 1.75rem));
   }
 
   html {
-    font-size: 70%;
+    font-size: 63%;
   }
 }
 
@@ -354,10 +356,10 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
-  /* Baza: 90% jak zoom przeglądarki — bez CSS zoom (psuje pin GSAP / oferty).
-     Laptopy (max-height ≤1050px): 73% ≈ −20% względem tej bazy. */
+  /* Baza: 81% jak zoom przeglądarki — bez CSS zoom (psuje pin GSAP / oferty).
+     Laptopy (max-height ≤1050px): 66% ≈ −20% względem tej bazy. */
   html {
-    font-size: 90%;
+    font-size: 81%;
   }
   body {
     @apply bg-background text-foreground;
